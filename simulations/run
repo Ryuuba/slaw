@@ -1,0 +1,5 @@
+#!/bin/sh
+cd `dirname $0`
+#../src/slaw -n .:../src $*
+../src/slaw -n .:../src $* -u Cmdenv -c PlanningDegree
+# for shared lib, use: opp_run -l ../src/template -n .:../src $*

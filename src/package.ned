@@ -1,0 +1,3 @@
+package slaw;
+
+@license(LGPL);
