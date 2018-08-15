@@ -28,9 +28,9 @@ void SlawBase::computeConfinedAreas(areaSet& areaVector) {
   const std::vector<double>* weights = map->getAreaWeights();
   double rnd;
   unsigned areaID = 0;
-  uint8_t confinedAreas = intuniform(3, 5);
+  //uint8_t confinedAreas = intuniform(3, 5);
   //A number not corresponding to the paper
-  //uint8_t confinedAreas = 14;
+  uint8_t confinedAreas = 14;
   while (areaVector.size() < confinedAreas) {
     rnd = uniform(0.0, 1.0);
     while (!((*weights)[areaID] < rnd && rnd <= (*weights)[areaID+1]))

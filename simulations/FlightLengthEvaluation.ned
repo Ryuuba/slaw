@@ -19,6 +19,7 @@
 package slaw.simulations;
 
 import slaw.engine.SlawEngine;
+import slaw.simple_mobility.SlawBonnMotion;
 import slaw.walker.Walker;
 import slaw.app.FlightLengthObserver;
 
@@ -28,13 +29,14 @@ network SLAWFlightLengthExperiment
     parameters:
         int numHosts;
         int numSamples;
+        string mobility = default("SlawMobility");
         @display("bgb=2000,2000;bgg=2000,10,grey50");
     submodules:
-        slaw: SlawEngine {
+        slaw: SlawEngine if mobility == "SlawMobility" {
             @display("p=62.247997,925.688");
         }
         walker[numHosts]: Walker {
-            @display("p=624.488,481.91998");
+            mobilityType = mobility;
         }
         observer: FlightLengthObserver {
             numOfSamples = numSamples;

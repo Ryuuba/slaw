@@ -1,6 +1,6 @@
 INETDIR = /mnt/c/Users/Geo/inet
 
-BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/inet/common/geometry/common/ -I$(INETDIR)/src/inet/common/ -I$(INETDIR)/src/  -I$(INETDIR)/src/inet/mobility/base/ -I$(INETDIR)/src/inet/mobility/contract/ -L$(INETDIR)/out/gcc-release/src/ -lINET
+BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/inet/common/geometry/common/ -I$(INETDIR)/src/inet/common/ -I$(INETDIR)/src/ -I$(INETDIR)/src/inet/mobility/base/ -I$(INETDIR)/src/inet/mobility/contract/ -I$(INETDIR)/src/inet/mobility/single/ -L$(INETDIR)/out/gcc-release/src/ -lINET
 
 all: checkmakefiles
 	cd src && $(MAKE)

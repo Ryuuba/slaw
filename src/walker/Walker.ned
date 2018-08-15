@@ -18,7 +18,7 @@
 
 package slaw.walker;
 
-import slaw.simple_mobility.SlawMobility;
+import inet.mobility.contract.IMobility;
 //
 // A host for demonstrating mobility models only -- it contains
 // no protocol layers at all.
@@ -31,6 +31,7 @@ module Walker
         @statistic[coordX](title="coord X"; source="xCoord(mobilityPos(mobilityStateChanged))"; record=vector; interpolationmode=linear);
         @statistic[coordY](title="coord Y"; source="yCoord(mobilityPos(mobilityStateChanged))"; record=vector; interpolationmode=linear);
         //@statistic[coordZ](title="coord Z";source="zCoord(mobilityPos(mobilityStateChanged))";record=vector; interpolationmode=linear);
+        string mobilityType;
     submodules:
-        mobility: SlawMobility;
+        mobility: <mobilityType> like IMobility;
 }

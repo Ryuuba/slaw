@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for slaw
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -I/mnt/c/Users/Geo/inet/src/inet/common/geometry/common/ -I/mnt/c/Users/Geo/inet/src/inet/common/ -I/mnt/c/Users/Geo/inet/src/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/base/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/contract/ -L/mnt/c/Users/Geo/inet/out/gcc-release/src/ -lINET
+#  opp_makemake -f --deep -I/mnt/c/Users/Geo/inet/src/inet/common/geometry/common/ -I/mnt/c/Users/Geo/inet/src/inet/common/ -I/mnt/c/Users/Geo/inet/src/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/base/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/contract/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/single/ -L/mnt/c/Users/Geo/inet/out/gcc-release/src/ -lINET
 #
 
 # Name of target to be created (-o option)
@@ -16,7 +16,13 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I/mnt/c/Users/Geo/inet/src/inet/common/geometry/common/ -I/mnt/c/Users/Geo/inet/src/inet/common/ -I/mnt/c/Users/Geo/inet/src/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/base/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/contract/
+INCLUDE_PATH = \
+    -I/mnt/c/Users/Geo/inet/src/inet/common/geometry/common/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/common/ \
+    -I/mnt/c/Users/Geo/inet/src/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/mobility/base/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/mobility/contract/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/mobility/single/
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -39,6 +45,7 @@ OBJS = \
     $O/base/SlawBase.o \
     $O/base/Speed.o \
     $O/engine/SlawEngine.o \
+    $O/simple_mobility/SlawBonnMotion.o \
     $O/simple_mobility/SlawMobility.o \
     $O/walker/QuadrantPositionSystem.o
 
