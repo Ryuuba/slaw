@@ -49,6 +49,8 @@ protected:
   SelfsimilarWaypointMap* map;
   Speed* speed;
   PauseTime* pausetime;
+  /** @brief Computes a walker trip according to the Matlab implementation */
+  virtual void computeSlawTrip(Trip&, const areaSet&, inet::Coord&);
   /** @brief Adds the 10 percent of waypoints of a random-elected
    *  confined area to the trip of a walker */
   virtual void computeTripRandomness(Trip&, const areaSet&);

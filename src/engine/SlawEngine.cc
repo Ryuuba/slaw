@@ -111,8 +111,9 @@ void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k,
 }
 
 void SlawEngine::computeTrip(Trip& walkerTrip, const areaSet& C_k, inet::Coord& home) {
-  computeTripRandomness(walkerTrip, C_k);
-  computeRutine(walkerTrip, C_k, home);
+  computeSlawTrip(walkerTrip, C_k, home);
+  //computeTripRandomness(walkerTrip, C_k);
+  //computeRutine(walkerTrip, C_k, home);
 }
 
 double SlawEngine::computePauseTime() {

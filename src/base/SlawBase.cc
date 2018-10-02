@@ -27,10 +27,9 @@ SlawBase::SlawBase() {
 void SlawBase::computeConfinedAreas(areaSet& areaVector) {
   const std::vector<double>* weights = map->getAreaWeights();
   double rnd;
-  unsigned areaID = 0;
-  //uint8_t confinedAreas = intuniform(3, 5);
-  //A number not corresponding to the paper
-  uint8_t confinedAreas = 14;
+  unsigned areaID = 0, ratio_cluster = 5;
+  //uint8_t confinedAreas = intuniform(3,5); //Slaw paper
+  uint8_t confinedAreas = ceil(map->getNumberOfAreas() / ratio_cluster);
   while (areaVector.size() < confinedAreas) {
     rnd = uniform(0.0, 1.0);
     while (!((*weights)[areaID] < rnd && rnd <= (*weights)[areaID+1]))
@@ -49,6 +48,41 @@ inet::Coord SlawBase::computeHome(const areaSet& areaVector) {
   return home;
 }
 
+//TODO: repair this method
+void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home) {
+  //Replaces randomly an area
+  areaSet clusterList(C_k);
+  unsigned ratio_cluster = 5;
+  unsigned randomAreaId; //Value from the Slaw Matlab implementation
+  areaSet::const_iterator it;
+  do {
+    //Index of random area
+    randomAreaId = intuniform(0, map->getNumberOfAreas()-1);
+    it = find(C_k.begin(), C_k.end(), randomAreaId);
+  } while (it != C_k.end());
+  clusterList[intuniform(0, C_k.size()-1)] = randomAreaId;
+  for (auto& areaId : clusterList) {
+    auto area = map->getConfinedArea(areaId);
+    //aaa is an ugly variable name
+    double aaa(double(map->getAreaSize(areaId)) / ratio_cluster);
+    if (aaa < 1.0) {
+      unsigned waypoint_id(intuniform(0, area->size()-1));
+      trip.push_back(area->at(waypoint_id));
+    }
+    else{
+      double aaa_fraction, aaa_int;
+      aaa_fraction = modf(aaa, &aaa_int);
+      map->randomizeArea(getRNG(0), areaId);
+      trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
+      if (uniform(0,1) >= aaa_fraction && aaa_int > 0)
+        trip.pop_back();
+    }
+  }
+  auto home_it = std::find(trip.begin(), trip.end(), home);
+  if (home_it != trip.end())
+    trip.erase(home_it);
+}
+
 void SlawBase::computeTripRandomness(Trip& trip, const areaSet& C_k) {
   areaSet::const_iterator areaIt;
   unsigned rndAreaId;
@@ -56,12 +90,13 @@ void SlawBase::computeTripRandomness(Trip& trip, const areaSet& C_k) {
     rndAreaId = intuniform(0, map->getNumberOfAreas()-1);
     areaIt = std::find(C_k.begin(), C_k.end(), rndAreaId);
   } while ( areaIt != C_k.end() );
-  std::vector<inet::Coord> temp(*(map->getConfinedArea(rndAreaId)));
-  randomizeVector(getRNG(0), temp);
-  unsigned numOfRndWp = ceil(0.1 * temp.size());
-  trip.insert(trip.begin(), temp.begin(), temp.begin()+numOfRndWp);
+  map->randomizeArea(getRNG(0), rndAreaId);
+  auto area = map->getConfinedArea(rndAreaId);
+  unsigned numOfRndWp = ceil(0.1 * area->size());
+  trip.insert(trip.begin(), area->begin(), area->begin()+numOfRndWp);
 }
 
+//TODO: make this method more efficient by means of randomizeArea()
 void
 SlawBase::computeRutine(Trip& trip, const areaSet& rutineAreas, 
   inet::Coord& home) {

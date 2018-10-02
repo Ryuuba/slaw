@@ -22,6 +22,7 @@
 #include <iostream>
 #include <sstream>
 #include <list>
+#include <vector>
 #include <string>
 #include <utility>
 #include <omnetpp.h>
@@ -108,6 +109,8 @@ public:
     /** @brief Returns a pointer to the vector storing the weights of each
      *  confined area loaded from a map. */
     virtual const std::vector<double>* getAreaWeights();
+    /** @brief Randomizes waypoints stored in a given confined area */
+    virtual void randomizeArea(omnetpp::cRNG*, unsigned);
 };
 
 
