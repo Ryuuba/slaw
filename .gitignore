@@ -2,7 +2,6 @@
 .vscode/
 simulations/.cmdenv-log
 simulations/results/
-simulations/maps/
 simulations/matlab_trace/
 out/
 src/slaw

@@ -22,7 +22,7 @@ class SlawMobility : public inet::LineSegmentsMobilityBase
 {
 protected:
   /** @brief Signal informing node flight lengths */
-  static omnetpp::simsignal_t flightLength;
+  static omnetpp::simsignal_t intraFlightLength, interFlightLength;
   /** Boolean value used to switch between these states {pause, motion} */
   bool nextMoveIsWait;
   /** Pointer to the SLAW module, it is used to access the selfsimilar

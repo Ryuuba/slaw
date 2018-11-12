@@ -23,7 +23,8 @@ class FlightLengthObserver: public omnetpp::cSimpleModule,
 public omnetpp::cListener {
 protected:
   unsigned numOfSamples, counter;
-  static omnetpp::simsignal_t flightLengthId;
+  static omnetpp::simsignal_t intraFlight;
+  static omnetpp::simsignal_t interFlight;
 public:
   FlightLengthObserver();
   ~FlightLengthObserver();

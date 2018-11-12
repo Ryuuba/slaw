@@ -25,9 +25,11 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <unordered_map>
 #include <omnetpp.h>
 
 #include "Coord.h"
+#include "../common/HashCoordinate.h"
 
 /** @brief typedef used to represent confined areas c_i. */
 typedef std::vector<inet::Coord> Area;
@@ -54,6 +56,8 @@ protected:
     std::vector<Area>* areaVector;
     /** @brief Vector storing the weights of each confined area.*/
     std::vector<double>* weightVector;
+    /** @brief Unordered map holding pairs <coord, areaID> */
+    std::unordered_map<inet::Coord, unsigned> areaIDMap;
 protected:
     /** @brief Loads a filename containing waypoints distributed in a
      * self-similar manner and save the contain in a list*/
@@ -111,6 +115,8 @@ public:
     virtual const std::vector<double>* getAreaWeights();
     /** @brief Randomizes waypoints stored in a given confined area */
     virtual void randomizeArea(omnetpp::cRNG*, unsigned);
+    /** @brief Returns the areaID matching a given waypoint */
+    virtual unsigned getAreaID(inet::Coord&);
 };
 
 

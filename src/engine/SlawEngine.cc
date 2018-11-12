@@ -129,3 +129,13 @@ double SlawEngine::computePauseTime() {
 double SlawEngine::getSpeed(double distance){
   return speed->computeSpeed(distance);
 }
+
+bool SlawEngine::sameArea(inet::Coord& c1, inet::Coord& c2) {
+  unsigned area1(map->getAreaID(c1));
+  unsigned area2(map->getAreaID(c2));
+  return area1 == area2;
+}
+
+unsigned SlawEngine::getAreaID(inet::Coord& c) {
+  return map->getAreaID(c);
+}

@@ -67,6 +67,10 @@ public:
     //virtual double computeArrivalTime(const inet::Coord&, const inet::Coord&);
     /** @brief Draws a value from the speed model */
     virtual double getSpeed(double);
+    /* @brief Returs true when a the areaID of two waypoints is not equal*/
+    virtual bool sameArea(inet::Coord&, inet::Coord&);
+
+    virtual unsigned getAreaID(inet::Coord&);
 };
 
 

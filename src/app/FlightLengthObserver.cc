@@ -2,17 +2,23 @@
 
 Define_Module(FlightLengthObserver);
 
-omnetpp::simsignal_t FlightLengthObserver::flightLengthId = registerSignal("flightLength");
+omnetpp::simsignal_t FlightLengthObserver::intraFlight = registerSignal("intraFlightLength");
+omnetpp::simsignal_t FlightLengthObserver::interFlight = registerSignal("interFlightLength");
 
 FlightLengthObserver::FlightLengthObserver() : numOfSamples(0), counter(0) {
-  getSimulation()->getSystemModule()->subscribe(flightLengthId, this);
+  getSimulation()->getSystemModule()->subscribe(intraFlight, this);
+  getSimulation()->getSystemModule()->subscribe(interFlight, this);
 }
 
 FlightLengthObserver::~FlightLengthObserver(){
-  std::cout << "Simulation Observer\n";
-  if (isSubscribed(flightLengthId, this)) {
-    unsubscribe(flightLengthId, this);
-    std::cout << "FlightLengthObserver: unsubscribe done\n";
+  std::cout << "Simulation Flight Observer\n";
+  if (isSubscribed(intraFlight, this)) {
+    unsubscribe(intraFlight, this);
+    std::cout << "intraflight: unsubscribe done\n";
+  }
+  if (isSubscribed(interFlight, this)) {
+    unsubscribe(interFlight, this);
+    std::cout << "interflight: unsubscribe done\n";
   }
 }
 
