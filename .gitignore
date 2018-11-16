@@ -1,3 +1,4 @@
+Makefile
 .settings/
 .vscode/
 simulations/.cmdenv-log
