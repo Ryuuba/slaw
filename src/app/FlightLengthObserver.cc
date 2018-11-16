@@ -2,7 +2,7 @@
 
 Define_Module(FlightLengthObserver);
 
-omnetpp::simsignal_t FlightLengthObserver::flight = registerSignal("flightLength");
+omnetpp::simsignal_t FlightLengthObserver::flight = registerSignal("flight");
 omnetpp::simsignal_t FlightLengthObserver::intraFlight = registerSignal("intraFlightLength");
 omnetpp::simsignal_t FlightLengthObserver::interFlight = registerSignal("interFlightLength");
 

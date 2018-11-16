@@ -18,7 +18,7 @@ private:
   /** @brief Unordered map containing waypoints */
   std::unordered_map<inet::Coord, bool> waypointMap;
   /** @brief Signal informing node flight lengths */
-  static omnetpp::simsignal_t flightLength;
+  static omnetpp::simsignal_t flight;
 private:
   /** @brief Overridden from BonnMotionMobility. */
   void setTargetPosition() override;

@@ -32,4 +32,5 @@ simple SlawEngine {
     double speedA @unit(mps) = default(1.36mps);
     double speedB @unit(mps) = default(0.19mps);
     double planningDegree = default(3);
+    double hurstParameter = default(0.75);
 }

@@ -3,7 +3,7 @@
 Define_Module(SlawBonnMotion);
 
 omnetpp::simsignal_t
-  SlawBonnMotion::flightLength = registerSignal("flightLength");
+  SlawBonnMotion::flight = registerSignal("flight");
 
 SlawBonnMotion::SlawBonnMotion() : pause(true) {}
 
@@ -27,7 +27,7 @@ void SlawBonnMotion::setTargetPosition()
   if (lastPosition == targetPosition) {
       if (!pause) {
         double distance = targetPosition.distance(lastWaypoint);
-        emit(flightLength, distance);
+        emit(flight, distance);
         lastWaypoint = targetPosition;
       }
       pause = true;
@@ -47,9 +47,6 @@ bool SlawBonnMotion::loadMap(const std::string&& filename) {
     }
     auto numberOfWaypoints = waypointMap.size();
     waypointFile.close();
-    for(auto& wp : waypointMap) {
-      std::cout << wp.first.x << ' ' << wp.first.y << '\n';
-    }
     success = true;
   }
   else std::cerr << "Erroneous filename, perhaps you added an extension\n";

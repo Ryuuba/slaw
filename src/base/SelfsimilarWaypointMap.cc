@@ -17,7 +17,7 @@
 
 //The input is the map name and the clustering radius
 SelfsimilarWaypointMap::SelfsimilarWaypointMap(std::string& name, 
-double radius) : clusteringRadius(radius), mapName(name) { 
+double radius, double H) : clusteringRadius(radius), mapName(name), hurstParameter(H){ 
   areaVector = new std::vector<Area>;
   weightVector = new std::vector<double>;
   if(!loadAreaVector()) {

@@ -7,7 +7,7 @@ simple SlawBonnMotion extends BonnMotionMobility
     parameters:
         string mapname;
         @class(SlawBonnMotion);
-        @signal[flightLength](type=double);
-        @statistic[flightLength](record=histogram,vector; unit=m);
+        @signal[flight](type=double);
+        @statistic[flight](record=histogram,vector; unit=m);
         @display("i=block/cogwheel");
 }

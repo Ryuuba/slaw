@@ -39,7 +39,7 @@ class SelfsimilarWaypointMap {
 protected:
     /** @brief Parameter determining the selfsimilarity degree of a waypoint
      * map, where 0.5 < hurstParameter < 1.0 */
-    //double hurstParameter;
+    double hurstParameter;
     /** @brief Map dimensions */
     //double x_max, y_max;
     /** @brief The number of waypoints integrating a self-similar waypoint map*/
@@ -93,7 +93,7 @@ public:
      * of waypoints that are saved in a hidden file. The first parameter of this
      * method is the map name, the second one is the clustering radius, the
      * third and the last one are the map dimension*/
-    SelfsimilarWaypointMap(std::string&, double);
+    SelfsimilarWaypointMap(std::string&, double, double);
     virtual ~SelfsimilarWaypointMap();
     /** @brief Creates a selfsimilar waypoint map.*/
     //virtual void createMap();

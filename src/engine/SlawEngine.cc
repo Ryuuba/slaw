@@ -82,9 +82,10 @@ void SlawEngine::initialize() {
 }
 
 void SlawEngine::initializeMap() {
+  double hurstParameter = par("hurstParameter").doubleValue();
   std::string mapName(par("mapName").stringValue());
   double clusteringRadius = par("clusteringRadius");
-  map = new SelfsimilarWaypointMap(mapName, clusteringRadius);
+  map = new SelfsimilarWaypointMap(mapName, clusteringRadius, hurstParameter);
 }
 
 void SlawEngine::initializePauseTimeModel() {

@@ -21,3 +21,5 @@ slaw
 .project
 simulations/SLAW_Matlab
 simulations/slaw_results
+SlawMobilityTrace
+
