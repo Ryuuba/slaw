@@ -5,6 +5,8 @@ Define_Module(SlawMobility);
 omnetpp::simsignal_t
   SlawMobility::intraFlightLength = registerSignal("intraFlightLength");
 omnetpp::simsignal_t
+  SlawMobility::flight = registerSignal("flight");
+omnetpp::simsignal_t
   SlawMobility::interFlightLength = registerSignal("interFlightLength");
 
 SlawMobility::SlawMobility()
@@ -16,6 +18,7 @@ SlawMobility::SlawMobility()
 void SlawMobility::initialize(int stage) {
   LineSegmentsMobilityBase::initialize(stage);
   if(stage == 0) {
+    classifyFlight = par("classifyFlight").boolValue();
     slawModuleName = par("slawModuleName").stringValue();
     slaw = (SlawEngine*) this->getSimulation()->getSystemModule()->getSubmodule(slawModuleName.c_str());
     if(!slaw)
@@ -52,10 +55,14 @@ void SlawMobility::setTargetPosition()
     double distance = lastPosition.distance(targetPosition);
     nextChange = simTime() + distance / slaw->getSpeed(distance);
 
-    if (slaw->sameArea(lastPosition, targetPosition))
-      emit(intraFlightLength, distance);
-    else 
-      emit(interFlightLength, distance);
+    if (!classifyFlight)
+      emit(flight, distance);
+    else {
+      if (slaw->sameArea(lastPosition, targetPosition))
+        emit(intraFlightLength, distance);
+      else 
+        emit(interFlightLength, distance);
+    }
   }
   nextMoveIsWait = !nextMoveIsWait;
 }

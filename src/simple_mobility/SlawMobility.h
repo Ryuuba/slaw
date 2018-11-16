@@ -22,9 +22,9 @@ class SlawMobility : public inet::LineSegmentsMobilityBase
 {
 protected:
   /** @brief Signal informing node flight lengths */
-  static omnetpp::simsignal_t intraFlightLength, interFlightLength;
+  static omnetpp::simsignal_t flight, intraFlightLength, interFlightLength;
   /** Boolean value used to switch between these states {pause, motion} */
-  bool nextMoveIsWait;
+  bool nextMoveIsWait, classifyFlight;
   /** Pointer to the SLAW module, it is used to access the selfsimilar
    *  waypoint map and it computes the next destination using LATP. */
   SlawEngine* slaw;
