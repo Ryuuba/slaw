@@ -2,16 +2,22 @@
 
 Define_Module(FlightLengthObserver);
 
+omnetpp::simsignal_t FlightLengthObserver::flight = registerSignal("flightLength");
 omnetpp::simsignal_t FlightLengthObserver::intraFlight = registerSignal("intraFlightLength");
 omnetpp::simsignal_t FlightLengthObserver::interFlight = registerSignal("interFlightLength");
 
 FlightLengthObserver::FlightLengthObserver() : numOfSamples(0), counter(0) {
+  getSimulation()->getSystemModule()->subscribe(flight, this);
   getSimulation()->getSystemModule()->subscribe(intraFlight, this);
   getSimulation()->getSystemModule()->subscribe(interFlight, this);
 }
 
 FlightLengthObserver::~FlightLengthObserver(){
   std::cout << "Simulation Flight Observer\n";
+  if (isSubscribed(flight, this)) {
+    unsubscribe(flight, this);
+    std::cout << "flight: unsubscribe done\n";
+  }
   if (isSubscribed(intraFlight, this)) {
     unsubscribe(intraFlight, this);
     std::cout << "intraflight: unsubscribe done\n";
@@ -44,7 +50,7 @@ void FlightLengthObserver::receiveSignal(omnetpp::cComponent* src,
       std::cout << "Counter: " << counter << '\n';
   }
   if (counter == numOfSamples) {
-    endSimulation();
     std::cout << counter << " samples have been gathered\n";
+    endSimulation();
   }
 }
