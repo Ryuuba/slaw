@@ -23,3 +23,5 @@ simulations/SLAW_Matlab
 simulations/slaw_results
 SlawMobilityTrace
 
+simulations/results
+simulations/slaw_traces
