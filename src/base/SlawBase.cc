@@ -48,7 +48,8 @@ inet::Coord SlawBase::computeHome(const areaSet& areaVector) {
   return home;
 }
 
-//TODO: repair this method
+//TODO implement replace cluster
+
 void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home) {
   //Replaces randomly an area
   areaSet clusterList(C_k);
