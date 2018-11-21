@@ -19,6 +19,7 @@
 SelfsimilarWaypointMap::SelfsimilarWaypointMap(std::string& name, 
 double radius, double H) : clusteringRadius(radius), mapName(name), hurstParameter(H){ 
   areaVector = new std::vector<Area>;
+  weightIntVector = new std::vector<unsigned>;
   weightVector = new std::vector<double>;
   if(!loadAreaVector()) {
     std::cout << "Load selfsimilar waypoint map from " 
@@ -40,6 +41,8 @@ SelfsimilarWaypointMap::~SelfsimilarWaypointMap() {
     delete areaVector;
   if(weightVector)
     delete weightVector;
+  if(weightIntVector)
+    delete weightIntVector;
 }
 
 bool SelfsimilarWaypointMap::loadMap(std::list<inet::Coord>& waypointList) {
@@ -194,6 +197,9 @@ void SelfsimilarWaypointMap::computeAreaWeights() {
     weight += (double)area.size()/numberOfWaypoints;
     weightVector->push_back(weight);
   }
+  for (unsigned i = 0; i < areaVector->size(); i++)
+    for (unsigned j = 0; j < areaVector->at(i).size(); j++)
+      weightIntVector->push_back(i);
 }
 
 const Area* SelfsimilarWaypointMap::getConfinedArea(unsigned index) {
@@ -202,6 +208,10 @@ const Area* SelfsimilarWaypointMap::getConfinedArea(unsigned index) {
 
 const std::vector<double>* SelfsimilarWaypointMap::getAreaWeights() {
   return static_cast<const std::vector<double>*>(weightVector);
+}
+
+const std::vector<unsigned>* SelfsimilarWaypointMap::getIntAreaWeights() {
+  return static_cast<const std::vector<unsigned>*>(weightIntVector);
 }
 
 int SelfsimilarWaypointMap::getAreaSize(unsigned index) {

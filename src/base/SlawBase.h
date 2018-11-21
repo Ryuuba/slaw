@@ -49,6 +49,8 @@ protected:
   SelfsimilarWaypointMap* map;
   Speed* speed;
   PauseTime* pausetime;
+  /** @brief Computes a cluster list according the Matlab implementation */
+  virtual void computeClusterList(areaSet&);
   /** @brief Computes a walker trip according to the Matlab implementation */
   virtual void computeSlawTrip(Trip&, const areaSet&, inet::Coord&);
   /** @brief Adds the 10 percent of waypoints of a random-elected

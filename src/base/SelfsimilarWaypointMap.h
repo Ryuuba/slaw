@@ -56,6 +56,8 @@ protected:
     std::vector<Area>* areaVector;
     /** @brief Vector storing the weights of each confined area.*/
     std::vector<double>* weightVector;
+    /** @brief Vector storing the weights of each confined area.*/
+    std::vector<unsigned>* weightIntVector;
     /** @brief Unordered map holding pairs <coord, areaID> */
     std::unordered_map<inet::Coord, unsigned> areaIDMap;
 protected:
@@ -113,6 +115,8 @@ public:
     /** @brief Returns a pointer to the vector storing the weights of each
      *  confined area loaded from a map. */
     virtual const std::vector<double>* getAreaWeights();
+    /** @brief Returns a vector with the weight of areas*/
+    virtual const std::vector<unsigned>* getIntAreaWeights();
     /** @brief Randomizes waypoints stored in a given confined area */
     virtual void randomizeArea(omnetpp::cRNG*, unsigned);
     /** @brief Returns the areaID matching a given waypoint */

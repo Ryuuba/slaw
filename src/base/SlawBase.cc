@@ -24,6 +24,19 @@ SlawBase::SlawBase() {
   pausetime = nullptr;
 }
 
+void SlawBase::computeClusterList(areaSet& clusterList) {
+  unsigned index, ratio_cluster = 5;
+  unsigned confinedAreas = ceil(map->getNumberOfAreas() / ratio_cluster);
+  const std::vector<unsigned>* weights = map->getIntAreaWeights();
+  while (clusterList.size() < confinedAreas) {
+    index = intuniform(0, weights->size());
+    unsigned clusterID((*weights)[index]);
+    auto it = std::find(clusterList.begin(), clusterList.end(), clusterID);
+    if (it == clusterList.end())
+      clusterList.push_back(clusterID);
+  }
+}
+
 void SlawBase::computeConfinedAreas(areaSet& areaVector) {
   const std::vector<double>* weights = map->getAreaWeights();
   double rnd;

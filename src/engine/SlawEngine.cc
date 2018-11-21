@@ -106,7 +106,8 @@ void SlawEngine::initializeSpeedModel() {
 
 void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k, 
   inet::Coord& home) {
-  computeConfinedAreas(C_k);
+  //computeConfinedAreas(C_k);
+  computeClusterList(C_k);
   home = computeHome(C_k);
   computeTrip(trip, C_k, home);
 }

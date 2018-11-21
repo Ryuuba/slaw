@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for slaw
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -I/mnt/c/Users/amedr/inet/src/inet/common/geometry/common/ -I/mnt/c/Users/amedr/inet/src/inet/common/ -I/mnt/c/Users/amedr/inet/src/ -I/mnt/c/Users/amedr/inet/src/inet/mobility/base/ -I/mnt/c/Users/amedr/inet/src/inet/mobility/contract/ -I/mnt/c/Users/amedr/inet/src/inet/mobility/single/ -L/mnt/c/Users/amedr/inet/out/gcc-release/src/ -lINET -o slaw
+#  opp_makemake -f --deep -I/mnt/c/Users/Geo/inet/src/inet/common/geometry/common/ -I/mnt/c/Users/Geo/inet/src/inet/common/ -I/mnt/c/Users/Geo/inet/src/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/base/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/contract/ -I/mnt/c/Users/Geo/inet/src/inet/mobility/single/ -L/mnt/c/Users/Geo/inet/out/gcc-release/src/ -lINET -o slaw
 #
 
 # Name of target to be created (-o option)
@@ -17,22 +17,22 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I/mnt/c/Users/amedr/inet/src/inet/common/geometry/common/ \
-    -I/mnt/c/Users/amedr/inet/src/inet/common/ \
-    -I/mnt/c/Users/amedr/inet/src/ \
-    -I/mnt/c/Users/amedr/inet/src/inet/mobility/base/ \
-    -I/mnt/c/Users/amedr/inet/src/inet/mobility/contract/ \
-    -I/mnt/c/Users/amedr/inet/src/inet/mobility/single/
+    -I/mnt/c/Users/Geo/inet/src/inet/common/geometry/common/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/common/ \
+    -I/mnt/c/Users/Geo/inet/src/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/mobility/base/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/mobility/contract/ \
+    -I/mnt/c/Users/Geo/inet/src/inet/mobility/single/
 
 # Additional object and library files to link with
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)/mnt/c/Users/amedr/inet/out/gcc-release/src/  -lINET
+LIBS = $(LDFLAG_LIBPATH)/mnt/c/Users/Geo/inet/out/gcc-release/src/  -lINET
 
 # Output directory
-PROJECT_OUTPUT_DIR = out
-PROJECTRELATIVE_PATH =
+PROJECT_OUTPUT_DIR = ../out
+PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
@@ -78,7 +78,7 @@ include $(CONFIGFILE)
 # Simulation kernel and user interface libraries
 OMNETPP_LIBS = $(OPPMAIN_LIB) $(USERIF_LIBS) $(KERNEL_LIBS) $(SYS_LIBS)
 ifneq ($(TOOLCHAIN_NAME),clangc2)
-LIBS += -Wl,-rpath,$(abspath /mnt/c/Users/amedr/inet/out/gcc-release/src/)
+LIBS += -Wl,-rpath,$(abspath /mnt/c/Users/Geo/inet/out/gcc-release/src/)
 endif
 
 COPTS = $(CFLAGS) $(IMPORT_DEFINES)  $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
