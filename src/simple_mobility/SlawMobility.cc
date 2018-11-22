@@ -47,11 +47,12 @@ void SlawMobility::setTargetPosition()
     nextChange = simTime() + slaw->computePauseTime();
   else{
     if(trip.empty()) {
-      slaw->computeTrip(trip, areas, home);
-      targetPosition = home;
+      slaw->computeTrip(trip, areas, lastPosition);
+      //slaw->computeTrip(trip, areas, home);
+      //targetPosition = home;
     }
-    else
-      targetPosition = slaw->LATP(lastPosition, trip);
+    //else
+    targetPosition = slaw->LATP(lastPosition, trip);
     double distance = lastPosition.distance(targetPosition);
     nextChange = simTime() + distance / slaw->getSpeed(distance);
 
