@@ -5,7 +5,7 @@ Define_Module(SlawBonnMotion);
 omnetpp::simsignal_t
   SlawBonnMotion::flight = registerSignal("flight");
 
-SlawBonnMotion::SlawBonnMotion() : pause(true) {}
+SlawBonnMotion::SlawBonnMotion() : pause(true), initial_waypoint(false) {}
 
 void SlawBonnMotion::initialize(int state) {
   BonnMotionMobility::initialize(state);
@@ -18,19 +18,19 @@ void SlawBonnMotion::initialize(int state) {
 
 void SlawBonnMotion::setInitialPosition() {
   BonnMotionMobility::setInitialPosition();
-  lastWaypoint = lastPosition;
 }
 
 void SlawBonnMotion::setTargetPosition()
 {
   BonnMotionMobility::setTargetPosition();
-  if (lastPosition == targetPosition) {
-      if (!pause) {
-        double distance = targetPosition.distance(lastWaypoint);
-        emit(flight, distance);
-        lastWaypoint = targetPosition;
-      }
-      pause = true;
+  if (waypointMap.find(targetPosition) != waypointMap.end()) {
+    if (!pause && initial_waypoint) {
+      double distance = targetPosition.distance(lastWaypoint);
+      emit(flight, distance);
+    }
+    lastWaypoint = targetPosition;
+    pause = true;
+    initial_waypoint = true;
   }
   else
     pause = false;

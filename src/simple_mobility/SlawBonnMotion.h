@@ -14,7 +14,7 @@ private:
   /** @brief The last waypoint */
   inet::Coord lastWaypoint;
   /** @brief If true, then walker is in a waypoint, else walker is moving */
-  bool pause;
+  bool pause, initial_waypoint;
   /** @brief Unordered map containing waypoints */
   std::unordered_map<inet::Coord, bool> waypointMap;
   /** @brief Signal informing node flight lengths */

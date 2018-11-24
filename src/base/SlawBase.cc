@@ -86,10 +86,12 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
     else{
       double aaa_fraction, aaa_int;
       aaa_fraction = modf(aaa, &aaa_int);
-      map->randomizeArea(getRNG(0), areaId);
-      trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
-      if (uniform(0,1) >= aaa_fraction && aaa_int > 0)
-        trip.pop_back();
+      if (uniform(0,1) < aaa_fraction) {
+        map->randomizeArea(getRNG(0), areaId);
+        trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
+      }
+      else if (aaa_int > 0)
+        trip.insert(trip.end(), area->begin(), area->begin()+aaa_int);
     }
   }
   auto home_it = std::find(trip.begin(), trip.end(), home);
