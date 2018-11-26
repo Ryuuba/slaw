@@ -46,6 +46,7 @@ typedef std::vector<unsigned> areaSet;
 
 class SlawBase : public omnetpp::cSimpleModule{
 protected:
+  bool initialize;
   SelfsimilarWaypointMap* map;
   Speed* speed;
   PauseTime* pausetime;
