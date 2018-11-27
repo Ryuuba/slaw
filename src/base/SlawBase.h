@@ -29,7 +29,8 @@
 template<typename T>
 std::vector<T>& randomizeVector(omnetpp::cRNG* rng,std::vector<T>& v) {
   for(unsigned i = v.size()-1; i > 0; --i) {
-    unsigned rnd = omnetpp::intuniform(rng, 0, i);
+    unsigned rnd = omnetpp::uniform(rng, 0, 1)*i;
+    //unsigned rnd = omnetpp::intuniform(rng, 0, i);
     std::swap(v[i],v[rnd]);
   }
   return v;
@@ -46,7 +47,6 @@ typedef std::vector<unsigned> areaSet;
 
 class SlawBase : public omnetpp::cSimpleModule{
 protected:
-  bool initialize;
   SelfsimilarWaypointMap* map;
   Speed* speed;
   PauseTime* pausetime;

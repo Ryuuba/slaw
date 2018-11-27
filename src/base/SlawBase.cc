@@ -18,7 +18,7 @@
 Register_Abstract_Class(SlawBase);
 
 //FIXME The add walker method have to initialize the state vector
-SlawBase::SlawBase() : initialize(false) {
+SlawBase::SlawBase() {
   map = nullptr;
   speed = nullptr;
   pausetime = nullptr;
@@ -29,7 +29,7 @@ void SlawBase::computeClusterList(areaSet& clusterList) {
   unsigned confinedAreas = ceil(map->getNumberOfAreas() / ratio_cluster);
   const std::vector<unsigned>* weights = map->getIntAreaWeights();
   while (clusterList.size() < confinedAreas) {
-    index = intuniform(0, weights->size()-1);
+    index = ceil(uniform(0,1)*weights->size()-1);
     unsigned clusterID((*weights)[index]);
     auto it = std::find(clusterList.begin(), clusterList.end(), clusterID);
     if (it == clusterList.end())
@@ -55,8 +55,8 @@ void SlawBase::computeConfinedAreas(areaSet& areaVector) {
 }
 
 inet::Coord SlawBase::computeHome(const areaSet& areaVector) {
-  unsigned areaIndex = intuniform(0, areaVector.size() - 1);
-  unsigned waypointIndex = intuniform(0, map->getAreaSize(areaVector[areaIndex]) - 1);
+  unsigned areaIndex = ceil(uniform(0,1)* areaVector.size() - 1);
+  unsigned waypointIndex = ceil(uniform(0,1) * map->getAreaSize(areaVector[areaIndex]) - 1);
   inet::Coord home = map->getWaypoint(areaVector[areaIndex], waypointIndex);
   return home;
 }
@@ -71,17 +71,16 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
   areaSet::const_iterator it;
   do {
     //Index of random area
-    randomAreaId = intuniform(0, map->getNumberOfAreas()-1);
+    randomAreaId = ceil(uniform(0,1)*map->getNumberOfAreas()-1);
     it = find(C_k.begin(), C_k.end(), randomAreaId);
   } while (it != C_k.end());
-  //if (initialize)
-    clusterList[intuniform(0, C_k.size()-1)] = randomAreaId;
+  clusterList[ceil(uniform(0,1)*C_k.size()-1)] = randomAreaId;
   for (auto& areaId : clusterList) {
     auto area = map->getConfinedArea(areaId);
     //aaa is an ugly variable name
     double aaa(map->getAreaSize(areaId) / ratio_cluster);
     if (aaa < 1.0) {
-      unsigned waypoint_id(intuniform(0, area->size()-1));
+      unsigned waypoint_id(uniform(0,1)*area->size()-1);
       trip.push_back(area->at(waypoint_id));
     }
     else{
@@ -98,7 +97,6 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
   auto home_it = std::find(trip.begin(), trip.end(), home);
   if (home_it != trip.end())
     trip.erase(home_it);
-  initialize = true;
 }
 
 void SlawBase::computeTripRandomness(Trip& trip, const areaSet& C_k) {
