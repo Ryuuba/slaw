@@ -240,8 +240,9 @@ SelfsimilarWaypointMap::getWaypoint(unsigned indexArea, unsigned index) {
 void SelfsimilarWaypointMap::randomizeArea(omnetpp::cRNG* rng, unsigned area_index) {
     Area* area = &(areaVector->at(area_index));
     for(size_t i = area->size() - 1; i > 0; --i) {
-    unsigned rnd = omnetpp::intuniform(rng, 0, i);
-    std::swap(area->at(i),area->at(rnd));
+      unsigned rnd = omnetpp::uniform(rng, 0, 1) * i;
+      //unsigned rnd = omnetpp::intuniform(rng, 0, i);
+      std::swap(area->at(i),area->at(rnd));
   }
 }
 

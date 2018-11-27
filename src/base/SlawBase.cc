@@ -28,7 +28,7 @@ void SlawBase::computeClusterList(areaSet& clusterList) {
   unsigned index, ratio_cluster = 5;
   unsigned confinedAreas = ceil(map->getNumberOfAreas() / ratio_cluster);
   const std::vector<unsigned>* weights = map->getIntAreaWeights();
-  while (clusterList.size() < confinedAreas) {
+  while (clusterList.size() <= confinedAreas) {
     index = ceil(uniform(0,1)*weights->size()-1);
     unsigned clusterID((*weights)[index]);
     auto it = std::find(clusterList.begin(), clusterList.end(), clusterID);
