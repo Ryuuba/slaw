@@ -43,30 +43,31 @@ SlawEngine::~SlawEngine() {
 }
 
 inet::Coord SlawEngine::LATP(inet::Coord& currentPosition, Trip& walkerTrip) {
-  Trip::const_iterator nextWaypointIt = walkerTrip.begin();
-  std::vector<double> distanceVector, cdf;
-  double probabilityFactor = 0.0, cumulativeProbability = 0.0;
+  std::vector<double> numerator_vec, cdf;
+  double sum(0.0), cumulativeProbability(0.0);
   //Compute distance to each one of all unvisited waypoints, which are stored
   //in the trip walker
   for (auto& waypoint : walkerTrip) {
-    double distance = currentPosition.distance(waypoint);
+    double distance(currentPosition.distance(waypoint));
     if (distance == 0.0) {
       std::cout << "Invalid waypoint: "<< waypoint << ' ' << currentPosition << "\n";
       endSimulation();
     }
-    probabilityFactor += pow(1/distance, a);
-    distanceVector.push_back(1/distance);
+    double numerator(1/pow(distance, a));
+    sum += numerator;
+    numerator_vec.push_back(numerator);
   }
   //Compute probability to move to all unvisited waypoints.
-  for (auto& distance : distanceVector) {
-    cumulativeProbability += pow(distance, a) / probabilityFactor;
+  for (auto& numerator : numerator_vec) {
+    cumulativeProbability += numerator / sum;
     cdf.push_back(cumulativeProbability);
   }
   //Choose the next waypoint according to the probability vector
   double rnd = uniform(0, 1);
   auto it = std::upper_bound(cdf.begin(), cdf.end(), rnd);
-  auto distance = std::distance(cdf.begin(), it);
-  std::advance(nextWaypointIt, distance);
+  auto index = std::distance(cdf.begin(), it);
+  auto nextWaypointIt = walkerTrip.begin();
+  std::advance(nextWaypointIt, index);
   inet::Coord nextWaypoint = *nextWaypointIt;
   walkerTrip.erase(nextWaypointIt);
   return nextWaypoint;
@@ -108,8 +109,12 @@ void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k,
   inet::Coord& home) {
   //computeConfinedAreas(C_k);
   computeClusterList(C_k);
-  home = computeHome(C_k);
   computeTrip(trip, C_k, home);
+  //computes home according to the SLAW Matlab implementation
+  auto it_home = trip.begin();
+  std::advance(it_home, ceil(uniform(0,1)*trip.size()) - 1);
+  home = *it_home;
+  trip.erase(it_home);
 }
 
 void SlawEngine::computeTrip(Trip& walkerTrip, const areaSet& C_k, inet::Coord& home) {

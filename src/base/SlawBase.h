@@ -19,6 +19,9 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <sstream>
+#include <string>
+
 
 #include <omnetpp.h>
 
@@ -47,9 +50,14 @@ typedef std::vector<unsigned> areaSet;
 
 class SlawBase : public omnetpp::cSimpleModule{
 protected:
+  bool initialize;
   SelfsimilarWaypointMap* map;
   Speed* speed;
   PauseTime* pausetime;
+  /** @brief Loads cluster list C_k from a file. This method is used for
+   * debugging purposes
+  */
+  virtual void loadClusterList(char const*, unsigned, areaSet&);
   /** @brief Computes a cluster list according the Matlab implementation */
   virtual void computeClusterList(areaSet&);
   /** @brief Computes a walker trip according to the Matlab implementation */

@@ -18,7 +18,7 @@
 Register_Abstract_Class(SlawBase);
 
 //FIXME The add walker method have to initialize the state vector
-SlawBase::SlawBase() {
+SlawBase::SlawBase() : initialize(false) {
   map = nullptr;
   speed = nullptr;
   pausetime = nullptr;
@@ -28,8 +28,8 @@ void SlawBase::computeClusterList(areaSet& clusterList) {
   unsigned index, ratio_cluster = 5;
   unsigned confinedAreas = ceil(map->getNumberOfAreas() / ratio_cluster);
   const std::vector<unsigned>* weights = map->getIntAreaWeights();
-  while (clusterList.size() <= confinedAreas) {
-    index = ceil(uniform(0,1)*weights->size()-1);
+  while (clusterList.size() < confinedAreas) {
+    index = ceil(uniform(0,1)*weights->size())-1;
     unsigned clusterID((*weights)[index]);
     auto it = std::find(clusterList.begin(), clusterList.end(), clusterID);
     if (it == clusterList.end())
@@ -37,12 +37,37 @@ void SlawBase::computeClusterList(areaSet& clusterList) {
   }
 }
 
+//TODO: Modify Slaw Engine and SlawMobility to load the cluster list of
+//each walker with this member function
+void SlawBase::loadClusterList(char const* filename, unsigned walkerID, areaSet& clusterList) {
+  std::ifstream ifs(filename, std::ifstream::in);
+  if (ifs.is_open()) {
+    std::string c_k;
+    unsigned linenumber = 0;
+    while(std::getline(ifs, c_k)) {
+        if (linenumber == walkerID) {
+          std::istringstream iss(c_k);
+          unsigned areaID;
+          if (iss >> areaID)
+            clusterList.push_back(areaID);
+        }
+        linenumber++;
+    }
+    if (clusterList.empty()) {
+      std::cerr << "Slaw Base: walker ID " << walkerID << " does not match any area\n";
+      endSimulation();
+    }
+  }
+  else
+    std::cerr << "SlawBase: " << filename << " couldn't be opened\n";
+}
+
 void SlawBase::computeConfinedAreas(areaSet& areaVector) {
   const std::vector<double>* weights = map->getAreaWeights();
   double rnd;
   unsigned areaID = 0, ratio_cluster = 5;
   //uint8_t confinedAreas = intuniform(3,5); //Slaw paper
-  uint8_t confinedAreas = ceil(map->getNumberOfAreas() / ratio_cluster);
+  uint8_t confinedAreas = ceil(double(map->getNumberOfAreas()) / ratio_cluster);
   while (areaVector.size() < confinedAreas) {
     rnd = uniform(0.0, 1.0);
     while (!((*weights)[areaID] < rnd && rnd <= (*weights)[areaID+1]))
@@ -55,8 +80,8 @@ void SlawBase::computeConfinedAreas(areaSet& areaVector) {
 }
 
 inet::Coord SlawBase::computeHome(const areaSet& areaVector) {
-  unsigned areaIndex = ceil(uniform(0,1)* areaVector.size() - 1);
-  unsigned waypointIndex = ceil(uniform(0,1) * map->getAreaSize(areaVector[areaIndex]) - 1);
+  unsigned areaIndex = ceil(uniform(0,1)* areaVector.size()) - 1;
+  unsigned waypointIndex = ceil(uniform(0,1) * map->getAreaSize(areaVector[areaIndex])) - 1;
   inet::Coord home = map->getWaypoint(areaVector[areaIndex], waypointIndex);
   return home;
 }
@@ -71,16 +96,16 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
   areaSet::const_iterator it;
   do {
     //Index of random area
-    randomAreaId = ceil(uniform(0,1)*map->getNumberOfAreas()-1);
+    randomAreaId = ceil(uniform(0,1)*map->getNumberOfAreas())-1;
     it = find(C_k.begin(), C_k.end(), randomAreaId);
   } while (it != C_k.end());
-  clusterList[ceil(uniform(0,1)*C_k.size()-1)] = randomAreaId;
+  clusterList[ceil(uniform(0,1)*C_k.size())-1] = randomAreaId;
   for (auto& areaId : clusterList) {
     auto area = map->getConfinedArea(areaId);
     //aaa is an ugly variable name
-    double aaa(map->getAreaSize(areaId) / ratio_cluster);
+    double aaa(double(area->size()) / ratio_cluster);
     if (aaa < 1.0) {
-      unsigned waypoint_id(uniform(0,1)*area->size()-1);
+      unsigned waypoint_id(ceil(uniform(0,1)*area->size()) - 1);
       trip.push_back(area->at(waypoint_id));
     }
     else{
@@ -90,7 +115,7 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
       if (uniform(0,1) < aaa_fraction) {
         trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
       }
-      else if (aaa_int > 0)
+      else if (aaa_int > 0.0)
         trip.insert(trip.end(), area->begin(), area->begin()+aaa_int);
     }
   }
