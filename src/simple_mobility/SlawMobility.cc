@@ -11,6 +11,7 @@ omnetpp::simsignal_t
 
 SlawMobility::SlawMobility()
 {
+  walkerID = 0;
   nextMoveIsWait = false;
   slaw = nullptr;
 }
@@ -18,14 +19,15 @@ SlawMobility::SlawMobility()
 void SlawMobility::initialize(int stage) {
   LineSegmentsMobilityBase::initialize(stage);
   if(stage == 0) {
+    walkerID = getContainingNode(this)->getIndex();
     classifyFlight = par("classifyFlight").boolValue();
     slawModuleName = par("slawModuleName").stringValue();
     slaw = (SlawEngine*) this->getSimulation()->getSystemModule()->getSubmodule(slawModuleName.c_str());
     if(!slaw)
       error("No destination generator found: add module Slaw to the\
         network");
-    std::cout << "Mobility state of walker " << getContainingNode(this)->getIndex() << "\n";
-    slaw->initializeMobilityState(trip, areas, home);
+    std::cout << "Mobility state of walker " << walkerID << "\n";
+    slaw->initializeMobilityState(trip, areas, home, walkerID);
     std::cout << "number of confined areas: " << areas.size() << "\n\t"
       << "home: " << home << "\n\t"
       << "trip size: " << trip.size() << '\n'
@@ -33,7 +35,6 @@ void SlawMobility::initialize(int stage) {
     for (auto& areaNumber: areas)
         std::cout << areaNumber << ' ';
     std::cout << '\n';
-    
   }
 }
 

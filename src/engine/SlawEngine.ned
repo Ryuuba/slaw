@@ -21,6 +21,7 @@ package slaw.engine;
 simple SlawEngine {
     @display("i=block/cogwheel");
     string mapName;
+    string clusterList;
     double clusteringRadius @unit(m) = default(40m);
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, PARETO_BOUNDED = 4
     int pauseTimeModel @enum(1, 2, 3, 4) = default(4);

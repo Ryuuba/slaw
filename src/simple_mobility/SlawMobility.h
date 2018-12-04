@@ -21,6 +21,8 @@
 class SlawMobility : public inet::LineSegmentsMobilityBase
 {
 protected:
+  /** @brief Walker ID */
+  unsigned walkerID;
   /** @brief Signal informing node flight lengths */
   static omnetpp::simsignal_t flight, intraFlightLength, interFlightLength;
   /** Boolean value used to switch between these states {pause, motion} */

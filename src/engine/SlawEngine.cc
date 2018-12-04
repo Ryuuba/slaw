@@ -75,6 +75,7 @@ inet::Coord SlawEngine::LATP(inet::Coord& currentPosition, Trip& walkerTrip) {
 
 void SlawEngine::initialize() {
   initializeMap();
+  clusterListFile = par("clusterList").stringValue(); //Debug purposes
   initializePauseTimeModel();
   initializeSpeedModel();
   a = par("planningDegree").doubleValue();
@@ -106,9 +107,10 @@ void SlawEngine::initializeSpeedModel() {
 }
 
 void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k, 
-  inet::Coord& home) {
+  inet::Coord& home, unsigned walkerId) { //walkerID for debug purposes
   //computeConfinedAreas(C_k);
-  computeClusterList(C_k);
+  //computeClusterList(C_k); //debug purposes
+  loadClusterList(clusterListFile.c_str(), walkerId, C_k);
   computeTrip(trip, C_k, home);
   //computes home according to the SLAW Matlab implementation
   auto it_home = trip.begin();

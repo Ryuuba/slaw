@@ -48,7 +48,7 @@ public:
      * the pausetime model. */
     virtual void initialize();
     /** @bried Initializes the mobility state of a walker. */
-    virtual void initializeMobilityState(Trip&, areaSet&, inet::Coord&);
+    virtual void initializeMobilityState(Trip&, areaSet&, inet::Coord&, unsigned);
     /** @brief Computes a walker trip. Receives the trip where waypoints will
      *  be stored and the vector storing the confined areas of the walker. */
     virtual void computeTrip(Trip&, const areaSet&, inet::Coord&);

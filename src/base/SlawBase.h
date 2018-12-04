@@ -50,6 +50,7 @@ typedef std::vector<unsigned> areaSet;
 
 class SlawBase : public omnetpp::cSimpleModule{
 protected:
+  std::string clusterListFile; //debug purposes
   bool initialize;
   SelfsimilarWaypointMap* map;
   Speed* speed;

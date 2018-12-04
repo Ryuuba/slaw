@@ -48,7 +48,7 @@ void SlawBase::loadClusterList(char const* filename, unsigned walkerID, areaSet&
         if (linenumber == walkerID) {
           std::istringstream iss(c_k);
           unsigned areaID;
-          if (iss >> areaID)
+          while (iss >> areaID)
             clusterList.push_back(areaID);
         }
         linenumber++;
@@ -57,6 +57,7 @@ void SlawBase::loadClusterList(char const* filename, unsigned walkerID, areaSet&
       std::cerr << "Slaw Base: walker ID " << walkerID << " does not match any area\n";
       endSimulation();
     }
+    ifs.close();
   }
   else
     std::cerr << "SlawBase: " << filename << " couldn't be opened\n";
