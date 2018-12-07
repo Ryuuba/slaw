@@ -76,6 +76,9 @@ protected:
    *  determined by their weight, which is computed by dividing their
    *  number of waypoints into the number of waypoints integrating the map */
   virtual void computeConfinedAreas(areaSet&);
+  /** @brief Gets k points from a given area randomly. It's used for debugging
+   * purposes */
+  virtual void getWaypointChunkRandomly(Trip&, const Area*, unsigned);
 public:
   /** @brief Default constructor. It initializes the pointers map, speed, and
    *  pausetime with nullptr. */

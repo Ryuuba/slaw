@@ -112,12 +112,16 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
     else{
       double aaa_fraction, aaa_int;
       aaa_fraction = modf(aaa, &aaa_int);
-      map->randomizeArea(getRNG(0), areaId);
+      //map->randomizeArea(getRNG(0), areaId);
       if (uniform(0,1) < aaa_fraction) {
-        trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
+        //debug purposes
+        //trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
+        getWaypointChunkRandomly(trip, area, aaa_int+1);
       }
       else if (aaa_int > 0.0)
-        trip.insert(trip.end(), area->begin(), area->begin()+aaa_int);
+        getWaypointChunkRandomly(trip, area, aaa_int);
+        //debug purposes
+        //trip.insert(trip.end(), area->begin(), area->begin()+aaa_int);
     }
   }
   auto home_it = std::find(trip.begin(), trip.end(), home);
@@ -169,3 +173,14 @@ SlawBase::computeRutine(Trip& trip, const areaSet& rutineAreas,
   }
 }
 
+void SlawBase::getWaypointChunkRandomly(Trip& trip, const Area* area, unsigned k) {
+  unsigned i = 0;
+  while (i < k) {
+    auto rand_waypoint = area->at(uniform(0,1)*ceil(area->size()) - 1);
+    auto it = std::find(trip.begin(), trip.end(), rand_waypoint);
+    if (it == trip.end()) {
+      trip.push_back(rand_waypoint);
+      i++;
+    }
+  }
+}
