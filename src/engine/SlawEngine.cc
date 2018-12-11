@@ -53,7 +53,7 @@ inet::Coord SlawEngine::LATP(inet::Coord& currentPosition, Trip& walkerTrip) {
       std::cout << "Invalid waypoint: "<< waypoint << ' ' << currentPosition << "\n";
       endSimulation();
     }
-    double numerator(1/pow(distance, a));
+    double numerator(1.0/pow(distance, a));
     sum += numerator;
     numerator_vec.push_back(numerator);
   }

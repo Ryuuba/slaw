@@ -94,18 +94,16 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
   areaSet clusterList(C_k);
   unsigned ratio_cluster = 5;
   unsigned randomAreaId; //Value from the Slaw Matlab implementation
-  areaSet::const_iterator it;
   do {
     //Index of random area
     randomAreaId = ceil(uniform(0,1)*map->getNumberOfAreas())-1;
-    it = find(C_k.begin(), C_k.end(), randomAreaId);
-  } while (it != C_k.end());
-  clusterList[ceil(uniform(0,1)*C_k.size())-1] = randomAreaId;
+  } while (find(clusterList.begin(), clusterList.end(), randomAreaId) != clusterList.end());
+  clusterList[ceil(uniform(0,1)*clusterList.size())-1] = randomAreaId;
   for (auto& areaId : clusterList) {
     auto area = map->getConfinedArea(areaId);
     //aaa is an ugly variable name
     double aaa(double(area->size()) / ratio_cluster);
-    if (aaa < 1.0) {
+    if (aaa < 1) {
       unsigned waypoint_id(ceil(uniform(0,1)*area->size()) - 1);
       trip.push_back(area->at(waypoint_id));
     }
@@ -118,7 +116,7 @@ void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home
         //trip.insert(trip.end(), area->begin(), area->begin()+aaa_int+1);
         getWaypointChunkRandomly(trip, area, aaa_int+1);
       }
-      else if (aaa_int > 0.0)
+      else if (aaa_int > 0)
         getWaypointChunkRandomly(trip, area, aaa_int);
         //debug purposes
         //trip.insert(trip.end(), area->begin(), area->begin()+aaa_int);
