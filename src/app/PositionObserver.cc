@@ -28,14 +28,15 @@ void PositionObserver::handleMessage(omnetpp::cMessage* msg) {
 
 void PositionObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::simsignal_t id, omnetpp::cObject* value, omnetpp::cObject* details) {
   nodeId = dynamic_cast<omnetpp::cModule*>(src)->getParentModule()->getIndex();
-  currentQuadrant = *(dynamic_cast<QuadrantCoordinate*>(value));
+  currentQuadrant = dynamic_cast<QuadrantNotification*>(value)->coordinate;
   lastQuadrant = nodePosition[nodeId];
   //If current quadrant is different from the quadrant stored in nodePosition
   //then it updates nodeMap moving the node to its actual quadrant, then updates
   //its position
+  //TODO: Change == by !=
   if ((currentQuadrant.q == lastQuadrant.q))           
     nodePosition[nodeId] = currentQuadrant;
-  else {        
+  else {
     auto it = std::find(nodeMap[lastQuadrant.q].begin(), nodeMap[lastQuadrant.q].end(), nodeId);   
     if (it != nodeMap[lastQuadrant.q].end())
       nodeMap[lastQuadrant.q].erase(it);

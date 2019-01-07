@@ -18,6 +18,6 @@ package slaw.walker;
 simple QuadrantPositionSystem {
     int xQuadrant;
     int sideLength @unit(m);
-    @signal[quadrant](type=int);
+    @signal[quadrant];
     @display("i=block/circle");
 }

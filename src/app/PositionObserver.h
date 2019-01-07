@@ -9,7 +9,7 @@
 
 #include <omnetpp.h>
 
-#include "../common/QuadrantCoordinate.h"
+#include "../common/QuadrantNotification.h"
 
 class PositionObserver: public omnetpp::cSimpleModule,
   public omnetpp::cListener{

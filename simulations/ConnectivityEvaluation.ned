@@ -35,14 +35,12 @@ network SLAWConnectivityExperiment
         double minLifetime @unit(s);
         walker[*].qps.xQuadrant = x_num;
         walker[*].qps.sideLength = side;
-        @display("bgb=1000,1000;bgg=1000,10,grey50");
+        @display("bgb=2000,2000;bgg=1000,10,grey50");
     submodules:
         slaw: SlawEngine {
-            @display("p=62.247997,925.688");
+            @display("p=1800,1800");
         }
-        walker[numHosts]: QPSWalker {
-            @display("p=624.488,481.91998");
-        }
+        walker[numHosts]: QPSWalker;
         observer: ConnectivityObserver {
             numOfNodes = numHosts;
             xQuadrant = x_num;
@@ -52,6 +50,6 @@ network SLAWConnectivityExperiment
             radius = side / 2;
             minICT = minInterContactTime;
             minLLT = minLifetime;
-            @display("p=62.247997,795.16797");
+            @display("p=1800,1900");
         }
 }

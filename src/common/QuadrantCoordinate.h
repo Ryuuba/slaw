@@ -1,7 +1,8 @@
-#include <omnetpp.h>
+#ifndef QUADRANT_COORDINATE_H
+#define QUADRANT_COORDINATE_H
 
 // This struct inheritates of omnetpp::cObject to be emitable 
-struct QuadrantCoordinate : public omnetpp::cObject{
+struct QuadrantCoordinate {
   /* @brief A quadrant 'q' is a number resulting of dividing a square area into 
   * squares of side sideLength. A subquadrant 'subq' is the result of 
   * dividing a quadrant into four subquadrants */
@@ -17,3 +18,5 @@ struct QuadrantCoordinate : public omnetpp::cObject{
     return (q != rhs.q) || (subq != rhs.subq);
   }
 };
+
+#endif

@@ -24,7 +24,7 @@ void ConnectivityObserver::initialize() {
 }
 
 std::unordered_map<unsigned, omnetpp::simtime_t>
-ConnectivityObserver::computeOneHopNeighborhood(unsigned nodeId){
+ConnectivityObserver::computeOneHopNeighborhood(unsigned nodeId) {
   std::unordered_map <unsigned, omnetpp::simtime_t> neighborhood;
   QuadrantCoordinate crd(nodePosition[nodeId]);//crd -> coordinate
   std::list<unsigned> qList(computeNeighboringQuadrants(crd.q, crd.subq));
@@ -51,7 +51,7 @@ void ConnectivityObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::sims
   );
   std::unordered_map<unsigned, omnetpp::simtime_t> oldN; //old neighbors
   std::unordered_map<unsigned, omnetpp::simtime_t> newN; //new neighbors
-  EV_INFO << "Current neighborhood of node " << nodeId << " : ";
+  static bool print = true;
   for (auto& entry : n)
     EV_INFO << entry.first << ' ';
   EV_INFO << '\n';
@@ -86,8 +86,10 @@ void ConnectivityObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::sims
     if (lifetime > llt_min) {
       ictt[nodeId][entry.first] = omnetpp::simTime();
       ictt[entry.first][nodeId] = omnetpp::simTime();
-      emit(linkLifetime, lifetime);
-      llt_counter++;
+      if (omnetpp::simTime() >= getSimulation()->getWarmupPeriod()) {
+        emit(linkLifetime, lifetime);
+        llt_counter++;
+      }
     }
     llt[nodeId].erase(entry.first);
     llt[entry.first].erase(nodeId);
@@ -99,8 +101,10 @@ void ConnectivityObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::sims
     if (ictt[nodeId].find(entry.first) != ictt[nodeId].end()) {
       omnetpp::simtime_t ict = omnetpp::simTime() - ictt[nodeId][entry.first];
       if (ict > ict_min) {
-        emit(interContactTime, ict);
-        ict_counter++;
+        if (omnetpp::simTime() >= getSimulation()->getWarmupPeriod()) {
+          emit(interContactTime, ict);
+          ict_counter++;
+        }
       }
       ictt[nodeId].erase(entry.first);
       ictt[entry.first].erase(nodeId);
@@ -111,6 +115,6 @@ void ConnectivityObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::sims
     llt[nodeId][entry.first] = omnetpp::simTime();
     llt[entry.first][nodeId] = omnetpp::simTime();
   }
-  if (llt_counter > llt_num && ict_counter > ict_num)
+  if (ict_counter > ict_num)
     endSimulation();
 }

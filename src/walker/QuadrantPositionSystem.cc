@@ -50,7 +50,14 @@ void QuadrantPositionSystem::receiveSignal(omnetpp::cComponent* src,
   coordinate.y = mobilityObj->getCurrentPosition().y; 
   unsigned nodeId = dynamic_cast<cModule*>(src)->getParentModule()->getIndex();
   computeQuadrant();     
-  computeSubquadrant();   
-  omnetpp::cObject* quadrantObj = dynamic_cast<omnetpp::cObject*>(&coordinate);
-  emit(quadrant, quadrantObj);
+  computeSubquadrant();
+  //TODO: Repair this section of code ><
+  if (hasListeners(quadrant)){ 
+    QuadrantNotification notification;
+    notification.coordinate.x = coordinate.x;
+    notification.coordinate.y = coordinate.y;
+    notification.coordinate.q = coordinate.q;
+    notification.coordinate.subq = coordinate.subq;
+    emit(quadrant, &notification);
+  }
 }
