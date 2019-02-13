@@ -1,4 +1,3 @@
-
 #if !defined(POSITION_OBSERVER_H)
 #define POSITION_OBSERVER_H
 

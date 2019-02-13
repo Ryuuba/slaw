@@ -8,13 +8,13 @@ omnetpp::simsignal_t
   SlawMobility::flight = registerSignal("flight");
 omnetpp::simsignal_t
   SlawMobility::interFlightLength = registerSignal("interFlightLength");
+omnetpp::simsignal_t
+  SlawMobility::trip_counter = registerSignal("trip_counter");
+omnetpp::simsignal_t
+  SlawMobility::next_waypoint = registerSignal("next_waypoint");
 
-SlawMobility::SlawMobility()
-{
-  walkerID = 0;
-  nextMoveIsWait = false;
-  slaw = nullptr;
-}
+SlawMobility::SlawMobility() : 
+  counter(0), walkerID(0), nextMoveIsWait(false), slaw(nullptr) { }
 
 void SlawMobility::initialize(int stage) {
   LineSegmentsMobilityBase::initialize(stage);
@@ -40,23 +40,39 @@ void SlawMobility::initialize(int stage) {
 
 void SlawMobility::setInitialPosition() {
   lastPosition = home;
+  emit(next_waypoint, &lastPosition);
 }
 
 void SlawMobility::setTargetPosition()
 {
+  bool isNewTrip = false;
   if(nextMoveIsWait)
     nextChange = simTime() + slaw->computePauseTime();
   else{
     if(trip.empty()) {
-      slaw->computeTrip(trip, areas, lastPosition);
-      //slaw->computeTrip(trip, areas, home);
-      //targetPosition = home;
+      isNewTrip = true;
+      if (slaw->isSLAW_MATLAB())
+      {
+        slaw->computeTrip(trip, areas, lastPosition);
+        targetPosition = slaw->LATP(lastPosition, trip);
+      }
+      else
+      {
+        slaw->computeTrip(trip, areas, home);
+        targetPosition = home;
+      }
+      counter++;
+      emit(next_waypoint, &targetPosition);
+      emit(trip_counter, counter);
+      std::cout << "SLAW Mobility: Trip is finished\n";
     }
-    //else
-    targetPosition = slaw->LATP(lastPosition, trip);
+    if (!isNewTrip) //Avoids emitting the home waypoint two times
+    {
+      targetPosition = slaw->LATP(lastPosition, trip);
+      emit(next_waypoint, &targetPosition);
+    }
     double distance = lastPosition.distance(targetPosition);
     nextChange = simTime() + distance / slaw->getSpeed(distance);
-
     if (!classifyFlight)
       emit(flight, distance);
     else {
@@ -72,15 +88,4 @@ void SlawMobility::setTargetPosition()
 void SlawMobility::move() {
   LineSegmentsMobilityBase::move();
   raiseErrorIfOutside();
-}
-
-void SlawMobility::saveTrip() {
-  std::ofstream ofs("trip.txt");
-  if(ofs.is_open()) {
-    for (auto it = trip.begin(); it != trip.end(); it++)
-      ofs << it->x << " " << it->y << "\n";
-    ofs.close();
-  }
-  else
-    std::cerr << "Trip couldn't be written" << '\n';
 }

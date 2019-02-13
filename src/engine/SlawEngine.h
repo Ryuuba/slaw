@@ -20,11 +20,15 @@
 
 class SlawEngine: public SlawBase {
 protected:
+    /** @brief Computes flights according the SLAW_MATLAB implementation */
+    bool SLAW_MATLAB;
     /** @brief Planning degree parameter. When it equals zero the next waypoint
      *  is chosen at random. Otherwise, it is very probable that LAPT returns a
      *  near waypoint to current one. */
     double a;
     bool isInitialized;
+    /** @brief Boolean value to initialize the cluster list*/
+    bool readClusterListFromFile;
 protected:
     /** @brief Initializes the selfsimilar waypoint map. */
     virtual void initializeMap();
@@ -69,8 +73,11 @@ public:
     virtual double getSpeed(double);
     /* @brief Returs true when a the areaID of two waypoints is not equal*/
     virtual bool sameArea(inet::Coord&, inet::Coord&);
-
+    /** @brief Returns the area Id of a given corrdinate */
     virtual unsigned getAreaID(inet::Coord&);
+    /** @brief Returns true if the simulation is performed according to the
+     * original SLAW traces generator by Lee et al. */
+    virtual bool isSLAW_MATLAB();
 };
 
 

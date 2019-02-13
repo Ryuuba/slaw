@@ -19,6 +19,7 @@ package slaw.engine;
 // TODO auto-generated type
 //
 simple SlawEngine {
+    bool SLAW_MATLAB = default(true);
     @display("i=block/cogwheel");
     string mapName;
     string clusterList;
@@ -34,4 +35,6 @@ simple SlawEngine {
     double speedB @unit(mps) = default(0.19mps);
     double planningDegree = default(3);
     double hurstParameter = default(0.75);
+    double cluster_ratio = default(5.0);
+    double waypoint_ratio = default(5.0);
 }

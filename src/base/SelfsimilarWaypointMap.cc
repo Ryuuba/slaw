@@ -16,8 +16,8 @@
 #include "SelfsimilarWaypointMap.h"
 
 //The input is the map name and the clustering radius
-SelfsimilarWaypointMap::SelfsimilarWaypointMap(std::string& name, 
-double radius, double H) : clusteringRadius(radius), mapName(name), hurstParameter(H){ 
+SelfsimilarWaypointMap::SelfsimilarWaypointMap(bool SM, std::string& name, 
+double radius, double H) : SLAW_MATLAB(SM), clusteringRadius(radius), mapName(name), hurstParameter(H){ 
   areaVector = new std::vector<Area>;
   weightIntVector = new std::vector<unsigned>;
   weightVector = new std::vector<double>;
@@ -26,8 +26,10 @@ double radius, double H) : clusteringRadius(radius), mapName(name), hurstParamet
       << mapName << std::endl;
     std::list<inet::Coord> waypointList;
     if(loadMap(waypointList)) {
-      //computeConfinedAreas(waypointList);
-      makeWaypointCluster(waypointList);
+      if (SLAW_MATLAB)
+        makeWaypointCluster(waypointList);
+      else
+        computeConfinedAreas(waypointList);
       computeAreaWeights();
       saveAreaVector();
     }
@@ -185,7 +187,7 @@ bool SelfsimilarWaypointMap::loadAreaVector() {
     computeAreaWeights();
     result = true;
     std::cout << areaVector->size()
-      << " confined areas have been read" << std::endl;
+      << " confined areas have been read from " << filename << std::endl;
   }
   return result;
 }
@@ -240,8 +242,7 @@ SelfsimilarWaypointMap::getWaypoint(unsigned indexArea, unsigned index) {
 void SelfsimilarWaypointMap::randomizeArea(omnetpp::cRNG* rng, unsigned area_index) {
     Area* area = &(areaVector->at(area_index));
     for(size_t i = area->size() - 1; i > 0; --i) {
-      unsigned rnd = ceil(omnetpp::uniform(rng, 0, 1) * i);
-      //unsigned rnd = omnetpp::intuniform(rng, 0, i);
+      unsigned rnd = omnetpp::intuniform(rng, 0, i);
       std::swap(area->at(i),area->at(rnd));
   }
 }

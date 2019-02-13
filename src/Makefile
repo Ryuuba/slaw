@@ -40,6 +40,7 @@ OBJS = \
     $O/app/ConnectivityObserver.o \
     $O/app/FlightLengthObserver.o \
     $O/app/PositionObserver.o \
+    $O/app/TripObserver.o \
     $O/base/PauseTime.o \
     $O/base/SelfsimilarWaypointMap.o \
     $O/base/SlawBase.o \

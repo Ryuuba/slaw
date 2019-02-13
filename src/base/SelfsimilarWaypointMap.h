@@ -37,6 +37,8 @@ typedef std::vector<inet::Coord> Area;
 //TODO: Make this class a simple module showing waypoints and clusters
 class SelfsimilarWaypointMap {
 protected:
+    /** @brief Clustering according to the SLAW_MATLAB implementation */
+    bool SLAW_MATLAB;
     /** @brief Parameter determining the selfsimilarity degree of a waypoint
      * map, where 0.5 < hurstParameter < 1.0 */
     double hurstParameter;
@@ -95,7 +97,7 @@ public:
      * of waypoints that are saved in a hidden file. The first parameter of this
      * method is the map name, the second one is the clustering radius, the
      * third and the last one are the map dimension*/
-    SelfsimilarWaypointMap(std::string&, double, double);
+    SelfsimilarWaypointMap(bool, std::string&, double, double);
     virtual ~SelfsimilarWaypointMap();
     /** @brief Creates a selfsimilar waypoint map.*/
     //virtual void createMap();

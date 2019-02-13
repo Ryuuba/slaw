@@ -8,6 +8,9 @@ simple SlawMobility extends MovingMobilityBase
         @class(SlawMobility);
         bool classifyFlight = default(false);
         string slawModuleName = default("slaw");
+        @signal[trip_counter](type=long);
+        @statistic[trip_counter](record=histogram);
+        @signal[next_waypoint];
         @signal[flight](type=double);
         @statistic[flight](record=histogram,vector; unit=m);
         @signal[intraFlightLength](type=double);

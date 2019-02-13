@@ -23,8 +23,14 @@ class SlawMobility : public inet::LineSegmentsMobilityBase
 protected:
   /** @brief Walker ID */
   unsigned walkerID;
+  /** @brief the number of trips completed by a walker */
+  long counter;
+  /** @brief Signal carrying the next waypoint */
+  static omnetpp::simsignal_t next_waypoint;
   /** @brief Signal informing node flight lengths */
   static omnetpp::simsignal_t flight, intraFlightLength, interFlightLength;
+  /** @brief Signal carrying the number of trips a walker has completed */
+  static omnetpp::simsignal_t trip_counter;
   /** Boolean value used to switch between these states {pause, motion} */
   bool nextMoveIsWait, classifyFlight;
   /** Pointer to the SLAW module, it is used to access the selfsimilar
@@ -53,9 +59,6 @@ protected:
   virtual void setTargetPosition();
   /** @brief Overridden from LineSegmentsMobilityBase.*/
   virtual void move();
-  /** @brief Saves the trip the module SLAW assigned to the walker. Used
-   *  for debugging. */
-  virtual void saveTrip();
 public:
   /** @brief Default constructor. It initializes the motion status and the
    *  value of the slaw pointer. */

@@ -23,6 +23,7 @@ SlawEngine::SlawEngine() {
   pausetime = nullptr;
   a = 0;
   isInitialized = false;
+  readClusterListFromFile = false;
 }
 
 SlawEngine::~SlawEngine() {
@@ -76,9 +77,12 @@ inet::Coord SlawEngine::LATP(inet::Coord& currentPosition, Trip& walkerTrip) {
 void SlawEngine::initialize() {
   initializeMap();
   clusterListFile = par("clusterList").stringValue(); //Debug purposes
+  readClusterListFromFile = (clusterListFile == "") ? false : true;
   initializePauseTimeModel();
   initializeSpeedModel();
   a = par("planningDegree").doubleValue();
+  cluster_ratio = par("cluster_ratio").doubleValue();
+  waypoint_ratio = par("waypoint_ratio").doubleValue();
   isInitialized = true;
   std::cout << "Slaw has been initialized\n";
 }
@@ -87,7 +91,8 @@ void SlawEngine::initializeMap() {
   double hurstParameter = par("hurstParameter").doubleValue();
   std::string mapName(par("mapName").stringValue());
   double clusteringRadius = par("clusteringRadius");
-  map = new SelfsimilarWaypointMap(mapName, clusteringRadius, hurstParameter);
+  SLAW_MATLAB = par("SLAW_MATLAB").boolValue();
+  map = new SelfsimilarWaypointMap(SLAW_MATLAB, mapName, clusteringRadius, hurstParameter);
 }
 
 void SlawEngine::initializePauseTimeModel() {
@@ -108,21 +113,37 @@ void SlawEngine::initializeSpeedModel() {
 
 void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k, 
   inet::Coord& home, unsigned walkerId) { //walkerID for debug purposes
-  //computeConfinedAreas(C_k);
-  //computeClusterList(C_k); //debug purposes
-  loadClusterList(clusterListFile.c_str(), walkerId, C_k);
+  if (readClusterListFromFile)
+  {
+    loadClusterList(clusterListFile.c_str(), walkerId, C_k);
+    std::cout << "SLAW Engine: Cluster list is read from file\n";
+  }
+  else{
+    if (SLAW_MATLAB)
+      computeClusterList(C_k);
+    else{
+      computeConfinedAreas(C_k); //Cookie algorithm
+      home = computeHome(C_k);
+    }
+  }
   computeTrip(trip, C_k, home);
   //computes home according to the SLAW Matlab implementation
-  auto it_home = trip.begin();
-  std::advance(it_home, ceil(uniform(0,1)*trip.size()) - 1);
-  home = *it_home;
-  trip.erase(it_home);
 }
 
 void SlawEngine::computeTrip(Trip& walkerTrip, const areaSet& C_k, inet::Coord& home) {
-  computeSlawTrip(walkerTrip, C_k, home);
-  //computeTripRandomness(walkerTrip, C_k);
-  //computeRutine(walkerTrip, C_k, home);
+  if (SLAW_MATLAB)
+  {
+    computeSlawTrip(walkerTrip, C_k, home);
+    auto it_home = walkerTrip.begin();
+    std::advance(it_home, ceil(uniform(0,1)*walkerTrip.size()) - 1);
+    home = *it_home;
+    walkerTrip.erase(it_home);
+  }
+  else
+  {
+    computeTripRandomness(walkerTrip, C_k);
+    computeRutine(walkerTrip, C_k, home);
+  }
 }
 
 double SlawEngine::computePauseTime() {
@@ -147,4 +168,9 @@ bool SlawEngine::sameArea(inet::Coord& c1, inet::Coord& c2) {
 
 unsigned SlawEngine::getAreaID(inet::Coord& c) {
   return map->getAreaID(c);
+}
+
+bool SlawEngine::isSLAW_MATLAB()
+{
+  return SLAW_MATLAB;
 }
