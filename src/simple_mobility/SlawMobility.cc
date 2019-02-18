@@ -64,7 +64,6 @@ void SlawMobility::setTargetPosition()
       counter++;
       emit(next_waypoint, &targetPosition);
       emit(trip_counter, counter);
-      std::cout << "SLAW Mobility: Trip is finished\n";
     }
     if (!isNewTrip) //Avoids emitting the home waypoint two times
     {

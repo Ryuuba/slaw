@@ -62,7 +62,7 @@ void SlawBase::loadClusterList(char const* filename, unsigned walkerID, areaSet&
     ifs.close();
   }
   else
-    std::cerr << "SlawBase: " << filename << " couldn't be opened\n";
+    error("SlawBase: %s couldn't be opened\n", filename);
 }
 
 void SlawBase::computeConfinedAreas(areaSet& areaVector) {
