@@ -4,33 +4,39 @@
 #include <vector>
 #include <list>
 #include <algorithm>
-
+#include <cmath>
 
 #include <omnetpp.h>
-
-#include "../common/QuadrantNotification.h"
+#include "Coord.h"
+#include "MovingMobilityBase.h"
 
 class PositionObserver: public omnetpp::cSimpleModule,
   public omnetpp::cListener{
 protected:
   //TODO add statistic to measure the quadrant distribution
   /** @brief Data structure storing the position of nodes in a 
-   * quadrant system, indices are taken as the quadrant number and values are a 
-   * list of nodes located in such quadrant */
+   * square position system, indices correspond to the square number and values 
+   * are lists of the node IDs located in a square */
   std::vector< std::list<unsigned> > nodeMap;
-  /**@ brief Data structures storing the quadrant of a node with index i */
-  std::vector<QuadrantCoordinate> nodePosition;
+  /**@ brief Data structures storing the square number of a node with index i */
+  std::vector<inet::Coord> nodePosition;
   /** @brief the signal ID carriying the quadrant where a emitting node is 
    * located */
-  static omnetpp::simsignal_t quadrant;
-  /** @brief the number of nodes in the simulation, the number of quadrants on
-   * x-axis, the number of quadrants in y-axis and the id of the node emisor */
-  unsigned numOfNodes, x_num, y_num, nodeId;
-  /** @brief The current quadrant and the last quadrant of the node emisor */
-  QuadrantCoordinate currentQuadrant, lastQuadrant;
+  static omnetpp::simsignal_t position;
+  /** @brief The coverage radius of walkers in meters. It equals the length of 
+   * the side of a square in a square position system. */
+  double radius, x_length, y_length;
+  /** @brief the number of nodes in the simulation */
+  unsigned numOfNodes;
+  /** @brief the number of squares on an axis */
+  unsigned x_num, y_num;
+  /** @brief the Id of the node that emitted a signal */
+  unsigned nodeId;
 protected:
-  /** Returns the neighboring quadrants corresponding to a pair <q, sub_q>*/
-  std::list<unsigned> computeNeighboringQuadrants(unsigned, unsigned);
+  /** @brief Returns the number of square given a x, y coordinate */
+  unsigned computeSquare(const inet::Coord&);
+  /** Returns the nine neighboring squares corresponding to a given square */
+  std::list<unsigned> computeNeighboringSquares(unsigned);
 public:
   /** Subscribes to signal quadrant and initializes the class attributes*/
   PositionObserver();

@@ -1,7 +1,7 @@
 package slaw.simulations;
 
 import slaw.engine.SlawEngine;
-import slaw.walker.QPSWalker;
+import slaw.walker.Walker;
 import slaw.app.ConnectivityObserver;
 
 network SLAWConnectivityExperiment
@@ -10,28 +10,29 @@ network SLAWConnectivityExperiment
         int numHosts;
         int ictSamples;
         int lltSamples;
-        int x_num; //number of quadrants on x-axis
-        int y_num; //number of quadrants on y-axis
-        double side @unit(m); //The length of a side of a quadrant
+        double width @unit(m); //length of the x-axis
+        double height @unit(m); //length of the y-axis
+        double coverageRadius @unit(m); //coverage radius
         double minInterContactTime @unit(s);
         double minLifetime @unit(s);
-        walker[*].qps.xQuadrant = x_num;
-        walker[*].qps.sideLength = side;
-        @display("bgb=2000,2000;bgg=1000,10,grey50");
+        string mobility;
+        @display("bgb=500,500;bgg=100,2,grey50");
     submodules:
         slaw: SlawEngine {
-            @display("p=1800,1800");
+            @display("p=480,480");
         }
-        walker[numHosts]: QPSWalker;
+        walker[numHosts]: Walker {
+            mobilityType = mobility;
+        }
         observer: ConnectivityObserver {
             numOfNodes = numHosts;
-            xQuadrant = x_num;
-            yQuadrant = y_num;
+            x_length = width;
+            y_length = height;
             numOfICTSamples = ictSamples;
             numOfLLTSamples = lltSamples;
-            radius = side / 2;
+            radius = coverageRadius;
             minICT = minInterContactTime;
             minLLT = minLifetime;
-            @display("p=1800,1900");
+            @display("p=480,400");
         }
 }

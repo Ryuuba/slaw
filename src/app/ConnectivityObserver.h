@@ -1,4 +1,3 @@
-
 #if !defined(CONNECTIVITY_OBSERVER_H)
 #define CONNECTIVITY_OBSERVER_H 
 
@@ -13,8 +12,8 @@
 
 class ConnectivityObserver : public PositionObserver {
 protected:
-  /** @brief The link lifetime table (lt) is a data structure keeping the time 
-   * from which a relationship of neighbors begins. The lt is mapped in such a 
+  /** @brief The link lifetime table (llt) is a data structure keeping the time 
+   * from which a relationship of neighbors begins. The llt is mapped in such a 
    * way that the indices of the vector correspond to node IDs and the value of 
    * the vector is an unordered map where the key represents the ID of a 
    * neighbor node and the value the time from which the relationship of 
@@ -24,8 +23,6 @@ protected:
   std::vector < std::unordered_map <unsigned, omnetpp::simtime_t> > llt, ictt;
   /** @brief These are signal carrying the statistics asociated to its namely */
   static omnetpp::simsignal_t linkLifetime, interContactTime;
-  /** @brief The coverage radius of a node*/
-  double radius;
   /** @brief The total of samples o be captured */
   unsigned ict_num, llt_num, ict_counter, llt_counter;
   omnetpp::simtime_t ict_min, llt_min;

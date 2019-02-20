@@ -7,12 +7,10 @@ omnetpp::simsignal_t
 omnetpp::simsignal_t 
   ConnectivityObserver::interContactTime = registerSignal("interContactTime");
 
-ConnectivityObserver::ConnectivityObserver() 
-  : radius(0.0), ict_num(0), llt_num(0), ict_counter(0), llt_counter(0) {}
+ConnectivityObserver::ConnectivityObserver() { }
 
 void ConnectivityObserver::initialize() {
   PositionObserver::initialize();
-  radius = par("radius").doubleValue();
   ict_num = par("numOfICTSamples");
   llt_num = par("numOfLLTSamples");
   ict_min = par("minICT");
@@ -26,10 +24,10 @@ void ConnectivityObserver::initialize() {
 std::unordered_map<unsigned, omnetpp::simtime_t>
 ConnectivityObserver::computeOneHopNeighborhood(unsigned nodeId) {
   std::unordered_map <unsigned, omnetpp::simtime_t> neighborhood;
-  QuadrantCoordinate crd(nodePosition[nodeId]);//crd -> coordinate
-  std::list<unsigned> qList(computeNeighboringQuadrants(crd.q, crd.subq));
-  for (auto& quadrant : qList){
-    for (auto& neighborId: nodeMap[quadrant]) {
+  unsigned square = computeSquare(nodePosition[nodeId]);
+  std::list<unsigned> squareList(std::move(computeNeighboringSquares(square)));
+  for (auto& square : squareList) {
+    for (auto& neighborId: nodeMap[square]) {
       if (neighborId != nodeId) {
         double distance = sqrt (
           pow(nodePosition[nodeId].x - nodePosition[neighborId].x, 2) + 
@@ -41,6 +39,10 @@ ConnectivityObserver::computeOneHopNeighborhood(unsigned nodeId) {
       }
     }
   }
+  EV_INFO << "Current neighborhood of node: " << nodeId << " : ";
+  for (auto& entry : neighborhood)
+    EV_INFO << entry.first << ' ';
+  EV_INFO << '\n';
   return neighborhood;
 }
 
@@ -52,9 +54,6 @@ void ConnectivityObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::sims
   std::unordered_map<unsigned, omnetpp::simtime_t> oldN; //old neighbors
   std::unordered_map<unsigned, omnetpp::simtime_t> newN; //new neighbors
   static bool print = true;
-  for (auto& entry : n)
-    EV_INFO << entry.first << ' ';
-  EV_INFO << '\n';
 
   EV_INFO << "Last neighborhood of node " << nodeId << " : ";
   for (auto& entry : llt[nodeId])

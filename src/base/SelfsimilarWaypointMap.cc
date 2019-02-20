@@ -161,10 +161,14 @@ bool SelfsimilarWaypointMap::saveAreaVector() {
 
 bool SelfsimilarWaypointMap::loadAreaVector() {
   bool result = false;
-  std::string filename = mapName+"_cl"+std::to_string(int(clusteringRadius))+".dat";
+  std::string filename;
+  if (SLAW_MATLAB)
+    filename = mapName+std::to_string(int(clusteringRadius))+"_vMATLAB.clf";
+  else
+    filename = mapName+std::to_string(int(clusteringRadius))+".clf";
   std::ifstream ifs(filename.c_str(), std::ifstream::in);
   unsigned areaID = 0;
-  if(ifs.good()) {
+  if(ifs.is_open()) {
     uint16_t waypointCounter = 0;
     inet::Coord waypoint;
     std::vector<inet::Coord> waypointCluster;

@@ -118,7 +118,7 @@ void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k,
     loadClusterList(clusterListFile.c_str(), walkerId, C_k);
     std::cout << "SLAW Engine: Cluster list is read from file\n";
   }
-  else{
+  else {
     if (SLAW_MATLAB)
       computeClusterList(C_k);
     else{
@@ -128,17 +128,17 @@ void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k,
   }
   computeTrip(trip, C_k, home);
   //computes home according to the SLAW Matlab implementation
+  if (SLAW_MATLAB) {
+    auto it_home = trip.begin();
+    std::advance(it_home, ceil(uniform(0,1)*trip.size()) - 1);
+    home = *it_home;
+    trip.erase(it_home);
+  }
 }
 
 void SlawEngine::computeTrip(Trip& walkerTrip, const areaSet& C_k, inet::Coord& home) {
   if (SLAW_MATLAB)
-  {
     computeSlawTrip(walkerTrip, C_k, home);
-    auto it_home = walkerTrip.begin();
-    std::advance(it_home, ceil(uniform(0,1)*walkerTrip.size()) - 1);
-    home = *it_home;
-    walkerTrip.erase(it_home);
-  }
   else
   {
     computeTripRandomness(walkerTrip, C_k);
