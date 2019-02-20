@@ -116,16 +116,16 @@ void SlawEngine::initializeMobilityState(Trip& trip, areaSet& C_k,
   if (readClusterListFromFile)
   {
     loadClusterList(clusterListFile.c_str(), walkerId, C_k);
-    std::cout << "SLAW Engine: Cluster list is read from file\n";
+    std::cout << "SLAW Engine: Cluster list C_k is read from file\n";
   }
   else {
     if (SLAW_MATLAB)
       computeClusterList(C_k);
-    else{
+    else
       computeConfinedAreas(C_k); //Cookie algorithm
-      home = computeHome(C_k);
-    }
   }
+  if (!SLAW_MATLAB) //Fixes the home waypoint according to the paper description
+    home = computeHome(C_k);
   computeTrip(trip, C_k, home);
   //computes home according to the SLAW Matlab implementation
   if (SLAW_MATLAB) {
