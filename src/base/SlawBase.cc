@@ -93,7 +93,6 @@ inet::Coord SlawBase::computeHome(const areaSet& areaVector) {
 void SlawBase::computeSlawTrip(Trip& trip, const areaSet& C_k, inet::Coord& home) {
   //Replaces randomly an area
   areaSet clusterList(C_k);
-  unsigned waypoint_ratio = 5;
   unsigned randomAreaId; //Value from the Slaw Matlab implementation
   do {
     //Index of random area
@@ -137,7 +136,8 @@ void SlawBase::computeTripRandomness(Trip& trip, const areaSet& C_k) {
   } while ( areaIt != C_k.end() );
   map->randomizeArea(getRNG(0), rndAreaId);
   auto area = map->getConfinedArea(rndAreaId);
-  unsigned numOfRndWp = ceil(0.1 * area->size());
+  double portion = uniform(0.05,0.1);
+  unsigned numOfRndWp = ceil(portion * area->size());
   trip.insert(trip.begin(), area->begin(), area->begin()+numOfRndWp);
 }
 
