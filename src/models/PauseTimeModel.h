@@ -19,16 +19,14 @@
 #include <tuple>
 #include <cmath>
 #include <cstdint>
+
 #include <omnetpp.h>
+#include "../common/SlawDefs.h"
 
-enum class PauseTimeModel : uint8_t {
-  CONSTANT = 1, UNIFORM = 2, NORMAL = 3, PARETO_BOUNDED = 4
-};
-
-class PauseTime {
+class PauseTimeModel {
 protected:
   /** @brief The kind of model implemented by object of this class */
-  PauseTimeModel model;
+  PauseTimeModelType model;
   /** @brief Tuple containing the parameters needed to configure the pausetime model*/
   std::tuple<double,double,double> param;
   /* @brief The random number generator used by the SLAW engine */
@@ -40,20 +38,9 @@ protected:
   double pareto_bounded(double, double, double);
 public:
   /** @brief default constructor */
-  PauseTime(omnetpp::cRNG*);
-  /** @brief overloaded constructor, it initializes the parameters of a given
-   *  pausetime model*/
-  PauseTime(omnetpp::cRNG*, PauseTimeModel, double, double b = 0.0, double H = 0.0);
-  /** @brief Sets the kind of pausetime model implemented by this class. */
-  virtual void setPauseTimeModel(PauseTimeModel);
-  /** @brief Sets the value of the constant pausetime model. */
-  virtual void setConstantModel(double);
-  /** @brief Sets the parameters of the heavy-tailed model. */
-  virtual void setParetoBoundedModel(double, double, double);
-  /** @brief Sets the mean and stddev of the normal model. */
-  virtual void setNormalModel(double,double);
-  /** @brief Sets the parameters of the uniform model. */
-  virtual void setUniformModel(double,double);
+  PauseTimeModel() {}
+  /** @brief Initializes the parameters of a given pausetime model */
+  virtual void setModel(omnetpp::cRNG*, PauseTimeModelType, double, double b = 0.0, double H = 0.0);
   /** @brief Returns a time according to the configured pausetime model. */
   virtual double computePausetime();
 };

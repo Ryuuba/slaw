@@ -13,14 +13,18 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "Speed.h"
+#include "SpeedModel.h"
 
-Speed::Speed(omnetpp::cRNG* rng) : rng(rng) {}
+void SpeedModel::setModel(
+  omnetpp::cRNG* randgen, SpeedModelType type, double a, double b
+) {
+  rng = randgen;
+  modelType = type;
+  speedPar.first = a;
+  speedPar.second = b;
+}
 
-Speed::Speed(omnetpp::cRNG* rng, SpeedModel m, double a, double b) : 
-  rng(rng), model(m), speedPar(a,b) {}
-
-double Speed::rheeModel(double flightLength) {
+double SpeedModel::rheeModel(double flightLength) {
     double speed;
     if(flightLength < 500.0)
         speed = flightLength/(30.55*pow(flightLength, 1-0.89));
@@ -29,35 +33,16 @@ double Speed::rheeModel(double flightLength) {
     return speed;
 }
 
-void Speed::setSpeedModel(SpeedModel m) {
-    model = m;
-}
-
-void Speed::setConstantModel(double a) {
-    speedPar.first = a;
-    speedPar.second = 0.0;
-}
-
-void Speed::setUniformModel(double a, double b) {
-    speedPar.first = a;
-    speedPar.second = b;
-}
-
-void Speed::setNormalModel(double mean, double stddev) {
-    speedPar.first = mean;
-    speedPar.second = stddev;
-}
-
-double Speed::computeSpeed(double flightLength) {
+double SpeedModel::computeSpeed(double flightLength) {
   double speed;
-  switch(model) {
-    case SpeedModel::CONSTANT:
+  switch(modelType) {
+    case SpeedModelType::CONSTANT:
       speed = speedPar.first;
       break;
-    case SpeedModel::UNIFORM:
+    case SpeedModelType::UNIFORM:
         speed = omnetpp::uniform(rng, speedPar.first, speedPar.second);
         break;
-    case SpeedModel::NORMAL:
+    case SpeedModelType::NORMAL:
         speed = omnetpp::truncnormal(rng, speedPar.first, speedPar.second);
         break;
     default:
@@ -67,6 +52,10 @@ double Speed::computeSpeed(double flightLength) {
   return speed;
 }
 
-SpeedModel Speed::getSpeedModel() {
-    return model;
+SpeedModel& SpeedModel::operator=(SpeedModel&& model) {
+  if (this != &model) {
+    rng = model.rng;
+    modelType = model.modelType;
+    speedPar = std::move(model.speedPar);
+  }
 }

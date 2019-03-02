@@ -19,18 +19,19 @@ package slaw.engine;
 // TODO auto-generated type
 //
 simple SlawEngine {
-    bool SLAW_MATLAB = default(true);
     @display("i=block/cogwheel");
+    //MATLAB = 1, IEEE_ACM_TON = 2
+    int slawModelType @enum(1, 2) = default(2);
     string mapName;
     string clusterList;
     double clusteringRadius @unit(m) = default(40m);
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, PARETO_BOUNDED = 4
-    int pauseTimeModel @enum(1, 2, 3, 4) = default(4);
+    int pauseTimeModelType @enum(1, 2, 3, 4) = default(4);
     double pausetimeA = default(1.36);
     double pausetimeB @unit(s) = default(30s); 
     double pausetimeH @unit(s) = default(9054s);
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, RHEE = 4
-    int speedModel @enum(1, 2, 3, 4) = default(3);
+    int speedModelType @enum(1, 2, 3, 4) = default(3);
     double speedA @unit(mps) = default(1.36mps);
     double speedB @unit(mps) = default(0.19mps);
     double planningDegree = default(3);

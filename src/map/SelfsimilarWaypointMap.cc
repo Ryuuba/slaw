@@ -16,19 +16,20 @@
 #include "SelfsimilarWaypointMap.h"
 
 //The input is the map name and the clustering radius
-SelfsimilarWaypointMap::SelfsimilarWaypointMap(bool SM, std::string& name, 
-double radius, double H) : SLAW_MATLAB(SM), clusteringRadius(radius), mapName(name), hurstParameter(H){ 
+void SelfsimilarWaypointMap::setMap (
+  std::string& name, double radius, double H
+) {
+  clusteringRadius = radius; 
+  mapName = std::move(name);
+  hurstParameter = H;
   areaVector = new std::vector<Area>;
-  weightIntVector = new std::vector<unsigned>;
-  weightVector = new std::vector<double>;
-  if(!loadAreaVector()) {
+  weightVector = new std::vector<unsigned>;
+  //weightVector = new std::vector<double>;
+  if (!loadAreaVector()) {
     std::cout << "Load selfsimilar waypoint map from " 
       << mapName << std::endl;
     std::list<inet::Coord> waypointList;
-    if(loadMap(waypointList)) {
-      if (SLAW_MATLAB)
-        makeWaypointCluster(waypointList);
-      else
+    if (loadMap(waypointList)) {
         computeConfinedAreas(waypointList);
       computeAreaWeights();
       saveAreaVector();
@@ -43,11 +44,11 @@ SelfsimilarWaypointMap::~SelfsimilarWaypointMap() {
     delete areaVector;
   if(weightVector)
     delete weightVector;
-  if(weightIntVector)
-    delete weightIntVector;
+  // if(weightIntVector)
+  //   delete weightIntVector;
 }
 
-bool SelfsimilarWaypointMap::loadMap(std::list<inet::Coord>& waypointList) {
+bool SelfsimilarWaypointMap::loadMap(WaypointList& waypointList) {
   std::string filename(mapName + ".map");
   std::ifstream waypointFile(filename, std::ifstream::in);
   bool success = false;
@@ -64,36 +65,12 @@ bool SelfsimilarWaypointMap::loadMap(std::list<inet::Coord>& waypointList) {
     waypointFile.close();
     success = true;
   }
-  else std::cerr << "Erroneous filename, perhaps you added an extension\n";
+  else 
+    std::cerr << "Erroneous filename, perhaps you added an extension\n";
   return success;
 }
 
-void SelfsimilarWaypointMap::computeConfinedAreas(std::list<inet::Coord>& 
-waypointList) {
-  std::cout << "Computing confined areas... it may take some minutes" 
-            << std::endl;
-  unsigned numOfWaypoints = 0;
-  Area confinedArea; //confined area
-  while(!waypointList.empty()) {
-    inet::Coord popularWaypoint = getPopularWaypoint(waypointList);
-    auto it = waypointList.begin();
-    while(it != waypointList.end()) {
-      if(popularWaypoint.distance(*it) <= clusteringRadius) {
-        confinedArea.push_back(*it);
-        numOfWaypoints++;
-        waypointList.erase(it++);
-      }
-      else it++;
-    }
-    areaVector->push_back(confinedArea);
-    std::cout << confinedArea.size() << " waypoints have been clustered\n";
-    confinedArea.clear();
-  }
-  std::cout << numOfWaypoints << " waypoints have been clustered in "
-    << areaVector->size() << " confined areas" << std::endl;
-}
-
-void SelfsimilarWaypointMap::makeWaypointCluster(std::list<inet::Coord>& waypointList) {
+void SelfsimilarWaypointMap::computeConfinedAreas(WaypointList& waypointList) {
 std::cout << "Clustering waypoints, it may take some minutes..." 
           << std::endl;
   unsigned numOfWaypoints = 0, areaID = 0;
@@ -126,26 +103,9 @@ std::cout << "Clustering waypoints, it may take some minutes..."
     << areaVector->size() << " confined areas" << std::endl;
 }
 
-inet::Coord SelfsimilarWaypointMap::
-  getPopularWaypoint(std::list<inet::Coord>& waypointList) {
-  inet::Coord popularWaypoint(0.0, 0.0);
-  uint16_t maximum = 0;
-  for(inet::Coord& w : waypointList) {
-    uint16_t surroundingWaypoints = 0;
-    for(inet::Coord& v : waypointList)
-      if((w.distance(v) < clusteringRadius) && (w != v))
-        surroundingWaypoints++;
-    if(surroundingWaypoints >= maximum) {
-      popularWaypoint = w;
-      maximum = surroundingWaypoints;
-    }
-  }
-  return popularWaypoint;
-}
-
 bool SelfsimilarWaypointMap::saveAreaVector() {
   bool result = false;
-  std::string filename = mapName+"_cl"+std::to_string(int(clusteringRadius))+".dat";
+  std::string filename = mapName + std::to_string(int(clusteringRadius)) + ".clf";
   std::ofstream ofs(filename.c_str(), std::ofstream::out);
   if(ofs.is_open()) {
     for(auto& area : *areaVector) {
@@ -162,10 +122,7 @@ bool SelfsimilarWaypointMap::saveAreaVector() {
 bool SelfsimilarWaypointMap::loadAreaVector() {
   bool result = false;
   std::string filename;
-  if (SLAW_MATLAB)
-    filename = mapName+std::to_string(int(clusteringRadius))+"_vMATLAB.clf";
-  else
-    filename = mapName+std::to_string(int(clusteringRadius))+".clf";
+  filename = mapName + std::to_string(int(clusteringRadius)) + ".clf";
   std::ifstream ifs(filename.c_str(), std::ifstream::in);
   unsigned areaID = 0;
   if(ifs.is_open()) {
@@ -199,26 +156,26 @@ bool SelfsimilarWaypointMap::loadAreaVector() {
 void SelfsimilarWaypointMap::computeAreaWeights() {
   double weight = 0.0;
   weightVector->push_back(weight);
-  for(auto& area : *areaVector) {
-    weight += (double)area.size()/numberOfWaypoints;
-    weightVector->push_back(weight);
-  }
+  // for(auto& area : *areaVector) {
+  //   weight += (double)area.size() / numberOfWaypoints;
+  //   weightVector->push_back(weight);
+  // }
   for (unsigned i = 0; i < areaVector->size(); i++)
     for (unsigned j = 0; j < areaVector->at(i).size(); j++)
-      weightIntVector->push_back(i);
+      weightVector->push_back(i);
 }
 
 const Area* SelfsimilarWaypointMap::getConfinedArea(unsigned index) {
   return static_cast<const Area*>(&areaVector->at(index));
 }
 
-const std::vector<double>* SelfsimilarWaypointMap::getAreaWeights() {
-  return static_cast<const std::vector<double>*>(weightVector);
+const std::vector<unsigned>* SelfsimilarWaypointMap::getAreaWeights() {
+  return static_cast<const std::vector<unsigned>*>(weightVector);
 }
 
-const std::vector<unsigned>* SelfsimilarWaypointMap::getIntAreaWeights() {
-  return static_cast<const std::vector<unsigned>*>(weightIntVector);
-}
+// const std::vector<unsigned>* SelfsimilarWaypointMap::getIntAreaWeights() {
+//   return static_cast<const std::vector<unsigned>*>(weightIntVector);
+// }
 
 int SelfsimilarWaypointMap::getAreaSize(unsigned index) {
   int size = -1;
@@ -243,7 +200,9 @@ SelfsimilarWaypointMap::getWaypoint(unsigned indexArea, unsigned index) {
   return waypoint;
 }
 
-void SelfsimilarWaypointMap::randomizeArea(omnetpp::cRNG* rng, unsigned area_index) {
+void SelfsimilarWaypointMap::randomizeArea(
+  omnetpp::cRNG* rng, unsigned area_index
+) {
     Area* area = &(areaVector->at(area_index));
     for(size_t i = area->size() - 1; i > 0; --i) {
       unsigned rnd = omnetpp::intuniform(rng, 0, i);
@@ -254,3 +213,50 @@ void SelfsimilarWaypointMap::randomizeArea(omnetpp::cRNG* rng, unsigned area_ind
 unsigned SelfsimilarWaypointMap::getAreaID(inet::Coord& c) {
   return areaIDMap[c];
 }
+
+bool SelfsimilarWaypointMap::isSameArea(inet::Coord& c1, inet::Coord& c2) {
+  return areaIDMap[c1] == areaIDMap[c2];
+}
+
+
+// DEPRECATED
+// void SelfsimilarWaypointMap::computeConfinedAreas(std::list<inet::Coord>& 
+// waypointList) {
+//   std::cout << "Computing confined areas... it may take some minutes" 
+//             << std::endl;
+//   unsigned numOfWaypoints = 0;
+//   Area confinedArea; //confined area
+//   while(!waypointList.empty()) {
+//     inet::Coord popularWaypoint = getPopularWaypoint(waypointList);
+//     auto it = waypointList.begin();
+//     while(it != waypointList.end()) {
+//       if(popularWaypoint.distance(*it) <= clusteringRadius) {
+//         confinedArea.push_back(*it);
+//         numOfWaypoints++;
+//         waypointList.erase(it++);
+//       }
+//       else it++;
+//     }
+//     areaVector->push_back(confinedArea);
+//     std::cout << confinedArea.size() << " waypoints have been clustered\n";
+//     confinedArea.clear();
+//   }
+//   std::cout << numOfWaypoints << " waypoints have been clustered in "
+//     << areaVector->size() << " confined areas" << std::endl;
+// }
+// inet::Coord SelfsimilarWaypointMap::
+//   getPopularWaypoint(std::list<inet::Coord>& waypointList) {
+//   inet::Coord popularWaypoint(0.0, 0.0);
+//   uint16_t maximum = 0;
+//   for(inet::Coord& w : waypointList) {
+//     uint16_t surroundingWaypoints = 0;
+//     for(inet::Coord& v : waypointList)
+//       if((w.distance(v) < clusteringRadius) && (w != v))
+//         surroundingWaypoints++;
+//     if(surroundingWaypoints >= maximum) {
+//       popularWaypoint = w;
+//       maximum = surroundingWaypoints;
+//     }
+//   }
+//   return popularWaypoint;
+// }

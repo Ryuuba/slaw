@@ -22,64 +22,38 @@ void SlawMobility::initialize(int stage) {
     walkerID = getContainingNode(this)->getIndex();
     classifyFlight = par("classifyFlight").boolValue();
     slawModuleName = par("slawModuleName").stringValue();
-    slaw = (SlawEngine*) this->getSimulation()->getSystemModule()->getSubmodule(slawModuleName.c_str());
+    slaw = (SlawTripManager*) this->getSimulation()->
+      getSystemModule()->getSubmodule(slawModuleName.c_str());
     if(!slaw)
-      error("No destination generator found: add module Slaw to the\
-        network");
+      error("Slaw Mobility: No destination generator found, add module Slaw to the network");
     std::cout << "Mobility state of walker " << walkerID << "\n";
-    slaw->initializeMobilityState(trip, areas, home, walkerID);
-    std::cout << "number of confined areas: " << areas.size() << "\n\t"
-      << "home: " << home << "\n\t"
-      << "trip size: " << trip.size() << '\n'
+    slaw->setWalkerState(walkerID, C_k, unvisitedWaypointList, lastPosition);
+    std::cout << "number of confined areas: " << C_k.size() << "\n\t"
+      << "Start: " << lastPosition << "\n\t"
+      << "trip size: " << unvisitedWaypointList.size() << '\n'
       << "areas: ";
-    for (auto& areaNumber: areas)
+    for (auto& areaNumber: C_k)
         std::cout << areaNumber << ' ';
     std::cout << '\n';
   }
 }
 
 void SlawMobility::setInitialPosition() {
-  lastPosition = home;
   emit(next_waypoint, &lastPosition);
 }
 
 void SlawMobility::setTargetPosition()
 {
-  bool isNewTrip = false;
-  if(nextMoveIsWait)
-    nextChange = simTime() + slaw->computePauseTime();
-  else{
-    if(trip.empty()) {
-      isNewTrip = true;
-      if (slaw->isSLAW_MATLAB())
-      {
-        slaw->computeTrip(trip, areas, lastPosition);
-        targetPosition = slaw->LATP(lastPosition, trip);
-      }
-      else
-      {
-        slaw->computeTrip(trip, areas, home);
-        targetPosition = home;
-      }
-      counter++;
-      emit(next_waypoint, &targetPosition);
-      emit(trip_counter, counter);
-    }
-    if (!isNewTrip) //Avoids emitting the home waypoint two times
-    {
-      targetPosition = slaw->LATP(lastPosition, trip);
-      emit(next_waypoint, &targetPosition);
-    }
-    double distance = lastPosition.distance(targetPosition);
-    nextChange = simTime() + distance / slaw->getSpeed(distance);
-    if (!classifyFlight)
-      emit(flight, distance);
-    else {
-      if (slaw->sameArea(lastPosition, targetPosition))
-        emit(intraFlightLength, distance);
-      else 
-        emit(interFlightLength, distance);
-    }
+  if (nextMoveIsWait)
+    nextChange = simTime() + slaw->pauseTimeModel->computePausetime();
+  else {
+    isNewTrip = (unvisitedWaypointList.empty());
+    targetPosition = slaw->getNextDestination(
+      unvisitedWaypointList, C_k, lastPosition, walkerID
+    );
+    distance = lastPosition.distance(targetPosition);
+    nextChange = simTime() + distance / slaw->speedModel->computeSpeed();
+    emitSignals();
   }
   nextMoveIsWait = !nextMoveIsWait;
 }
@@ -87,4 +61,20 @@ void SlawMobility::setTargetPosition()
 void SlawMobility::move() {
   LineSegmentsMobilityBase::move();
   raiseErrorIfOutside();
+}
+
+void SlawMobility::emitSignals() {
+  emit(next_waypoint, &targetPosition);
+  if (isNewTrip) {
+    counter++;
+    emit(trip_counter, counter);
+  }
+  if (!classifyFlight)
+    emit(flight, distance);
+  else {
+    if (slaw->map->isSameArea(lastPosition, targetPosition))
+      emit(intraFlightLength, distance);
+    else 
+      emit(interFlightLength, distance);
+  }
 }

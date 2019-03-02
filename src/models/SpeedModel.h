@@ -21,14 +21,12 @@
 #include <utility>
 #include <omnetpp.h>
 
-enum class SpeedModel : uint8_t {
-    CONSTANT = 1, UNIFORM = 2, NORMAL = 3, RHEE = 4
-};
+#include "../common/SlawDefs.h"
 
-class Speed {
+class SpeedModel {
 protected:
   /* @brief The kind of model implemented by objects of this class */
-  SpeedModel model;
+  SpeedModelType modelType;
   /* @brief Tuple containing the parameters needed to configure the speed model. The values */
   std::pair<double, double> speedPar;
   /* @brief The random number generator used by the SLAW engine */
@@ -38,28 +36,17 @@ protected:
      * et al. "Levy-walk nature of human mobility", TON, 2011 */
     double rheeModel(double);
 public:
-    /** @brief Default constructor */
-    Speed(omnetpp::cRNG*);
     /** @brief Overload constructor, receives the speed model and the parameters
      * needed to configure the speed model. Note that the Rhee mobility model
      * does not need any parameter*/
-    Speed(omnetpp::cRNG*, SpeedModel, double a = 0.0, double b = 0.0);
-    /** @brief Default destructor */
-    virtual ~Speed() {}
-    /** @brief Sets the speed model */
-    virtual void setSpeedModel(SpeedModel);
-    /** @brief Sets the speed of the constant model. */
-    virtual void setConstantModel(double);
-    /** @brief Sets the parameters of the uniform distribution for the uniform
-     *  speed model. */
-    virtual void setUniformModel(double,double);
-    /** @brief Sets the mean and stddev of the normal model. */
-    virtual void setNormalModel(double,double);
+    virtual void setModel(
+      omnetpp::cRNG*, SpeedModelType, double a = 0.0, double b = 0.0
+    );
     /** @brief Returns the speed value according to a mobility model different
      * form the Rhee's*/
     virtual double computeSpeed(double flightLength = 0.0);
-    /** @brief returns the speed model employed to compute the node speed */
-    virtual SpeedModel getSpeedModel();
+    /** @brief Move assigment operator */
+    SpeedModel& operator=(SpeedModel&&);
 };
 
 
