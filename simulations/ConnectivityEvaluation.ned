@@ -15,7 +15,7 @@ network SLAWConnectivityExperiment
         double coverageRadius @unit(m); //coverage radius
         double minInterContactTime @unit(s);
         double minLifetime @unit(s);
-        string mobility;
+        string slawModelType;
         slaw.numOfWalker = numHosts;
         @display("bgb=500,500;bgg=100,2,grey50");
     submodules:
