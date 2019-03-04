@@ -11,6 +11,7 @@ src/slaw
 *.vci
 *.dat
 *.pdf
+*.clf
 slaw
 .cmdenv-log
 .vscode/
