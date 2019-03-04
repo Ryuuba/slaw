@@ -16,7 +16,7 @@
 #if !defined(SLAW_MATLAB_H)
 #define SLAW_MATLAB_H
 
-#include "SlawTripManager.h"
+#include "../contract/ISlawTripManager.h"
 
 class SlawMatlab : public SlawTripManager {
 protected:

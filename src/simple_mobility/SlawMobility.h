@@ -15,7 +15,7 @@
 #include <omnetpp.h>
 #include <omnetpp/csimplemodule.h>
 
-#include "../trip_manager/SlawTripManager.h"
+#include "../contract/ISlawTripManager.h"
 #include "LineSegmentsMobilityBase.h"
 
 class SlawMobility : public inet::LineSegmentsMobilityBase

@@ -1,6 +1,6 @@
 package slaw.simulations;
 
-import slaw.engine.SlawEngine;
+import slaw.contract.ISlawTripManager;
 import slaw.walker.Walker;
 import slaw.app.ConnectivityObserver;
 
@@ -16,13 +16,12 @@ network SLAWConnectivityExperiment
         double minInterContactTime @unit(s);
         double minLifetime @unit(s);
         string mobility;
+        slaw.numOfWalker = numHosts;
         @display("bgb=500,500;bgg=100,2,grey50");
     submodules:
-        slaw: SlawEngine {
-            @display("p=480,480");
-        }
+        slaw: <slawModelType> like ISlawTripManager;
         walker[numHosts]: Walker {
-            mobilityType = mobility;
+            mobilityType = "SlawMobility";
         }
         observer: ConnectivityObserver {
             numOfNodes = numHosts;

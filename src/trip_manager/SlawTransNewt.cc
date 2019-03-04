@@ -9,7 +9,7 @@ void SlawTransNetw::initialize() {
   setMap();
   setPauseTimeModel();
   setSpeedModel();
-  std::string filename(par("filename").stringValue());
+  std::string filename(par("clusterList").stringValue());
   if (filename.compare("") != 0)
     loadCKFile(filename.c_str());
   else

@@ -16,7 +16,7 @@
 #ifndef SLAW_IEEE_ACM_TON_H_
 #define SLAW_IEEE_ACM_TON_H_
 
-#include "SlawTripManager.h"
+#include "../contract/ISlawTripManager.h"
 #include "../common/SlawDefs.h"
 
 class SlawTransNetw : public SlawTripManager {

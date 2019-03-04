@@ -49,8 +49,7 @@ SelfsimilarWaypointMap::~SelfsimilarWaypointMap() {
 }
 
 bool SelfsimilarWaypointMap::loadMap(WaypointList& waypointList) {
-  std::string filename(mapName + ".map");
-  std::ifstream waypointFile(filename, std::ifstream::in);
+  std::ifstream waypointFile(mapName.c_str(), std::ifstream::in);
   bool success = false;
   if(waypointFile.is_open()) {
     inet::Coord waypoint;
@@ -61,12 +60,12 @@ bool SelfsimilarWaypointMap::loadMap(WaypointList& waypointList) {
     waypointList.pop_back();
     numberOfWaypoints = waypointList.size();
     std::cout << numberOfWaypoints << " waypoints have been read from "
-      << filename << std::endl;
+      << mapName << std::endl;
     waypointFile.close();
     success = true;
   }
   else 
-    std::cerr << "Erroneous filename, perhaps you added an extension\n";
+    std::cerr << "Self-similar Waypoint Map: " << mapName << " is not found\n"; 
   return success;
 }
 
@@ -105,7 +104,8 @@ std::cout << "Clustering waypoints, it may take some minutes..."
 
 bool SelfsimilarWaypointMap::saveAreaVector() {
   bool result = false;
-  std::string filename = mapName + std::to_string(int(clusteringRadius)) + ".clf";
+  std::string filename = mapName + "_" +
+    std::to_string(int(clusteringRadius)) + ".clf";
   std::ofstream ofs(filename.c_str(), std::ofstream::out);
   if(ofs.is_open()) {
     for(auto& area : *areaVector) {
@@ -122,7 +122,7 @@ bool SelfsimilarWaypointMap::saveAreaVector() {
 bool SelfsimilarWaypointMap::loadAreaVector() {
   bool result = false;
   std::string filename;
-  filename = mapName + std::to_string(int(clusteringRadius)) + ".clf";
+  filename = mapName + "_" + std::to_string(int(clusteringRadius)) + ".clf";
   std::ifstream ifs(filename.c_str(), std::ifstream::in);
   unsigned areaID = 0;
   if(ifs.is_open()) {

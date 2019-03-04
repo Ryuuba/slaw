@@ -11,7 +11,7 @@ void SlawMatlab::initialize() {
   setMap();
   setPauseTimeModel();
   setSpeedModel();
-  std::string filename(par("filename").stringValue());
+  std::string filename(par("clusterList").stringValue());
   if (filename.compare("") != 0)
     loadCKFile(filename.c_str());
   else
@@ -56,9 +56,10 @@ WaypointList SlawMatlab::computeDestinationList(
     else{
       double aaa_fraction, aaa_int;
       aaa_fraction = modf(aaa, &aaa_int);
-      getWaypointChunkRandomly(uwl, area, aaa_int+1);
-      if (uniform(0,1) >= aaa_fraction)
-        uwl.pop_back();
+      if (uniform(0,1) < aaa_fraction)
+        getWaypointChunkRandomly(uwl, area, aaa_int+1);
+      else if (aaa_int > 0)
+        getWaypointChunkRandomly(uwl, area, aaa_int);
     }
   }
   auto lastWaypointIt = std::find(uwl.begin(), uwl.end(), lastWaypoint);
@@ -75,12 +76,12 @@ void SlawMatlab::assignConfinedAreas() {
   for (unsigned i = 0; i < walker_num; i++) {
     AreaSet C_k;
     unsigned j = 0; //number of inserted areas
-    while (j < portion) {
+    while (C_k.size() <= portion) {
       index = ceil(uniform(0,1) * weights->size())-1;
       unsigned clusterID((*weights)[index]);
       auto it = std::find(C_k.begin(), C_k.end(), clusterID);
       if (it == C_k.end())
-        C_k[j++] = clusterID;
+        C_k.push_back(clusterID);
     }
     C_k_Set.push_back(std::move(C_k));
   }
