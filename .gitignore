@@ -1,10 +1,6 @@
 Makefile
 .settings/
 .vscode/
-simulations/.cmdenv-log
-simulations/results/
-simulations/matlab_trace/
-out/
 src/slaw
 .qtenvrc
 *.vec
@@ -12,7 +8,6 @@ src/slaw
 *.dat
 *.pdf
 *.clf
-slaw
 .cmdenv-log
 .vscode/
 .cproject
@@ -20,9 +15,13 @@ slaw
 .oppbuilspec
 .projects
 .project
+slaw
+SlawMobilityTrace
+simulations/.cmdenv-log
 simulations/SLAW_Matlab
 simulations/slaw_results
-SlawMobilityTrace
-
+simulations/results/
+simulations/matlab_trace/
 simulations/results
 simulations/slaw_traces
+out/
