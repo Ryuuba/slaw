@@ -25,7 +25,7 @@ void SlawTransNetw::setWalkerState(
   L = computeDestinationList(C_k, initialWaypoint);
 }
 
-WaypointList& SlawTransNetw::computeDestinationList(
+WaypointList SlawTransNetw::computeDestinationList(
   const AreaSet& C_k, inet::Coord& home
 ) {
   WaypointList uwl; //stands for unvisited waypoint list (uwl)

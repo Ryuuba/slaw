@@ -45,7 +45,9 @@ void SlawTripManager::setMap() {
 }
 
 void SlawTripManager::setPauseTimeModel() {
-  PauseTimeModelType type = static_cast<PauseTimeModelType>(uint8_t(par("pauseTimeModelType")));
+  PauseTimeModelType type = static_cast<PauseTimeModelType>(
+    uint8_t(par("pauseTimeModelType"))
+  );
   double par1 = par("pausetimeA");
   double par2 = par("pausetimeB");
   double parH = par("pausetimeH");

@@ -31,7 +31,7 @@ void SlawMatlab::setWalkerState(
   L.erase(initialWaypointIt);
 }
 
-WaypointList& SlawMatlab::computeDestinationList(
+WaypointList SlawMatlab::computeDestinationList(
   const AreaSet& C_k, inet::Coord& lastWaypoint
 ) {
   WaypointList uwl; //stands for unvisited waypoint list (uwl)
@@ -95,4 +95,18 @@ inet::Coord SlawMatlab::getNextDestination(
     uwl = std::move(computeDestinationList(C_k, lastWaypoint));
   nextWaypoint = latp(lastWaypoint, uwl);
   return nextWaypoint; 
+}
+
+void SlawMatlab::getWaypointChunkRandomly(
+  WaypointList& wList, const Area* area, unsigned k
+) {
+  unsigned i = 0;
+  while (i < k) {
+    auto rand_waypoint = area->at(uniform(0,1)*ceil(area->size()) - 1);
+    auto it = std::find(wList.begin(), wList.end(), rand_waypoint);
+    if (it == wList.end()) {
+      wList.push_back(rand_waypoint);
+      i++;
+    }
+  }
 }

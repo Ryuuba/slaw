@@ -69,9 +69,5 @@ enum class SpeedModelType : uint8_t {
   CONSTANT = 1, UNIFORM = 2, NORMAL = 3, RHEE = 4
 };
 
-/** @brief Enumeration mapping the two possible SLAW implementations. The Matlab option is mainly based in the original trace generator provided for the SLAW's authors. The second one is considerably base on the SLAW article published in IEEE/ACM Trans. on Netw. */
-enum class SlawModelType : uint8_t {
-  MATLAB = 1, IEEE_ACM_TON = 2
-};
 
 #endif /* SLAW_DEFS_H_ */

@@ -35,7 +35,7 @@ protected:
    *  not have the last waypoint where the walker stayed. Otherwise, the
    *  LATP algorithm will crash.
    */
-  virtual WaypointList& computeDestinationList(
+  virtual WaypointList computeDestinationList(
     const AreaSet&, inet::Coord& 
   ) override;
 public:
