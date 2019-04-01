@@ -19,6 +19,7 @@
 #include "../common/SlawDefs.h"
 
 //TODO: Make this class a simple module showing waypoints and clusters
+//TODO: Create self-similar waypoint maps
 class SelfsimilarWaypointMap {
 protected:
   /** @brief Parameter determining the selfsimilarity degree of a waypoint
@@ -98,16 +99,5 @@ public:
   /* @brief Returs true when a the areaID of two waypoints is not equal */
   virtual bool isSameArea(inet::Coord&, inet::Coord&);
 };
-    /** @brief Bool variable indicating if waypoints have to be displayed */
-    //bool displayWaypoints;
-    // /** @brief Clustering according to the SLAW_MATLAB implementation */
-    // bool SLAW_MATLAB;
-    // /** @brief Returns a waypoint with the maximum surrounding waypoints within
-    //  *  a radius clusteringRadius.*/
-    // virtual inet::Coord getPopularWaypoint(std::list<inet::Coord>&);
-    /** @brief Makes confined areas of radius 'clusterRadius'. In additon,
-     *  it initializes the weightVector */
-  // virtual void makeWaypointCluster(std::list<inet::Coord>&);
-    /** @brief Map dimensions */
-    //double x_max, y_max;
+
 #endif /* SELFSIMILARWAYPOINTMAP_H_ */

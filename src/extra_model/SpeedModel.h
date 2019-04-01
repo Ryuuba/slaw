@@ -28,7 +28,7 @@ protected:
   /* @brief The kind of model implemented by objects of this class */
   SpeedModelType modelType;
   /* @brief Tuple containing the parameters needed to configure the speed model. The values */
-  std::pair<double, double> speedPar;
+  std::pair<double, double> par;
   /* @brief The random number generator used by the SLAW engine */
   omnetpp::cRNG* rng;
 protected:

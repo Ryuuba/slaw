@@ -21,9 +21,9 @@ void SlawMobility::initialize(int stage) {
   if(stage == 0) {
     walkerID = getContainingNode(this)->getIndex();
     classifyFlight = par("classifyFlight").boolValue();
-    slawModuleName = par("slawModuleName").stringValue();
+    auto slawModuleName = par("slawModuleName").stringValue();
     slaw = (SlawTripManager*) this->getSimulation()->
-      getSystemModule()->getSubmodule(slawModuleName.c_str());
+      getSystemModule()->getSubmodule(slawModuleName);
     if(!slaw)
       error("Slaw Mobility: No destination generator found, add module Slaw to the network");
     std::cout << "Mobility state of walker " << walkerID << "\n";

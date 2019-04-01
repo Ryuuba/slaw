@@ -28,7 +28,7 @@ protected:
   /** @brief The kind of model implemented by object of this class */
   PauseTimeModelType model;
   /** @brief Tuple containing the parameters needed to configure the pausetime model*/
-  std::tuple<double,double,double> param;
+  std::tuple<double,double,double> par;
   /* @brief The random number generator used by the SLAW engine */
   omnetpp::cRNG* rng;
 protected:

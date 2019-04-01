@@ -22,7 +22,7 @@ class SlawMatlab : public SlawTripManager {
 protected:
   /** @brief values determing the fraction of confined areas and the portion of
    *  waypoints that integrates a destination list */
-  double cluster_ratio, waypoint_ratio;
+  double clusterRatio, waypointRatio;
 protected:
   /** @brief Assigns the confined areas of all walkers. The areas are
    *  determined by their weight, which is computed by dividing their
@@ -40,7 +40,7 @@ protected:
   ) override;
 public:
   /** @brief Default constructor */
-  SlawMatlab() : cluster_ratio(0.0), waypoint_ratio(0.0) { }
+  SlawMatlab() : clusterRatio(0.0), waypointRatio(0.0) { }
   /** @brief Default destructor. */
   virtual ~SlawMatlab() { }
   /** @brief Initializes the parameters of this module from the omnetpp.ini 

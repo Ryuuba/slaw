@@ -25,11 +25,11 @@
 class SlawTripManager : public omnetpp::cSimpleModule {
 protected:
   /** @brief the number of walkers in a simulation */
-  unsigned walker_num;
+  unsigned walkerNum;
   /** @brief Temporal data structure to store the C_k set of each walker */
-  std::vector<AreaSet> C_k_Set;
+  std::vector<AreaSet> CkSet;
   /** @brief Planning degree */
-  double a;
+  double planningDegree;
   /** @brief The least-action trip-planning algorithm */
   LATPAlgorithm latp;
 protected:
@@ -46,6 +46,7 @@ protected:
   virtual WaypointList computeDestinationList(
     const AreaSet&, inet::Coord&
   ) = 0;
+  virtual void assignConfinedAreas() = 0;
 public:
   /** @brief Object implementing the waypoint map */
   SelfsimilarWaypointMap* const map = new SelfsimilarWaypointMap;

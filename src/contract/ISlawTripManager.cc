@@ -30,7 +30,7 @@ void SlawTripManager::loadCKFile(char const* name) {
         unsigned areaID;
         while (iss >> areaID)
           C_k.push_back(areaID);
-        C_k_Set.push_back(std::move(C_k));
+        CkSet.push_back(std::move(C_k));
     }
     ifs.close();
   }

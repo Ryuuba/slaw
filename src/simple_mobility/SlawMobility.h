@@ -38,9 +38,6 @@ protected:
   /** Pointer to the SLAW module, it is used to access the selfsimilar
    *  waypoint map and it computes the next destination using LATP. */
   SlawTripManager* slaw;
-  /** Name of the module executing Slaw. It is defined in a ned file. Its
-   *  default value is merely "slaw". */
-  std::string slawModuleName;
   /** @brief Vector storing the sets of confined areas. */
   AreaSet C_k;
   /** @brief List storing the set of waypoints integrating a trip. */

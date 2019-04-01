@@ -3,11 +3,11 @@
 Define_Module(SlawMatlab);
 
 void SlawMatlab::initialize() {
-  walker_num = par("numOfWalker");
-  cluster_ratio = par("clusterRatio");
-  waypoint_ratio = par("waypointRatio");
-  a = par("planningDegree").doubleValue();
-  latp.setLATP(a, getRNG(0));
+  walkerNum = par("numOfWalker");
+  clusterRatio = par("clusterRatio");
+  waypointRatio = par("waypointRatio");
+  planningDegree = par("planningDegree").doubleValue();
+  latp.setLATP(planningDegree, getRNG(0));
   setMap();
   setPauseTimeModel();
   setSpeedModel();
@@ -21,7 +21,7 @@ void SlawMatlab::initialize() {
 void SlawMatlab::setWalkerState(
   unsigned walkerId, AreaSet& C_k, WaypointList& L, inet::Coord& initialWaypoint
 ) {
-  C_k = std::move(C_k_Set[walkerId]);
+  C_k = std::move(CkSet[walkerId]);
   inet::Coord temp(-1.0, -1.0);
   L = computeDestinationList(C_k, temp);
   unsigned index = intuniform(0, L.size()-1);
@@ -48,7 +48,7 @@ WaypointList SlawMatlab::computeDestinationList(
   for (auto& areaId : unvisitedAreas) {
     auto area = map->getConfinedArea(areaId);
     //aaa is an ugly variable name from the SLAW MATLAB trace generator
-    double aaa = double(area->size()) / waypoint_ratio;
+    double aaa = double(area->size()) / waypointRatio;
     if (aaa < 1) {
       unsigned waypoint_id(ceil(uniform(0,1) * area->size()) - 1);
       uwl.push_back(area->at(waypoint_id));
@@ -71,9 +71,9 @@ WaypointList SlawMatlab::computeDestinationList(
 void SlawMatlab::assignConfinedAreas() {
   unsigned index;
   //The portion of areas per walker
-  unsigned portion = ceil(map->getNumberOfAreas() / cluster_ratio);
+  unsigned portion = ceil(map->getNumberOfAreas() / clusterRatio);
   const std::vector<unsigned>* weights = map->getAreaWeights();
-  for (unsigned i = 0; i < walker_num; i++) {
+  for (unsigned i = 0; i < walkerNum; i++) {
     AreaSet C_k;
     unsigned j = 0; //number of inserted areas
     while (C_k.size() <= portion) {
@@ -83,7 +83,7 @@ void SlawMatlab::assignConfinedAreas() {
       if (it == C_k.end())
         C_k.push_back(clusterID);
     }
-    C_k_Set.push_back(std::move(C_k));
+    CkSet.push_back(std::move(C_k));
   }
 }
 

@@ -3,9 +3,9 @@
 Define_Module(SlawTransNetw);
 
 void SlawTransNetw::initialize() {
-  walker_num = par("numOfWalker");
-  a = par("planningDegree").doubleValue();
-  latp.setLATP(a, getRNG(0));
+  walkerNum = par("numOfWalker");
+  planningDegree = par("planningDegree").doubleValue();
+  latp.setLATP(planningDegree, getRNG(0));
   setMap();
   setPauseTimeModel();
   setSpeedModel();
@@ -20,7 +20,7 @@ void SlawTransNetw::initialize() {
 void SlawTransNetw::setWalkerState(
   unsigned walkerId, AreaSet& C_k, WaypointList& L, inet::Coord& initialWaypoint
 ) {
-  C_k = std::move(C_k_Set[walkerId]);
+  C_k = std::move(CkSet[walkerId]);
   initialWaypoint = homeList[walkerId];
   L = computeDestinationList(C_k, initialWaypoint);
 }
@@ -37,10 +37,10 @@ WaypointList SlawTransNetw::computeDestinationList(
 void SlawTransNetw::computeHome() {
   unsigned areaIndex;
   unsigned waypointIndex;
-  for (unsigned i = 0; i < walker_num; i++) {
-    areaIndex = ceil(uniform(0,1) * C_k_Set[i].size()) - 1;
-    waypointIndex = ceil(uniform(0,1) * map->getAreaSize(C_k_Set[i][areaIndex])) - 1;
-    homeList.push_back(map->getWaypoint(C_k_Set[i][areaIndex], waypointIndex));
+  for (unsigned i = 0; i < walkerNum; i++) {
+    areaIndex = ceil(uniform(0,1) * CkSet[i].size()) - 1;
+    waypointIndex = ceil(uniform(0,1) * map->getAreaSize(CkSet[i][areaIndex])) - 1;
+    homeList.push_back(map->getWaypoint(CkSet[i][areaIndex], waypointIndex));
   }
 }
 
@@ -89,7 +89,7 @@ void SlawTransNetw::computeRutine(
 void SlawTransNetw::assignConfinedAreas() {
   unsigned index, clusterID;
   const std::vector<unsigned>* weights = map->getAreaWeights();
-  for (unsigned i = 0; i < walker_num; i++) {
+  for (unsigned i = 0; i < walkerNum; i++) {
     unsigned confinedAreas = intuniform(3,5);
     AreaSet C_k;
     while (C_k.size() < confinedAreas) {
@@ -99,7 +99,7 @@ void SlawTransNetw::assignConfinedAreas() {
       if (it == C_k.end())
         C_k.push_back(clusterID);
     }
-    C_k_Set.push_back(std::move(C_k));
+    CkSet.push_back(std::move(C_k));
   }
 }
 

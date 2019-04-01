@@ -20,8 +20,8 @@ void SpeedModel::setModel(
 ) {
   rng = randgen;
   modelType = type;
-  speedPar.first = a;
-  speedPar.second = b;
+  par.first = a;
+  par.second = b;
 }
 
 double SpeedModel::rheeModel(double flightLength) {
@@ -37,13 +37,13 @@ double SpeedModel::computeSpeed(double flightLength) {
   double speed;
   switch(modelType) {
     case SpeedModelType::CONSTANT:
-      speed = speedPar.first;
+      speed = par.first;
       break;
     case SpeedModelType::UNIFORM:
-        speed = omnetpp::uniform(rng, speedPar.first, speedPar.second);
+        speed = omnetpp::uniform(rng, par.first, par.second);
         break;
     case SpeedModelType::NORMAL:
-        speed = omnetpp::truncnormal(rng, speedPar.first, speedPar.second);
+        speed = omnetpp::truncnormal(rng, par.first, par.second);
         break;
     default:
         speed = rheeModel(flightLength);
@@ -56,6 +56,6 @@ SpeedModel& SpeedModel::operator=(SpeedModel&& model) {
   if (this != &model) {
     rng = model.rng;
     modelType = model.modelType;
-    speedPar = std::move(model.speedPar);
+    par = std::move(model.par);
   }
 }

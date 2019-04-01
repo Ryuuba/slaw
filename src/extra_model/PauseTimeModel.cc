@@ -20,9 +20,9 @@ void PauseTimeModel::setModel(
 ) {
   rng = randGen;
   model = m;
-  std::get<0>(param) = p1;
-  std::get<1>(param) = p2;
-  std::get<2>(param) = p3;
+  std::get<0>(par) = p1;
+  std::get<1>(par) = p2;
+  std::get<2>(par) = p3;
 }
 
 double PauseTimeModel::pareto_bounded(double alpha, double L, double H) {
@@ -36,17 +36,17 @@ double PauseTimeModel::pareto_bounded(double alpha, double L, double H) {
 double PauseTimeModel::computePausetime() {
   double pausetime;
   switch(model) {
-    case PauseTimeModelType::CONSTANT: pausetime = std::get<0>(param);
+    case PauseTimeModelType::CONSTANT: pausetime = std::get<0>(par);
       break;
     case PauseTimeModelType::UNIFORM:
-      pausetime = omnetpp::uniform(rng, std::get<0>(param), std::get<1>(param));
+      pausetime = omnetpp::uniform(rng, std::get<0>(par), std::get<1>(par));
       break;
     case PauseTimeModelType::NORMAL:
-      pausetime = truncnormal(rng, std::get<0>(param), std::get<1>(param));
+      pausetime = truncnormal(rng, std::get<0>(par), std::get<1>(par));
       break;
     default:
       pausetime = pareto_bounded(
-        std::get<0>(param), std::get<1>(param), std::get<2>(param)
+        std::get<0>(par), std::get<1>(par), std::get<2>(par)
       );
       break;
   }
