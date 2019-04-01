@@ -46,6 +46,7 @@ protected:
   virtual WaypointList computeDestinationList(
     const AreaSet&, inet::Coord&
   ) = 0;
+  /** @brief Assigns the confined areas of all walkers. It must be overridden */
   virtual void assignConfinedAreas() = 0;
 public:
   /** @brief Object implementing the waypoint map */
