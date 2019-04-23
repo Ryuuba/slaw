@@ -71,7 +71,7 @@ public:
    * of waypoints that are saved in a hidden file. The first parameter of this
    * method is the map name, the second one is the clustering radius, the
    * third and the last one are the map dimension */
-  virtual void setMap(std::string&, double, double);
+  virtual bool setMap(std::string&, double, double);
   /** @brief Creates a selfsimilar waypoint map */
   //virtual void createMap();
   virtual unsigned getNumberOfWaypoints(){ return numberOfWaypoints;}

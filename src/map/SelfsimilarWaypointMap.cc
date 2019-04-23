@@ -16,26 +16,28 @@
 #include "SelfsimilarWaypointMap.h"
 
 //The input is the map name and the clustering radius
-void SelfsimilarWaypointMap::setMap (
+bool SelfsimilarWaypointMap::setMap (
   std::string& name, double radius, double H
 ) {
+  bool success = true;
   clusteringRadius = radius; 
-  mapName = std::move(name);
+  mapName = name;
   hurstParameter = H;
   areaVector = new std::vector<Area>;
   weightVector = new std::vector<unsigned>;
   //weightVector = new std::vector<double>;
   if (!loadAreaVector()) {
-    std::cout << "Load selfsimilar waypoint map from " 
+    std::cout << "Self-similar map: Load selfsimilar waypoint map from " 
       << mapName << std::endl;
     std::list<inet::Coord> waypointList;
-    if (loadMap(waypointList)) {
-        computeConfinedAreas(waypointList);
+    success = loadMap(waypointList);
+    if (success) {
+      computeConfinedAreas(waypointList);
       computeAreaWeights();
       saveAreaVector();
     }
-    else std::cerr << "Map not loaded\n";
   }
+  return success;
 }
 
 SelfsimilarWaypointMap::~SelfsimilarWaypointMap() {
@@ -51,18 +53,26 @@ SelfsimilarWaypointMap::~SelfsimilarWaypointMap() {
 bool SelfsimilarWaypointMap::loadMap(WaypointList& waypointList) {
   std::ifstream waypointFile(mapName.c_str(), std::ifstream::in);
   bool success = false;
-  if(waypointFile.is_open()) {
+  if (waypointFile.is_open()) {
     inet::Coord waypoint;
-    while (!waypointFile.eof()) {
-      waypointFile >> waypoint.x >> waypoint.y;
+    while (waypointFile >> waypoint.x >> waypoint.y)
       waypointList.push_back(waypoint);
-    }
-    waypointList.pop_back();
     numberOfWaypoints = waypointList.size();
+    waypointList.sort(
+      //Lexicographical order
+      [](const inet::Coord& lhs, const inet::Coord& rhs) {
+        return lhs.x == rhs.x ? lhs.y < rhs.y : lhs.x < rhs.x;
+      }
+    );
+    waypointList.unique();
     std::cout << numberOfWaypoints << " waypoints have been read from "
       << mapName << std::endl;
     waypointFile.close();
-    success = true;
+    if (numberOfWaypoints == waypointList.size())
+      success = true;
+    else 
+      std::cerr << "Self-similar Waypoint Map: " << mapName 
+        << " has repeated coordinates\n";
   }
   else 
     std::cerr << "Self-similar Waypoint Map: " << mapName << " is not found\n"; 
