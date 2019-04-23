@@ -42,7 +42,7 @@ void SlawTripManager::setMap() {
   double hurstParameter = par("hurstParameter").doubleValue();
   std::string mapName(par("mapName").stringValue());
   double clusteringRadius = par("clusteringRadius");
-  auto success = map->setMap(mapName, clusteringRadius, hurstParameter);
+  bool success = map->setMap(mapName, clusteringRadius, hurstParameter);
   if (!success)
     error("SlawTripManager: %s could not be loaded\n", mapName.c_str());
 }
