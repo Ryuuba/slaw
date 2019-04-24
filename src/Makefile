@@ -41,15 +41,15 @@ OBJS = \
     $O/app/FlightLengthObserver.o \
     $O/app/PositionObserver.o \
     $O/app/TripObserver.o \
-    $O/contract/ISlawTripManager.o \
     $O/extra_model/PauseTimeModel.o \
     $O/extra_model/SpeedModel.o \
+    $O/i_walker_model/IWalkerModel.o \
     $O/latp/LATP.o \
     $O/map/SelfsimilarWaypointMap.o \
     $O/simple_mobility/SlawBonnMotion.o \
     $O/simple_mobility/SlawMobility.o \
-    $O/trip_manager/SlawMatlab.o \
-    $O/trip_manager/SlawTransNewt.o
+    $O/walker_model/SlawMatlab.o \
+    $O/walker_model/SlawTransNewt.o
 
 # Message files
 MSGFILES =

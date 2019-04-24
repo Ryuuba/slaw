@@ -1,6 +1,6 @@
 package slaw.simulations;
 
-import slaw.contract.ISlawTripManager;
+import slaw.i_walker_model.IWalkerModel;
 import slaw.walker.Walker;
 import slaw.app.ConnectivityObserver;
 
@@ -19,7 +19,7 @@ network SLAWConnectivityExperiment
         slaw.numOfWalker = numHosts;
         @display("bgb=500,500;bgg=100,2,grey50");
     submodules:
-        slaw: <slawModelType> like ISlawTripManager;
+        slaw: <slawModelType> like IWalkerModel;
         walker[numHosts]: Walker {
             mobilityType = "SlawMobility";
         }

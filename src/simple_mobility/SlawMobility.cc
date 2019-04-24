@@ -22,7 +22,7 @@ void SlawMobility::initialize(int stage) {
     walkerID = getContainingNode(this)->getIndex();
     classifyFlight = par("classifyFlight").boolValue();
     auto slawModuleName = par("slawModuleName").stringValue();
-    slaw = (SlawTripManager*) this->getSimulation()->
+    slaw = (IWalkerModel*) this->getSimulation()->
       getSystemModule()->getSubmodule(slawModuleName);
     if(!slaw)
       error("Slaw Mobility: No destination generator found, add module Slaw to the network");

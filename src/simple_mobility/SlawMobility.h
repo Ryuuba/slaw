@@ -2,7 +2,7 @@
  * Self-similar least-action walk mobility model. See NED file for more info.
  *
  * @author Adán G. Medrano-Chávez,
- * Universidad Autónoma Metropolitana - Iztapalapa, adme@xanum.uam.mx
+ * Universidad Autónoma Metropolitana - Cuajimalpa, agmedrano@correo.cua.uam.mx
  * @author Georg Lutz (georglutz AT gmx DOT de), Institut fuer Telematik,
  * Universitaet Karlsruhe, http://www.tm.uka.de, 2004-2005 
  * (generalized, ported to RandomWPMobility)
@@ -15,7 +15,7 @@
 #include <omnetpp.h>
 #include <omnetpp/csimplemodule.h>
 
-#include "../contract/ISlawTripManager.h"
+#include "../i_walker_model/IWalkerModel.h"
 #include "LineSegmentsMobilityBase.h"
 
 class SlawMobility : public inet::LineSegmentsMobilityBase
@@ -37,7 +37,7 @@ protected:
   bool nextMoveIsWait, classifyFlight, isNewTrip;
   /** Pointer to the SLAW module, it is used to access the selfsimilar
    *  waypoint map and it computes the next destination using LATP. */
-  SlawTripManager* slaw;
+  IWalkerModel* slaw;
   /** @brief Vector storing the sets of confined areas. */
   AreaSet C_k;
   /** @brief List storing the set of waypoints integrating a trip. */
