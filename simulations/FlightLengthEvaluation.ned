@@ -28,7 +28,10 @@ network SLAWFlightLengthExperiment
         int numHosts;
         int numSamples;
         string slawModelType;
+        bool classifyFlight;
         slaw.numOfWalker = numHosts;
+        slaw.classifyFlight = classifyFlight;
+        observer.classifyFlight = classifyFlight;
         @display("bgb=2000,2000;bgg=2000,10,grey50");
     submodules:
         slaw: <slawModelType> like IWalkerModel;
