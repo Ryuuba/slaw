@@ -2,37 +2,35 @@
 
 Define_Module(TripObserver);
 
-omnetpp::simsignal_t TripObserver::waypoint = registerSignal("next_waypoint");
+omnetpp::simsignal_t
+  TripObserver::trip_size = registerSignal("tripSize");
+omnetpp::simsignal_t
+  TripObserver::trip_size_stat = 
+  registerSignal("tripSize_stat");
+omnetpp::simsignal_t
+  TripObserver::next_waypoint = registerSignal("nextWaypoint");
+omnetpp::simsignal_t
+  TripObserver::next_waypoint_x = registerSignal("nextWaypointX");
+omnetpp::simsignal_t
+  TripObserver::next_waypoint_y = registerSignal("nextWaypointY");
 
-omnetpp::simsignal_t TripObserver::counter = registerSignal("trip_counter");
-
-TripObserver::TripObserver()
+TripObserver::TripObserver() :
+  counter(0), sample_size(0)
 {
-  getSimulation()->getSystemModule()->subscribe(waypoint, this);
-  getSimulation()->getSystemModule()->subscribe(counter, this);
+  getSimulation()->getSystemModule()->subscribe(trip_size, this);
+  getSimulation()->getSystemModule()->subscribe(next_waypoint, this);
 }
 
 TripObserver::~TripObserver()
 {
-  if (ofs.is_open()) {
-    ofs.close();
-    std::cout << "Trip file was written in " << filename << '\n';
-  }
-  getSimulation()->getSystemModule()->unsubscribe(waypoint, this);
-  getSimulation()->getSystemModule()->unsubscribe(counter, this);
+  getSimulation()->getSystemModule()->unsubscribe(trip_size, this);
+  getSimulation()->getSystemModule()->unsubscribe(next_waypoint, this);
 }
 
 void TripObserver::initialize()
 {
-  filename = par("filename").stringValue();
-  trip_number = par("trip_number");
-  ofs.open(filename, std::ofstream::out);
-  if (!ofs.is_open()){
-    error("File %s couldn't be opened\n", filename);
-    endSimulation();
-  }
-  else
-    ofs << std::setprecision(std::numeric_limits<long double>::digits10 + 1);
+  sample_size = par("sampleSize");
+  std::cout << "TripObserver: " << sample_size << " trips to be observed\n";
 }
 
 void TripObserver::handleMessage(omnetpp::cMessage* msg)
@@ -40,15 +38,21 @@ void TripObserver::handleMessage(omnetpp::cMessage* msg)
   error("Trip Observer: This module does not receive messages\n");
 }
 
-void TripObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::simsignal_t id, omnetpp::cObject* value, omnetpp::cObject* details)
-{
-  auto position = dynamic_cast<inet::Coord*>(value);
-  ofs << position->x << ' ' << position->y << '\n';
+void TripObserver::receiveSignal(
+  omnetpp::cComponent* src, omnetpp::simsignal_t id, long size, 
+  omnetpp::cObject* details
+) {
+  counter++;
+  if (counter >  sample_size)
+    endSimulation();
+  emit(trip_size_stat, size);
 }
 
-void TripObserver::receiveSignal(omnetpp::cComponent* src, 
-  omnetpp::simsignal_t id, long counter_trip, omnetpp::cObject* details)
-{
-  if (counter_trip == trip_number)
-    endSimulation();
+void TripObserver::receiveSignal(
+  omnetpp::cComponent* src, omnetpp::simsignal_t id, omnetpp::cObject* value, 
+  omnetpp::cObject* details
+) {
+  auto position = dynamic_cast<inet::Coord*>(value);
+  emit(next_waypoint_x, position->x);
+  emit(next_waypoint_y, position->y);
 }

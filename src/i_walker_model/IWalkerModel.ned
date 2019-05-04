@@ -18,6 +18,7 @@ package slaw.i_walker_model;
 moduleinterface IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
+    string walkerModel;
     string mapName;
     string clusterList;
     double clusteringRadius @unit(m);

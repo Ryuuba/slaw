@@ -25,14 +25,12 @@ protected:
   unsigned walkerID;
   /** @brief The distance to reach the next destination */
   double distance;
-  /** @brief the number of trips completed by a walker */
-  long counter;
   /** @brief Signal carrying the next waypoint */
   static omnetpp::simsignal_t next_waypoint;
   /** @brief Signal informing node flight lengths */
   static omnetpp::simsignal_t flight, intraFlightLength, interFlightLength;
-  /** @brief Signal carrying the number of trips a walker has completed */
-  static omnetpp::simsignal_t trip_counter;
+  /** @brief Signal carrying the size of new trips */
+  static omnetpp::simsignal_t trip_size;
   /** Boolean value used to switch between these states {pause, motion} */
   bool nextMoveIsWait, classifyFlight, isNewTrip;
   /** Pointer to the SLAW module, it is used to access the selfsimilar
@@ -43,6 +41,8 @@ protected:
   /** @brief List storing the set of waypoints integrating a trip. */
   WaypointList unvisitedWaypointList;
 protected:
+  /** @brief Overridden from MobilityBase.*/
+  virtual void setInitialPosition() override;
   /** Number of states used to initialize every module derived from
    *  MobilityBase. This module is initialized in the state 0. It is very
    *  important place it below the slaw model in he ned file in order
@@ -50,8 +50,6 @@ protected:
   virtual int numInitStages() const { return 3; }
   /** @brief Initializes mobility model parameters.*/
   virtual void initialize(int stage);
-  /** @brief Overridden from MobilityBase.*/
-  virtual void setInitialPosition() override;
   /** @brief Overridden from LineSegmentsMobilityBase.*/
   virtual void setTargetPosition() override;
   /** @brief Overridden from LineSegmentsMobilityBase.*/

@@ -20,6 +20,7 @@ import slaw.i_walker_model.IWalkerModel;
 simple SlawTransNetw like IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
+    string walkerModel = "SlawTransNetw";
     int numOfWalker;
     string mapName;
     string clusterList;

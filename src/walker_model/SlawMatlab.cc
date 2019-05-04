@@ -3,6 +3,7 @@
 Define_Module(SlawMatlab);
 
 void SlawMatlab::initialize() {
+  walker_model = par("walkerModel").stringValue();
   walkerNum = par("numOfWalker");
   clusterRatio = par("clusterRatio");
   waypointRatio = par("waypointRatio");

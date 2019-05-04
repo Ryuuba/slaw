@@ -1,4 +1,5 @@
 #include "../simple_mobility/SlawMobility.h"
+#include <cstring>
 
 Define_Module(SlawMobility);
 
@@ -9,12 +10,12 @@ omnetpp::simsignal_t
 omnetpp::simsignal_t
   SlawMobility::interFlightLength = registerSignal("interFlightLength");
 omnetpp::simsignal_t
-  SlawMobility::trip_counter = registerSignal("trip_counter");
+  SlawMobility::trip_size = registerSignal("tripSize");
 omnetpp::simsignal_t
-  SlawMobility::next_waypoint = registerSignal("next_waypoint");
+  SlawMobility::next_waypoint = registerSignal("nextWaypoint");
 
 SlawMobility::SlawMobility() : 
-  counter(0), walkerID(0), nextMoveIsWait(false), slaw(nullptr) 
+  walkerID(0), nextMoveIsWait(false), slaw(nullptr) 
 { }
 
 void SlawMobility::initialize(int stage) {
@@ -36,8 +37,11 @@ void SlawMobility::initialize(int stage) {
     for (auto& areaNumber: C_k)
         std::cout << areaNumber << ' ';
     std::cout << '\n';
+    int tripSize = unvisitedWaypointList.size();
+    emit(trip_size, tripSize);
   }
 }
+
 
 void SlawMobility::setInitialPosition() {
   emit(next_waypoint, &lastPosition);
@@ -67,8 +71,10 @@ void SlawMobility::move() {
 void SlawMobility::emitSignals() {
   emit(next_waypoint, &targetPosition);
   if (isNewTrip) {
-    counter++;
-    emit(trip_counter, counter);
+    int tripSize = unvisitedWaypointList.size(); 
+    if (std::strcmp(slaw->getIndividualWalkerModelName(), "SlawMatlab"))
+      tripSize++; //getNextDestination draws one wpt when computing a new trip
+    emit(trip_size, tripSize);
   }
   if (!classifyFlight)
     emit(flight, distance);

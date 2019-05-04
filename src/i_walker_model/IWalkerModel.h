@@ -32,6 +32,8 @@ protected:
   double planningDegree;
   /** @brief The least-action trip-planning algorithm */
   LATPAlgorithm latp;
+  /** @brief The name of the individual walker model */
+  const char* walker_model;
 protected:
   /** @brief Loads a file containing the C_k set of each walker */
   void loadCKFile(char const*);
@@ -70,6 +72,8 @@ virtual ~IWalkerModel();
   ) = 0;
   /** @brief Initializes the Trip Manager module. It must be overridden*/
   virtual void initialize() = 0;
+  /** @brief Returns the name of the individual walker model*/
+  const char* getIndividualWalkerModelName() {return walker_model;}
 };
 
 #endif

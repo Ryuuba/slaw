@@ -20,6 +20,7 @@ import slaw.i_walker_model.IWalkerModel;
 simple SlawMatlab like IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
+    string walkerModel = "SlawMatlab";
     int numOfWalker;
     string mapName;
     string clusterList;

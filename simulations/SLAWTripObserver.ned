@@ -4,18 +4,15 @@ import slaw.i_walker_model.IWalkerModel;
 import slaw.walker.Walker;
 import slaw.app.TripObserver;
 
-network SLAWTripRecorder
+network SLAWTripObserver
 {
     parameters:
-        string output_file; //The file where the trip is written
-        observer.filename = output_file;
-        observer.trip_number = default(1);
         walker.mobilityType = "SlawMobility";
         string slawModelType;
-        slaw.numOfWalker = 1;
+        slaw.numOfWalker = default(1);
         @display("bgb=10000,10000;bgg=1000,10,grey50");
     submodules:
+        observer: TripObserver;
         slaw: <slawModelType> like IWalkerModel;
         walker: Walker;
-        observer: TripObserver;
 }

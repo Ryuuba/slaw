@@ -3,6 +3,7 @@
 Define_Module(SlawTransNetw);
 
 void SlawTransNetw::initialize() {
+  walker_model = par("walkerModel").stringValue();
   walkerNum = par("numOfWalker");
   planningDegree = par("planningDegree").doubleValue();
   latp.setLATP(planningDegree, getRNG(0));
