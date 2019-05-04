@@ -3,9 +3,9 @@
 Define_Module(SlawMobility);
 
 omnetpp::simsignal_t
-  SlawMobility::intraFlightLength = registerSignal("intraFlightLength");
-omnetpp::simsignal_t
   SlawMobility::flight = registerSignal("flight");
+omnetpp::simsignal_t
+  SlawMobility::intraFlightLength = registerSignal("intraFlightLength");
 omnetpp::simsignal_t
   SlawMobility::interFlightLength = registerSignal("interFlightLength");
 omnetpp::simsignal_t
@@ -14,7 +14,8 @@ omnetpp::simsignal_t
   SlawMobility::next_waypoint = registerSignal("next_waypoint");
 
 SlawMobility::SlawMobility() : 
-  counter(0), walkerID(0), nextMoveIsWait(false), slaw(nullptr) { }
+  counter(0), walkerID(0), nextMoveIsWait(false), slaw(nullptr) 
+{ }
 
 void SlawMobility::initialize(int stage) {
   LineSegmentsMobilityBase::initialize(stage);

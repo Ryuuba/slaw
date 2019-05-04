@@ -5,19 +5,21 @@ Define_Module(FlightLengthObserver);
 omnetpp::simsignal_t FlightLengthObserver::flight = registerSignal("flight");
 omnetpp::simsignal_t FlightLengthObserver::flight_stat =
   registerSignal("flight_stat");
-omnetpp::simsignal_t FlightLengthObserver::intraFlight = registerSignal("intraFlightLength");
-omnetpp::simsignal_t FlightLengthObserver::intraFlight_stat = 
+omnetpp::simsignal_t FlightLengthObserver::intraFlightLength = 
+  registerSignal("intraFlightLength");
+omnetpp::simsignal_t FlightLengthObserver::intraFlightLength_stat = 
   registerSignal("intraFlightLength_stat");
-omnetpp::simsignal_t FlightLengthObserver::interFlight = registerSignal("interFlightLength");
-omnetpp::simsignal_t FlightLengthObserver::interFlight_stat = 
+omnetpp::simsignal_t FlightLengthObserver::interFlightLength = 
+  registerSignal("interFlightLength");
+omnetpp::simsignal_t FlightLengthObserver::interFlightLength_stat = 
   registerSignal("interFlightLength_stat");
 
 FlightLengthObserver::FlightLengthObserver():
   numOfSamples(0), counter(0)
 {
   getSimulation()->getSystemModule()->subscribe(flight, this);
-  getSimulation()->getSystemModule()->subscribe(intraFlight, this);
-  getSimulation()->getSystemModule()->subscribe(interFlight, this);
+  getSimulation()->getSystemModule()->subscribe(intraFlightLength, this);
+  getSimulation()->getSystemModule()->subscribe(interFlightLength, this);
 }
 
 FlightLengthObserver::~FlightLengthObserver()
@@ -27,12 +29,12 @@ FlightLengthObserver::~FlightLengthObserver()
     unsubscribe(flight, this);
     std::cout << "flight: unsubscribe done\n";
   }
-  if (isSubscribed(intraFlight, this)) {
-    unsubscribe(intraFlight, this);
+  if (isSubscribed(intraFlightLength, this)) {
+    unsubscribe(intraFlightLength, this);
     std::cout << "intraflight: unsubscribe done\n";
   }
-  if (isSubscribed(interFlight, this)) {
-    unsubscribe(interFlight, this);
+  if (isSubscribed(interFlightLength, this)) {
+    unsubscribe(interFlightLength, this);
     std::cout << "interflight: unsubscribe done\n";
   }
 }
@@ -74,15 +76,15 @@ void FlightLengthObserver::processSignal(
   int nodeId, omnetpp::simsignal_t id, double flightLength
 ) {
   if (classifyFlight) {
-    if (id == intraFlight) {
-      EV_INFO << "New intra-flight is received " << flightLength 
-        << " from " << nodeId << '\n';
-      emit(intraFlight_stat, flightLength);
+    if (id == intraFlightLength) {
+      // std::cout << "New intra-flight is received " << flightLength 
+      //   << " from " << nodeId << '\n';
+      emit(intraFlightLength_stat, flightLength);
     }
-    else if (id == interFlight) {
-      EV_INFO << "New inter-flight is received " << flightLength 
-        << " from " << nodeId << '\n';
-      emit(interFlight_stat, flightLength);
+    else if (id == interFlightLength) {
+      // std::cout << "New inter-flight is received " << flightLength 
+      //   << " from " << nodeId << '\n';
+      emit(interFlightLength_stat, flightLength);
     }
   }
   else {

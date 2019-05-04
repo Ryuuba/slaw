@@ -13,6 +13,7 @@ simple SlawMobility extends MovingMobilityBase
         @signal[trip_counter](type=long);
         @statistic[trip_counter](record=histogram);
         @signal[flight](type=double);
-        @signal[flightKind](type=bool); //0:intra, 1:inter
+        @signal[intraFlightLength](type=double);
+        @signal[interFlightLength](type=double);
         @display("i=block/cogwheel");
 }

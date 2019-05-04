@@ -25,8 +25,8 @@ protected:
   unsigned numOfSamples, counter;
   bool classifyFlight;
   static omnetpp::simsignal_t flight, flight_stat;
-  static omnetpp::simsignal_t intraFlight, intraFlight_stat;
-  static omnetpp::simsignal_t interFlight, interFlight_stat;
+  static omnetpp::simsignal_t intraFlightLength, intraFlightLength_stat;
+  static omnetpp::simsignal_t interFlightLength, interFlightLength_stat;
 protected:
   void processSignal(int, omnetpp::simsignal_t, double);
 public:

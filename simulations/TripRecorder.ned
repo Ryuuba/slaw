@@ -1,6 +1,6 @@
 package slaw.simulations;
 
-import slaw.contract.IWalkerModel;
+import slaw.i_walker_model.IWalkerModel;
 import slaw.walker.Walker;
 import slaw.app.TripObserver;
 
@@ -13,7 +13,7 @@ network SLAWTripRecorder
         walker.mobilityType = "SlawMobility";
         string slawModelType;
         slaw.numOfWalker = 1;
-        @display("bgb=2000,2000;bgg=1000,10,grey50");
+        @display("bgb=10000,10000;bgg=1000,10,grey50");
     submodules:
         slaw: <slawModelType> like IWalkerModel;
         walker: Walker;
