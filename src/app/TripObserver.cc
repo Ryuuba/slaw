@@ -46,6 +46,7 @@ void TripObserver::receiveSignal(
   if (counter >  sample_size)
     endSimulation();
   emit(trip_size_stat, size);
+  std::cout << "TripObserver: " << counter << " samples have been gathered\n";
 }
 
 void TripObserver::receiveSignal(
