@@ -10,6 +10,8 @@ omnetpp::simsignal_t
 omnetpp::simsignal_t
   SlawMobility::interFlightLength = registerSignal("interFlightLength");
 omnetpp::simsignal_t
+  SlawMobility::remote_random_area = registerSignal("remoteRandomArea");
+omnetpp::simsignal_t
   SlawMobility::trip_size = registerSignal("tripSize");
 omnetpp::simsignal_t
   SlawMobility::next_waypoint = registerSignal("nextWaypoint");
@@ -81,7 +83,13 @@ void SlawMobility::emitSignals() {
   else {
     if (slaw->map->isSameArea(lastPosition, targetPosition))
       emit(intraFlightLength, distance);
-    else 
+    else {
       emit(interFlightLength, distance);
+      int areaId = slaw->map->getAreaID(targetPosition);
+      if (C_k.end() == std::find(C_k.begin(), C_k.end(), areaId))
+        emit(remote_random_area, true); //next area is not in C_k
+      else
+        emit(remote_random_area, false);
+    }
   }
 }

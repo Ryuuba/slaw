@@ -29,6 +29,8 @@ protected:
   static omnetpp::simsignal_t next_waypoint;
   /** @brief Signal informing node flight lengths */
   static omnetpp::simsignal_t flight, intraFlightLength, interFlightLength;
+  /** @brief Signal carrying the next area to be visited is randomly drawn */
+  static omnetpp::simsignal_t remote_random_area;
   /** @brief Signal carrying the size of new trips */
   static omnetpp::simsignal_t trip_size;
   /** Boolean value used to switch between these states {pause, motion} */

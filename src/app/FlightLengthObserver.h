@@ -27,6 +27,7 @@ protected:
   static omnetpp::simsignal_t flight, flight_stat;
   static omnetpp::simsignal_t intraFlightLength, intraFlightLength_stat;
   static omnetpp::simsignal_t interFlightLength, interFlightLength_stat;
+  static omnetpp::simsignal_t remote_random_area, remote_random_area_stat;
 protected:
   void processSignal(int, omnetpp::simsignal_t, double);
 public:
@@ -35,6 +36,8 @@ public:
   void initialize();
   void handleMessage(omnetpp::cMessage*);
   void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t, double, 
+    omnetpp::cObject*);
+  void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t, bool, 
     omnetpp::cObject*);
 };
 

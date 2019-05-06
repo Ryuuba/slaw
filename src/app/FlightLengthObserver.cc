@@ -13,6 +13,11 @@ omnetpp::simsignal_t FlightLengthObserver::interFlightLength =
   registerSignal("interFlightLength");
 omnetpp::simsignal_t FlightLengthObserver::interFlightLength_stat = 
   registerSignal("interFlightLength_stat");
+omnetpp::simsignal_t
+  FlightLengthObserver::remote_random_area = registerSignal("remoteRandomArea");
+omnetpp::simsignal_t
+  FlightLengthObserver::remote_random_area_stat = 
+    registerSignal("remoteRandomArea_stat");
 
 FlightLengthObserver::FlightLengthObserver():
   numOfSamples(0), counter(0)
@@ -20,6 +25,7 @@ FlightLengthObserver::FlightLengthObserver():
   getSimulation()->getSystemModule()->subscribe(flight, this);
   getSimulation()->getSystemModule()->subscribe(intraFlightLength, this);
   getSimulation()->getSystemModule()->subscribe(interFlightLength, this);
+  getSimulation()->getSystemModule()->subscribe(remote_random_area, this);
 }
 
 FlightLengthObserver::~FlightLengthObserver()
@@ -36,6 +42,10 @@ FlightLengthObserver::~FlightLengthObserver()
   if (isSubscribed(interFlightLength, this)) {
     unsubscribe(interFlightLength, this);
     std::cout << "interflight: unsubscribe done\n";
+  }
+  if (isSubscribed(remote_random_area, this)) {
+    unsubscribe(remote_random_area, this);
+    std::cout << "remote random area: unsubscribe done\n";
   }
 }
 
@@ -76,20 +86,25 @@ void FlightLengthObserver::processSignal(
   int nodeId, omnetpp::simsignal_t id, double flightLength
 ) {
   if (classifyFlight) {
-    if (id == intraFlightLength) {
-      // std::cout << "New intra-flight is received " << flightLength 
-      //   << " from " << nodeId << '\n';
+    if (id == intraFlightLength) 
       emit(intraFlightLength_stat, flightLength);
-    }
-    else if (id == interFlightLength) {
-      // std::cout << "New inter-flight is received " << flightLength 
-      //   << " from " << nodeId << '\n';
+    else if (id == interFlightLength)
       emit(interFlightLength_stat, flightLength);
-    }
   }
   else {
     EV_INFO << "New flight is received " << flightLength 
       << " from " << nodeId << '\n';
     emit(flight_stat, flightLength);
   }
+}
+
+void FlightLengthObserver::receiveSignal(
+  omnetpp::cComponent* src, omnetpp::simsignal_t id, bool isRemoteRandomArea, 
+  omnetpp::cObject* details
+) {
+  if (isRemoteRandomArea)
+    EV_INFO << "New flight is towards an area randomly drawn\n";
+  else
+    EV_INFO << "New flight is towards an area from C_k\n";
+  emit(remote_random_area_stat, isRemoteRandomArea);
 }

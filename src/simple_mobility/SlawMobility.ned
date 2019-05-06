@@ -13,5 +13,6 @@ simple SlawMobility extends MovingMobilityBase
         @signal[flight](type=double);
         @signal[intraFlightLength](type=double);
         @signal[interFlightLength](type=double);
+        @signal[remoteRandomArea](type=bool);
         @display("i=block/cogwheel");
 }

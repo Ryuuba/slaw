@@ -11,4 +11,6 @@ simple FlightLengthObserver
     @statistic[intraFlightLength_stat](record=histogram,vector; unit=m);
     @signal[interFlightLength_stat](type=double);
     @statistic[interFlightLength_stat](record=histogram,vector; unit=m);
+    @signal[remoteRandomArea_stat](type=bool);
+    @statistic[remoteRandomArea_stat](record=vector);
 }
