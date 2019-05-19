@@ -1,8 +1,8 @@
 #!/bin/sh
 cd `dirname $0`
 #../src/slaw -n .:../src $*
-#../src/slaw -n .:../src $* -u Cmdenv -c SlawMatlab
-../src/slaw -n .:../src $* -u Cmdenv -c RandomArea
+../src/slaw -n .:../src $* -u Cmdenv -c SlawMatlabValidation
+#../src/slaw -n .:../src $* -u Cmdenv -c RandomArea
 #../src/slaw -n .:../src $* -u Cmdenv -c ConnectivityTest
 #../src/slaw -n .:../src $* -u Cmdenv -c TripRecorder
 #../src/slaw -n .:../src $* -u Cmdenv -c TripAnalizer

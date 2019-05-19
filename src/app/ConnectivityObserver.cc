@@ -7,7 +7,9 @@ omnetpp::simsignal_t
 omnetpp::simsignal_t 
   ConnectivityObserver::interContactTime = registerSignal("interContactTime");
 
-ConnectivityObserver::ConnectivityObserver() { }
+ConnectivityObserver::ConnectivityObserver() :
+  ict_counter(0), llt_counter(0)
+{ }
 
 void ConnectivityObserver::initialize() {
   PositionObserver::initialize();
@@ -114,6 +116,8 @@ void ConnectivityObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::sims
     llt[nodeId][entry.first] = omnetpp::simTime();
     llt[entry.first][nodeId] = omnetpp::simTime();
   }
-  if (ict_counter > ict_num)
+  if (ict_counter > ict_num) {
+    std::cout << ict_counter << ' ' << ict_num <<'\n';
     endSimulation();
+  }
 }

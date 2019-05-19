@@ -52,14 +52,14 @@ void SlawMobility::setInitialPosition() {
 void SlawMobility::setTargetPosition()
 {
   if (nextMoveIsWait)
-    nextChange = simTime() + slaw->pauseTimeModel->computePausetime();
+    nextChange = omnetpp::simTime() + slaw->pauseTimeModel->computePausetime();
   else {
     isNewTrip = (unvisitedWaypointList.empty());
     targetPosition = slaw->getNextDestination(
       unvisitedWaypointList, C_k, lastPosition, walkerID
     );
     distance = lastPosition.distance(targetPosition);
-    nextChange = simTime() + distance / slaw->speedModel->computeSpeed();
+    nextChange = omnetpp::simTime() + distance / slaw->speedModel->computeSpeed();
     emitSignals();
   }
   nextMoveIsWait = !nextMoveIsWait;
