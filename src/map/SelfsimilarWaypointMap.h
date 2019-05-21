@@ -62,6 +62,8 @@ protected:
    * between the number of waypoints in a given confined area divided by the
    * total number of waypoints in a map */
   virtual void computeAreaWeights();
+  /** @brief Evaluates if there are repeated coordinates in the waypoint list */
+  virtual bool testWaypointList(WaypointList);
 public:
   SelfsimilarWaypointMap() { }
   virtual ~SelfsimilarWaypointMap();

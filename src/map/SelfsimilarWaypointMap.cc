@@ -57,26 +57,27 @@ bool SelfsimilarWaypointMap::loadMap(WaypointList& waypointList) {
     inet::Coord waypoint;
     while (waypointFile >> waypoint.x >> waypoint.y)
       waypointList.push_back(waypoint);
-    numberOfWaypoints = waypointList.size();
-    waypointList.sort(
-      //Lexicographical order
-      [](const inet::Coord& lhs, const inet::Coord& rhs) {
-        return lhs.x == rhs.x ? lhs.y < rhs.y : lhs.x < rhs.x;
-      }
-    );
-    waypointList.unique();
-    std::cout << numberOfWaypoints << " waypoints have been read from "
-      << mapName << std::endl;
+    success = testWaypointList(waypointList);
     waypointFile.close();
-    if (numberOfWaypoints == waypointList.size())
-      success = true;
-    else 
+    if (!success)
       std::cerr << "Self-similar Waypoint Map: " << mapName 
         << " has repeated coordinates\n";
   }
   else 
     std::cerr << "Self-similar Waypoint Map: " << mapName << " is not found\n"; 
   return success;
+}
+
+bool SelfsimilarWaypointMap::testWaypointList(WaypointList wpl) {
+  unsigned original_size = wpl.size();
+  wpl.sort(
+      //Lexicographical order
+      [](const inet::Coord& lhs, const inet::Coord& rhs) {
+        return lhs.x == rhs.x ? lhs.y < rhs.y : lhs.x < rhs.x;
+      }
+    );
+    wpl.unique();
+    return original_size == wpl.size();
 }
 
 void SelfsimilarWaypointMap::computeConfinedAreas(WaypointList& waypointList) {

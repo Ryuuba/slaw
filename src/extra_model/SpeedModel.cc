@@ -58,4 +58,5 @@ SpeedModel& SpeedModel::operator=(SpeedModel&& model) {
     modelType = model.modelType;
     par = std::move(model.par);
   }
+  return *this;
 }
