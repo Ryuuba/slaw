@@ -2,7 +2,7 @@
 A SLAW mobility simulator based on the OMNeT++ and INET frameworks
 
 ## Description
-Slaw++ is a simulator that implements the _Self-similar Least-Action Walk_ model (SLAW). SLAW is a realistic human mobility model that was designed by Lee, Lee, Hong, Kim, Rhee, and Chong (2012). According to their authors, SLAW represents five features of human motion:
+Slaw++ is a simulator that implements the _Self-similar Least-Action Walk_ model (SLAW). SLAW is a realistic human mobility model that was designed by Lee, Hong, Kim, Rhee, and Chong (2012). According to their authors, SLAW represents five features of human motion:
   1. Heavy-tail flights and pause-times
   2. Heterogeneously bounded mobility areas
   3. Truncated power-law intercontact times (ICTs)
@@ -37,7 +37,7 @@ The _IWalkerModel_ is a simple module extending the cSimpleModule class from OMN
 The remaining modules corresponds to the speed model, the pause time model, the Least-Action Trip Planning (LATP) algorithm, and the Self-similar map. These ones are not simple modules, but objects helping the module implementing the _IWalkerModel_ interface.
 
 ## References
-Lee, K., Hong, S., Kim, S. J., Rhee, I., & Chong, S.  (2012, April).  SLAW: self-similar least-action human walk. _IEEE/ACM Transactions on Networking_, 20(2), 515–529.
+Lee, K., Hong, S., Kim, S. J., Rhee, I., & Chong, S.  (2012, April). SLAW: self-similar least-action human walk. _IEEE/ACM Transactions on Networking_, 20(2), 515–529.
 
 Rhee, I., Shin, M., Hong, S., Lee, K., Kim, S. J., & Chong, S. (2011, June). On the levy-walk
-nature of human mobility. _IEEE/ACM Transactions on Networking_,19(3), 630–643
+nature of human mobility. _IEEE/ACM Transactions on Networking_, 19(3), 630–643.
