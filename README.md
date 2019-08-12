@@ -38,5 +38,6 @@ The remaining modules corresponds to the speed model, the pause time model, the 
 
 ## References
 Lee, K., Hong, S., Kim, S. J., Rhee, I., & Chong, S.  (2012, April).  SLAW: self-similar least-action human walk. _IEEE/ACM Transactions on Networking_, 20(2), 515–529.
+
 Rhee, I., Shin, M., Hong, S., Lee, K., Kim, S. J., & Chong, S. (2011, June). On the levy-walk
 nature of human mobility. _IEEE/ACM Transactions on Networking_,19(3), 630–643
