@@ -18,7 +18,7 @@ In order to install Slaw++, you must have a functional installation of both fram
 
 Once you have installed the above mentioned frameworks, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
-  2. Modify the INETDIR variable in the Makefile so that the value matches with the directory you compiled the INET framework
+  2. Modify the INETDIR variable in the Makefile so that the value matches with the directory where you compiled the INET framework
   3. Execute the make makefiles command
   ```bash
   $ make makefiles
