@@ -23,7 +23,7 @@ protected:
   std::vector < std::unordered_map <unsigned, omnetpp::simtime_t> > llt, ictt;
   /** @brief These are signal carrying the statistics asociated to its namely */
   static omnetpp::simsignal_t linkLifetime, interContactTime;
-  /** @brief The total of samples o be captured */
+  /** @brief The total of observations to be captured */
   unsigned ict_num, llt_num, ict_counter, llt_counter;
   omnetpp::simtime_t ict_min, llt_min;
 protected:

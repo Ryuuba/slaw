@@ -16,8 +16,8 @@
 
 package slaw.simulations;
 
-import slaw.i_walker_model.IWalkerModel;
-import slaw.simple_mobility.SlawBonnMotion;
+import slaw.contract.ISlawTripManager;
+import slaw.simple.SlawBonnMotion;
 import slaw.walker.Walker;
 import slaw.app.FlightLengthObserver;
 
@@ -34,7 +34,7 @@ network SLAWFlightLengthExperiment
         observer.classifyFlight = classifyFlight;
         @display("bgb=2000,2000;bgg=2000,10,grey50");
     submodules:
-        slaw: <slawModelType> like IWalkerModel;
+        slawtripmanager: <slawModelType> like ISlawTripManager;
         walker[numHosts]: Walker {
             mobilityType = "SlawMobility";
         }

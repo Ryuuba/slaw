@@ -15,6 +15,7 @@ src/slaw
 .oppbuilspec
 .projects
 .project
+.backup
 slaw
 SlawMobilityTrace
 simulations/.cmdenv-log

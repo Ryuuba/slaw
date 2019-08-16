@@ -1,4 +1,4 @@
-INETDIR = /home/dr_g/.inet4
+INETDIR = /home/dr_g/inet4
 
 BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/inet/common/geometry/common/ -I$(INETDIR)/src/inet/common/ -I$(INETDIR)/src/ -I$(INETDIR)/src/inet/mobility/base/ -I$(INETDIR)/src/inet/mobility/contract/ -I$(INETDIR)/src/inet/mobility/single/ -L$(INETDIR)/out/gcc-release/src/ -lINET -o slaw
 
