@@ -16,7 +16,7 @@ network SLAWConnectivityExperiment
         double minInterContactTime @unit(s);
         double minLifetime @unit(s);
         string slawModelType;
-        slaw.numOfWalker = numHosts;
+        slawtripmanager.numOfWalker = numHosts;
         @display("bgb=2000,2000;bgg=100,2,grey50");
     submodules:
         slawtripmanager: <slawModelType> like ISlawTripManager;
