@@ -53,7 +53,10 @@ void TripObserver::receiveSignal(
   omnetpp::cComponent* src, omnetpp::simsignal_t id, omnetpp::cObject* value, 
   omnetpp::cObject* details
 ) {
-  auto position = dynamic_cast<inet::Coord*>(value);
-  emit(next_waypoint_x, position->x);
-  emit(next_waypoint_y, position->y);
+  auto position = dynamic_cast<WaypointSignal*>(value);
+  if (!position)
+    error("Trip observer: error in position");
+  std::cout << position->next_waypoint.x << ' ' << position->next_waypoint.y << '\n';
+  emit(next_waypoint_x, position->next_waypoint.x);
+  emit(next_waypoint_y, position->next_waypoint.y);
 }

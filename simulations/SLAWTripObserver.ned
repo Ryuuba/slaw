@@ -10,7 +10,7 @@ network SLAWTripObserver
         walker.mobilityType = "SlawMobility";
         string slawModelType;
         slawtripmanager.numOfWalker = default(1);
-        @display("bgb=10000,10000;bgg=1000,10,grey50");
+        @display("bgb=2000,2000;bgg=100,1,grey50");
     submodules:
         observer: TripObserver;
         slawtripmanager: <slawModelType> like ISlawTripManager;

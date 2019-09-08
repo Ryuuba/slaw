@@ -7,6 +7,7 @@
 #include <limits>
 #include <omnetpp.h>
 #include "Coord.h"
+#include "../signals/WaypointSignal.h"
 
 class TripObserver: public omnetpp::cSimpleModule,
                     public omnetpp::cListener

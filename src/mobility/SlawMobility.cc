@@ -46,7 +46,8 @@ void SlawMobility::initialize(int stage) {
 
 
 void SlawMobility::setInitialPosition() {
-  emit(next_waypoint, &lastPosition);
+  nwp.next_waypoint = lastPosition;
+  emit(next_waypoint, &nwp);
 }
 
 void SlawMobility::setTargetPosition()
@@ -71,7 +72,8 @@ void SlawMobility::move() {
 }
 
 void SlawMobility::emitSignals() {
-  emit(next_waypoint, &targetPosition);
+  nwp.next_waypoint = targetPosition;
+  emit(next_waypoint, &nwp);
   if (isNewTrip) {
     int tripSize = unvisitedWaypointList.size(); 
     if (std::strcmp(slaw->getIndividualWalkerModelName(), "SlawMatlab"))

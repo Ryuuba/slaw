@@ -16,11 +16,14 @@
 #include <omnetpp/csimplemodule.h>
 
 #include "../contract/ISlawTripManager.h"
+#include "../signals/WaypointSignal.h"
 #include "LineSegmentsMobilityBase.h"
 
 class SlawMobility : public inet::LineSegmentsMobilityBase
 {
 protected:
+  /** @brief Signal conveying the next waypoint*/
+  WaypointSignal nwp;
   /** @brief Walker ID */
   unsigned walkerID;
   /** @brief The distance to reach the next destination */
