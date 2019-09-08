@@ -1,4 +1,4 @@
-#include "../simple/SlawMobility.h"
+#include "../mobility/SlawMobility.h"
 #include <cstring>
 
 Define_Module(SlawMobility);

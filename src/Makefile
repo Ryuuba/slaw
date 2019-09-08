@@ -46,8 +46,8 @@ OBJS = \
     $O/extra/SpeedModel.o \
     $O/latp/LATP.o \
     $O/map/SelfsimilarWaypointMap.o \
-    $O/simple/SlawBonnMotion.o \
-    $O/simple/SlawMobility.o \
+    $O/mobility/SlawBonnMotion.o \
+    $O/mobility/SlawMobility.o \
     $O/walkermodel/SlawMatlab.o \
     $O/walkermodel/SlawTransNewt.o
 

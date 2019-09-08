@@ -1,4 +1,4 @@
-package slaw.simple;
+package slaw.mobility;
 
 import inet.mobility.single.BonnMotionMobility;
 

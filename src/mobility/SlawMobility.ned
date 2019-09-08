@@ -1,14 +1,14 @@
-package slaw.simple;
+package slaw.mobility;
 
 import inet.mobility.base.MovingMobilityBase;
 
 simple SlawMobility extends MovingMobilityBase
 {
     parameters:
-        string slawModuleName = default("slaw");
+        string slawModuleName = default("slawtripmanager");
         bool classifyFlight = default(false);
         @class(SlawMobility);
-        @signal[nextWaypoint];
+        @signal[nextWaypoint](type=Coord?);
         @signal[tripSize](type=long);
         @signal[flight](type=double);
         @signal[intraFlightLength](type=double);
