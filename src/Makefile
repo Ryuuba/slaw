@@ -48,6 +48,11 @@ OBJS = \
     $O/map/SelfsimilarWaypointMap.o \
     $O/mobility/SlawBonnMotion.o \
     $O/mobility/SlawMobility.o \
+    $O/pausetime/BParetoPauseTimeModel.o \
+    $O/pausetime/ConstantPauseTimeModel.o \
+    $O/pausetime/NormalPauseTimeModel.o \
+    $O/pausetime/RheeSpeedModel.o \
+    $O/pausetime/UniformPauseTimeModel.o \
     $O/walkermodel/SlawMatlab.o \
     $O/walkermodel/SlawTransNewt.o
 

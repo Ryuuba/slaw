@@ -12,24 +12,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
-#if !defined(I_PAUSE_TIME_MODEL_H)
-#define I_PAUSE_TIME_MODEL_H
+#if !defined(UNIFORM_PAUSE_TIME_MODEL_H)
+#define UNIFORM_PAUSE_TIME_MODEL_H
 
-#include <cmath>
-#include <cstdint>
-#include <string>
+#include "../contract/IPauseTimeModel.h"
 
-#include <omnetpp.h>
-#include "../common/SlawDefs.h"
-
-class IPauseTimeModel {
+class UniformPauseTimeModel : 
+  public IPauseTimeModel,
+  public omnetpp::cSimpleModule
+{
 protected:
-  /** @brief The first parameter of a pause-time model **/
-  double par1;
+  double a, b;
 public:
-  /** @brief Returns a time according to the configured pausetime model. */
-  virtual double computePauseTime() = 0;
-
+  virtual void initialize() override;
+  virtual double computePauseTime() override;
 };
 
-#endif /* I_PAUSE_TIME_MODEL_H */
+#endif /* UNIFORM_PAUSE_TIME_MODEL_H */

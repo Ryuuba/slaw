@@ -41,6 +41,7 @@ void SlawMobility::initialize(int stage) {
     std::cout << '\n';
     int tripSize = unvisitedWaypointList.size();
     emit(trip_size, tripSize);
+    WATCH(nextChange);
   }
 }
 
@@ -53,7 +54,7 @@ void SlawMobility::setInitialPosition() {
 void SlawMobility::setTargetPosition()
 {
   if (nextMoveIsWait)
-    nextChange = omnetpp::simTime() + slaw->pauseTimeModel->computePausetime();
+    nextChange = omnetpp::simTime() + slaw->getPauseTime();
   else {
     isNewTrip = (unvisitedWaypointList.empty());
     targetPosition = slaw->getNextDestination(

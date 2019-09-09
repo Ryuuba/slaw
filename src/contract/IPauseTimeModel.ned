@@ -17,5 +17,6 @@ package slaw.contract;
 
 moduleinterface IPauseTimeModel {
     parameters:
+        double par1;
         @display("i=block/cogwheel");
 }

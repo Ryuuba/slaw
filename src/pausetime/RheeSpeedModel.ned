@@ -12,24 +12,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
-#if !defined(I_PAUSE_TIME_MODEL_H)
-#define I_PAUSE_TIME_MODEL_H
 
-#include <cmath>
-#include <cstdint>
-#include <string>
+package slaw.pausetime;
+import slaw.contract.ISpeedModel;
 
-#include <omnetpp.h>
-#include "../common/SlawDefs.h"
-
-class IPauseTimeModel {
-protected:
-  /** @brief The first parameter of a pause-time model **/
-  double par1;
-public:
-  /** @brief Returns a time according to the configured pausetime model. */
-  virtual double computePauseTime() = 0;
-
-};
-
-#endif /* I_PAUSE_TIME_MODEL_H */
+simple RheeSpeedModel like ISpeedModel {
+    parameters:
+        @display("i=block/cogwheel");
+        double mean @unit(mps);
+        double stdDev @unit(mps);
+}

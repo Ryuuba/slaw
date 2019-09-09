@@ -12,24 +12,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
-#if !defined(I_PAUSE_TIME_MODEL_H)
-#define I_PAUSE_TIME_MODEL_H
+#if !defined(RHEE_SPEED_MODEL_H)
+#define RHEE_SPEED_MODEL_H
 
-#include <cmath>
-#include <cstdint>
-#include <string>
+#include "../contract/ISpeedModel.h"
 
-#include <omnetpp.h>
-#include "../common/SlawDefs.h"
-
-class IPauseTimeModel {
+class RheeSpeedModel : 
+  public ISpeedModel,
+  public omnetpp::cSimpleModule
+{
 protected:
-  /** @brief The first parameter of a pause-time model **/
-  double par1;
+  double speed;
+protected:
+  /** @brief Returns a speed according to the levy-walk speed model from Rhee,
+   * et al. "Levy-walk nature of human mobility", TON, 2011 */
+  void rheeModel(double);
 public:
-  /** @brief Returns a time according to the configured pausetime model. */
-  virtual double computePauseTime() = 0;
-
+  virtual void initialize() override;
+  virtual double computeSpeed(double par = 0.0) override;
 };
 
-#endif /* I_PAUSE_TIME_MODEL_H */
+#endif /* RHEE_SPEED_MODEL_H */

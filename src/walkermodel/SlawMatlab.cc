@@ -10,7 +10,7 @@ void SlawMatlab::initialize() {
   planningDegree = par("planningDegree").doubleValue();
   latp.setLATP(planningDegree, getRNG(0));
   setMap();
-  setPauseTimeModel();
+  // setPauseTimeModel();
   setSpeedModel();
   std::string filename(par("clusterList").stringValue());
   if (filename.compare("") != 0)

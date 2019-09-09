@@ -8,8 +8,11 @@ void SlawTransNetw::initialize() {
   planningDegree = par("planningDegree").doubleValue();
   latp.setLATP(planningDegree, getRNG(0));
   setMap();
-  setPauseTimeModel();
   setSpeedModel();
+  pause_time = (IPauseTimeModel*) this->getSimulation()->
+      getSystemModule()->getSubmodule(par("pauseTimeModel").stringValue());
+  if (!pause_time)
+    error("Invalid pause time model");
   std::string filename(par("clusterList").stringValue());
   if (filename.compare("") != 0)
     loadCKFile(filename.c_str());

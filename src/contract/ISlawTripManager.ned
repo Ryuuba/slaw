@@ -23,10 +23,10 @@ moduleinterface ISlawTripManager {
     string clusterList;
     double clusteringRadius @unit(m);
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, PARETO_BOUNDED = 4
-    int pauseTimeModelType;
-    double pausetimeA;
-    double pausetimeB @unit(s); 
-    double pausetimeH @unit(s);
+    //int pauseTimeModelType;
+    //double pausetimeA;
+    //double pausetimeB @unit(s); 
+    //double pausetimeH @unit(s);
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, RHEE = 4
     int speedModelType @enum(1, 2, 3, 4);
     double speedA @unit(mps);
