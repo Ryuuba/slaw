@@ -52,7 +52,7 @@ protected:
    *  MobilityBase. This module is initialized in the state 0. It is very
    *  important place it below the slaw model in he ned file in order
    *  to avoid the error 139: segmentation fault. */
-  virtual int numInitStages() const { return 5; }
+  virtual int numInitStages() const { return 6; }
   /** @brief Initializes mobility model parameters.*/
   virtual void initialize(int stage);
   /** @brief Overridden from LineSegmentsMobilityBase.*/

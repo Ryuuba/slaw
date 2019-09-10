@@ -18,12 +18,8 @@ void SlawTransNetw::initialize(int stage) {
     computeHome();
   }
   else if (stage == 3) {
-    auto ptr = this->getSimulation()->
+    pause_time = (IPauseTimeModel*) this->getSimulation()->
       getSystemModule()->getSubmodule(par("pauseTimeModule").stringValue());
-    std::cout << "Perro apuntador: " << ptr->getFullName() << std::endl;
-    pause_time = (IPauseTimeModel*) ptr;
-    for (int i = 0; i < 10; i++)
-      std::cout << "observation: " << pause_time->computePauseTime() <<'\n';
     if (!pause_time->computePauseTime())
       error("No pause-time module valid");
   }
