@@ -19,7 +19,7 @@
 #include <omnetpp.h>
 #include "../common/SlawDefs.h"
 
-class ISpeedModel {
+class ISpeedModel :  public omnetpp::cSimpleModule {
 public:
   /** @brief Returns a time according to the configured pausetime model. */
   virtual double computeSpeed(double par = 0.0) = 0;
