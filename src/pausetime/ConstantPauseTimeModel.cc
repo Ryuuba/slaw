@@ -2,7 +2,7 @@
 
 Define_Module(ConstantPauseTimeModel);
 
-void ConstantPauseTimeModel::initialize() {
+void ConstantPauseTimeModel::initialize(int stage) {
   pause_time = par("par1").doubleValue();
 }
 

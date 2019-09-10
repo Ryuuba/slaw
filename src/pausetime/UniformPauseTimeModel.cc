@@ -2,7 +2,7 @@
 
 Define_Module(UniformPauseTimeModel);
 
-void UniformPauseTimeModel::initialize() {
+void UniformPauseTimeModel::initialize(int stage) {
   a = par("par1").doubleValue();
   b = par("par2").doubleValue();
 }

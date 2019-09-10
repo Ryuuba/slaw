@@ -2,7 +2,7 @@
 
 Define_Module(NormalPauseTimeModel);
 
-void NormalPauseTimeModel::initialize() {
+void NormalPauseTimeModel::initialize(int atage) {
   mean = par("par1").doubleValue();
   std_dev = par("par2").doubleValue();
 }

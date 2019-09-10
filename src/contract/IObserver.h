@@ -31,7 +31,8 @@ protected:
   const char* observer_type;
 public:
   IObserver() : counter(0), sample_size(0) {};
-  void initialize() = 0;
+  virtual void initialize(int stage) override;
+  virtual int numInitStages() const = 0;
 };
 
 Register_Abstract_Class(IObserver);

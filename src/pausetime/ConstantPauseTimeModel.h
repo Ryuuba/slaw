@@ -17,14 +17,13 @@
 
 #include "../contract/IPauseTimeModel.h"
 
-class ConstantPauseTimeModel : 
-  public IPauseTimeModel,
-  public omnetpp::cSimpleModule
+class ConstantPauseTimeModel : public IPauseTimeModel
 {
 protected:
   double pause_time;
 public:
-  virtual void initialize() override;
+  virtual void initialize(int stage) override;
+  virtual int numInitStages() const {return 5;}
   virtual double computePauseTime() override;
 };
 

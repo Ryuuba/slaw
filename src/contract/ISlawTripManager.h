@@ -71,12 +71,11 @@ virtual ~ISlawTripManager();
     WaypointList&, const AreaSet&, inet::Coord&, unsigned
   ) = 0;
   /** @brief Initializes the Trip Manager module. It must be overridden*/
-  virtual void initialize() = 0;
+  virtual void initialize(int stage) = 0;
+  virtual int numInitStages() const = 0;
   /** @brief Returns the name of the individual walker model*/
   const char* getIndividualWalkerModelName() {return walker_model;}
-  double getPauseTime () {
-    return pause_time -> computePauseTime();
-  }
+  virtual double getPauseTime () = 0;
 };
 
 #endif

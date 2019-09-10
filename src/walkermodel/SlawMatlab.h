@@ -45,7 +45,8 @@ public:
   virtual ~SlawMatlab() { }
   /** @brief Initializes the parameters of this module from the omnetpp.ini 
    *  configuration file*/
-  virtual void initialize() override;
+  virtual void initialize(int stage) override;
+  virtual int numInitStages() const override {return 3;}
   /** @brief Sets the set of confined areas C_k and the initial waypoint 
    *  from wich the walker starts its trip. */
   virtual void setWalkerState(
@@ -54,6 +55,9 @@ public:
   virtual inet::Coord getNextDestination(
     WaypointList&, const AreaSet&, inet::Coord&, unsigned
   ) override;
+  virtual double getPauseTime() override {
+    return pause_time->computePauseTime();
+  }
 };
 
 

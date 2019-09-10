@@ -2,23 +2,31 @@
 
 Define_Module(SlawTransNetw);
 
-void SlawTransNetw::initialize() {
-  walker_model = par("walkerModel").stringValue();
-  walkerNum = par("numOfWalker");
-  planningDegree = par("planningDegree").doubleValue();
-  latp.setLATP(planningDegree, getRNG(0));
-  setMap();
-  setSpeedModel();
-  pause_time = (IPauseTimeModel*) this->getSimulation()->
-      getSystemModule()->getSubmodule(par("pauseTimeModel").stringValue());
-  if (!pause_time)
-    error("Invalid pause time model");
-  std::string filename(par("clusterList").stringValue());
-  if (filename.compare("") != 0)
-    loadCKFile(filename.c_str());
-  else
-    assignConfinedAreas();
-  computeHome();
+void SlawTransNetw::initialize(int stage) {
+  if (stage == 0) {
+    walker_model = par("walkerModel").stringValue();
+    walkerNum = par("numOfWalker");
+    planningDegree = par("planningDegree").doubleValue();
+    latp.setLATP(planningDegree, getRNG(0));
+    setMap();
+    setSpeedModel();
+    std::string filename(par("clusterList").stringValue());
+    if (filename.compare("") != 0)
+      loadCKFile(filename.c_str());
+    else
+      assignConfinedAreas();
+    computeHome();
+  }
+  else if (stage == 3) {
+    auto ptr = this->getSimulation()->
+      getSystemModule()->getSubmodule(par("pauseTimeModule").stringValue());
+    std::cout << "Perro apuntador: " << ptr->getFullName() << std::endl;
+    pause_time = (IPauseTimeModel*) ptr;
+    for (int i = 0; i < 10; i++)
+      std::cout << "observation: " << pause_time->computePauseTime() <<'\n';
+    if (!pause_time->computePauseTime())
+      error("No pause-time module valid");
+  }
 }
 
 void SlawTransNetw::setWalkerState(

@@ -22,7 +22,7 @@
 #include <omnetpp.h>
 #include "../common/SlawDefs.h"
 
-class IPauseTimeModel {
+class IPauseTimeModel: public omnetpp::cSimpleModule {
 protected:
   /** @brief The first parameter of a pause-time model **/
   double par1;

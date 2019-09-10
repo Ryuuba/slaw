@@ -16,6 +16,7 @@
 package slaw.walkermodel;
 
 import slaw.contract.ISlawTripManager;
+import slaw.contract.IPauseTime;
 
 simple SlawTransNetw like ISlawTripManager {
   parameters:
@@ -26,7 +27,7 @@ simple SlawTransNetw like ISlawTripManager {
     string clusterList;
     double clusteringRadius @unit(m);
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, PARETO_BOUNDED = 4
-    string pauseTimeModel = "BParetoPauseTime";
+    string pauseTimeModule = "pausetimemodule";
     //CONSTANT = 1, UNIFORM = 2, NORMAL = 3, RHEE = 4
     int speedModelType @enum(1, 2, 3, 4);
     double speedA @unit(mps);

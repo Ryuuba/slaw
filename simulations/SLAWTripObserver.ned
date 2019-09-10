@@ -10,13 +10,13 @@ network SLAWTripObserver
     parameters:
         walker.mobilityType = "SlawMobility";
         double par1;
-        double par2 @unit(s);
-        double par3 @unit(s);
+        double par2;
+        double par3;
         string slawModelType;
         string pauseTimeModelType;
         slawtripmanager.numOfWalker = default(1);
-        pausetimemodule.par1 = 10;
-        pausetimemodule.par2 = 2;
+        pausetimemodule.par1 = par1;
+        pausetimemodule.par2 = par2;
         pausetimemodule.par3 = par3;
         @display("bgb=2000,2000;bgg=100,1,grey50");
     submodules:

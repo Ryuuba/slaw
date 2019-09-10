@@ -21,10 +21,12 @@ SlawMobility::SlawMobility() :
 { }
 
 void SlawMobility::initialize(int stage) {
-  LineSegmentsMobilityBase::initialize(stage);
-  if(stage == 0) {
+  if(stage < 2) {
+    LineSegmentsMobilityBase::initialize(stage);
     walkerID = getContainingNode(this)->getIndex();
     classifyFlight = par("classifyFlight").boolValue();
+  }
+  else if (stage == 2) {
     auto slawModuleName = par("slawModuleName").stringValue();
     slaw = (ISlawTripManager*) this->getSimulation()->
       getSystemModule()->getSubmodule(slawModuleName);
@@ -38,11 +40,11 @@ void SlawMobility::initialize(int stage) {
       << "areas: ";
     for (auto& areaNumber: C_k)
         std::cout << areaNumber << ' ';
-    std::cout << '\n';
+    std::cout << "\n";
     int tripSize = unvisitedWaypointList.size();
     emit(trip_size, tripSize);
     WATCH(nextChange);
-  }
+  }  
 }
 
 
@@ -62,6 +64,7 @@ void SlawMobility::setTargetPosition()
     );
     distance = lastPosition.distance(targetPosition);
     nextChange = omnetpp::simTime() + distance / slaw->speedModel->computeSpeed();
+    std::cout << "nextchange: " << nextChange << '\n';
     emitSignals();
   }
   nextMoveIsWait = !nextMoveIsWait;

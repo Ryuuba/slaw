@@ -2,15 +2,22 @@
 
 Define_Module(BParetoPauseTimeModel);
 
-void BParetoPauseTimeModel::initialize() {
-  alpha = par("par1").doubleValue();
-  x_min = par("par2").doubleValue();
-  x_max = par("par3").doubleValue();
+void BParetoPauseTimeModel::initialize(int stage) {
+  std::cout << "initializing BParetoPauseTime module\n";
+  if (stage == 0) {
+    alpha = par("par1").doubleValue();
+    x_min = par("par2").doubleValue();
+    x_max = par("par3").doubleValue();
+    std::cout << "Paremeters: " << alpha << ' ' << x_min << ' ' << x_max << '\n';
+  }
 }
 
 double BParetoPauseTimeModel::computePauseTime() {
+  std::cout << "computing pause time\n";
   double u = uniform(0, 1);
   double op1 = pow(x_max, alpha);
   double op2 = pow(x_min, alpha);
-  return pow(-(u*op1 - u*op2 - op1) / pow(x_min*x_max, alpha), -1.0/alpha);
+  double observation = pow(-(u*op1 - u*op2 - op1) / pow(x_min*x_max, alpha), -1.0/alpha);
+  std::cout << "Pause time observation: " << observation << '\n';
+  return observation;
 }
