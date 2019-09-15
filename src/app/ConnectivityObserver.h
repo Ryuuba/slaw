@@ -35,12 +35,12 @@ protected:
 public:
   /** @brief Initializes data structures and data member */
   ConnectivityObserver();
-  /** @brief initializes data structures and the value of radius */
-  virtual void initialize() override;
   /** @brief Receives the quadrant of a module and updates its one-hop 
    * neighborhood */
   virtual void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t,  
     omnetpp::cObject*, omnetpp::cObject*) override;
+  /** @brief Initializes the attributes of this class */
+  virtual void initialize(int stage) override;
 };
 
 #endif // CONNECTIVITY_OBSERVER_H 

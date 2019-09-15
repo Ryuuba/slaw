@@ -22,8 +22,9 @@ class ConstantSpeedModel : public ISpeedModel
 protected:
   double speed;
 public:
-  virtual void initialize() override;
   virtual double computeSpeed(double par = 0.0) override;
+  virtual void initialize(int stage) override;
+  virtual int numInitStages() const override {return 6;}
 };
 
 #endif /* CONSTANT_SPEED_MODEL_H */

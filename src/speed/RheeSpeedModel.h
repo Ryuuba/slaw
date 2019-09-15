@@ -17,9 +17,7 @@
 
 #include "../contract/ISpeedModel.h"
 
-class RheeSpeedModel : 
-  public ISpeedModel,
-  public omnetpp::cSimpleModule
+class RheeSpeedModel : public ISpeedModel
 {
 protected:
   double speed;
@@ -28,8 +26,9 @@ protected:
    * et al. "Levy-walk nature of human mobility", TON, 2011 */
   void rheeModel(double);
 public:
-  virtual void initialize() override;
   virtual double computeSpeed(double par = 0.0) override;
+  virtual void initialize(int stage) override;
+  virtual int numInitStages() const override {return 5;}
 };
 
 #endif /* RHEE_SPEED_MODEL_H */

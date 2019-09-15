@@ -9,9 +9,9 @@
 #include <omnetpp.h>
 #include "Coord.h"
 #include "MovingMobilityBase.h"
+#include "../contract/IObserver.h"
 
-class PositionObserver: public omnetpp::cSimpleModule,
-  public omnetpp::cListener{
+class PositionObserver: public IObserver{
 protected:
   //TODO add statistic to measure the quadrant distribution
   /** @brief Data structure storing the position of nodes in a 
@@ -42,8 +42,10 @@ public:
   PositionObserver();
   /** Unsubscribes to signal quadrant */
   virtual ~PositionObserver();
-  /** Initializes the attributes of this class */
-  virtual void initialize();
+  /** @brief Initializes the attributes of this class */
+  virtual void initialize(int stage) override;
+  /** @brief Return the number of stages */
+  virtual int numInitStages() const {return 6;}
   /** This module does not receive messages */
   virtual void handleMessage(omnetpp::cMessage*);
   /** Receives the quadrant of a module and updates its one-hop neighborhod*/

@@ -9,7 +9,6 @@ void SlawTransNetw::initialize(int stage) {
     planningDegree = par("planningDegree").doubleValue();
     latp.setLATP(planningDegree, getRNG(0));
     setMap();
-    setSpeedModel();
     std::string filename(par("clusterList").stringValue());
     if (filename.compare("") != 0)
       loadCKFile(filename.c_str());
@@ -21,7 +20,11 @@ void SlawTransNetw::initialize(int stage) {
     pause_time = (IPauseTimeModel*) this->getSimulation()->
       getSystemModule()->getSubmodule(par("pauseTimeModule").stringValue());
     if (!pause_time->computePauseTime())
-      error("No pause-time module valid");
+      error("Invalid pause-time module");
+    speed = (ISpeedModel*) this->getSimulation()->
+      getSystemModule()->getSubmodule(par("speedModule").stringValue());
+    if (!speed->computeSpeed())
+      error("Invalid speed module");
   }
 }
 

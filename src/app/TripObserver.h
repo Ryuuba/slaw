@@ -6,11 +6,11 @@
 #include <cmath>
 #include <limits>
 #include <omnetpp.h>
+#include "../contract/IObserver.h"
 #include "Coord.h"
 #include "../signals/WaypointSignal.h"
 
-class TripObserver: public omnetpp::cSimpleModule,
-                    public omnetpp::cListener
+class TripObserver: public IObserver
 {
 protected:
   /** @brief The number of observed trips */
@@ -30,7 +30,9 @@ public:
   /** @brief Closes the file where the trip is written */
   ~TripObserver();
   /** @brief Reads from the configuration file the name of the output file */
-  void initialize();
+  virtual void initialize(int stage) override;
+  /** @brief Return the number of stages */
+  virtual int numInitStages() const {return 6;}
   /** @brief This module does not receive messages */
   virtual void handleMessage(omnetpp::cMessage*);
   /** @brief Receives the number of trips a walker has completed */

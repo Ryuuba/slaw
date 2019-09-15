@@ -27,10 +27,12 @@ TripObserver::~TripObserver()
   getSimulation()->getSystemModule()->unsubscribe(next_waypoint, this);
 }
 
-void TripObserver::initialize()
+void TripObserver::initialize(int stage)
 {
-  sample_size = par("sampleSize");
-  std::cout << "TripObserver: " << sample_size << " trips to be observed\n";
+  if (stage == 0) {
+    sample_size = par("sampleSize");
+    std::cout << "TripObserver: " << sample_size << " trips to be observed\n";
+  }
 }
 
 void TripObserver::handleMessage(omnetpp::cMessage* msg)

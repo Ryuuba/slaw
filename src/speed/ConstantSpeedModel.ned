@@ -13,11 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package slaw.extra;
-import slaw.contract.IPauseTimeModel;
+package slaw.speed;
+import slaw.contract.ISpeedModel;
 
-simple ConstantPauseTimeModel like IPauseTimeModel {
+simple ConstantSpeedModel like ISpeedModel {
     parameters:
         @display("i=block/cogwheel");
-        double pauseTime @unit(mps);
+        double speedA @unit(mps);
 }

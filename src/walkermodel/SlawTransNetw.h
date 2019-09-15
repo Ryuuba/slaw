@@ -17,7 +17,6 @@
 #define SLAW_IEEE_ACM_TON_H_
 
 #include "../contract/ISlawTripManager.h"
-#include "../common/SlawDefs.h"
 
 class SlawTransNetw : public ISlawTripManager {
 protected:
@@ -59,6 +58,9 @@ public:
   ) override;
   virtual double getPauseTime() override {
     return pause_time->computePauseTime();
+  }
+  virtual double getSpeed() override {
+    return speed->computeSpeed();
   }
 };
 

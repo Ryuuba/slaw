@@ -18,9 +18,9 @@
 
 #include <omnetpp.h>
 #include <iostream>
+#include "../contract/IObserver.h"
 
-class FlightLengthObserver: public omnetpp::cSimpleModule,
-public omnetpp::cListener {
+class FlightLengthObserver: public IObserver {
 protected:
   unsigned numOfSamples, counter;
   bool classifyFlight;
@@ -33,7 +33,10 @@ protected:
 public:
   FlightLengthObserver();
   ~FlightLengthObserver();
-  void initialize();
+  /** Initializes the attributes of this class */
+  virtual void initialize(int stage) override;
+  /** @brief Return the number of stages */
+  virtual int numInitStages() const {return 6;}
   void handleMessage(omnetpp::cMessage*);
   void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t, double, 
     omnetpp::cObject*);

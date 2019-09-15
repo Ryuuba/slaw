@@ -10,8 +10,6 @@ void SlawMatlab::initialize(int stage) {
   planningDegree = par("planningDegree").doubleValue();
   latp.setLATP(planningDegree, getRNG(0));
   setMap();
-  // setPauseTimeModel();
-  setSpeedModel();
   std::string filename(par("clusterList").stringValue());
   if (filename.compare("") != 0)
     loadCKFile(filename.c_str());

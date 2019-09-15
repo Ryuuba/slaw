@@ -2,8 +2,9 @@
 
 Define_Module(ConstantSpeedModel);
 
-void ConstantSpeedModel::initialize() {
-  speed = par("speed").doubleValue();
+void ConstantSpeedModel::initialize(int stage) {
+  if (stage == 0)
+    speed = par("speed").doubleValue();
 }
 
 double ConstantSpeedModel::computeSpeed(double par) {

@@ -49,12 +49,14 @@ FlightLengthObserver::~FlightLengthObserver()
   }
 }
 
-void FlightLengthObserver::initialize()
+void FlightLengthObserver::initialize(int stage)
 {
-  numOfSamples = par("numOfSamples");
-  classifyFlight = par("classifyFlight").boolValue();
-  std::cout << "Number of samples: " << numOfSamples << '\n';
-  WATCH(counter);
+  if (stage == 0) {
+    numOfSamples = par("numOfSamples");
+    classifyFlight = par("classifyFlight").boolValue();
+    std::cout << "Number of samples: " << numOfSamples << '\n';
+    WATCH(counter);
+  }
 }
 
 void FlightLengthObserver::handleMessage(omnetpp::cMessage* msg)

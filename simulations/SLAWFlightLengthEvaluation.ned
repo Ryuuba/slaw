@@ -17,6 +17,7 @@
 package slaw.simulations;
 
 import slaw.contract.ISlawTripManager;
+import slaw.contract.IObserver;
 import slaw.mobility.SlawBonnMotion;
 import slaw.walker.Walker;
 import slaw.app.FlightLengthObserver;
@@ -28,6 +29,7 @@ network SLAWFlightLengthExperiment
         int numHosts;
         int numSamples;
         string slawModelType;
+        string observerType = "FlightLenghtObserver";
         bool classifyFlight;
         slawtripmanager.numOfWalker = numHosts;
         slawtripmanager.classifyFlight = classifyFlight;
@@ -38,7 +40,7 @@ network SLAWFlightLengthExperiment
         walker[numHosts]: Walker {
             mobilityType = "SlawMobility";
         }
-        observer: FlightLengthObserver {
+        observer: <observerType> like IObserver {
             numOfSamples = numSamples;
             @display("p=62.247997,795.16797");
         }

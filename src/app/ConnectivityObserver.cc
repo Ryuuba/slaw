@@ -11,16 +11,18 @@ ConnectivityObserver::ConnectivityObserver() :
   ict_counter(0), llt_counter(0)
 { }
 
-void ConnectivityObserver::initialize() {
-  PositionObserver::initialize();
-  ict_num = par("numOfICTSamples");
-  llt_num = par("numOfLLTSamples");
-  ict_min = par("minICT");
-  llt_min = par("minLLT");
-  llt.resize(numOfNodes);
-  ictt.resize(numOfNodes);
-  WATCH(ict_counter);
-  WATCH(llt_counter);
+void ConnectivityObserver::initialize(int stage) {
+  if (stage == 0) {
+    PositionObserver::initialize(stage);
+    ict_num = par("numOfICTSamples");
+    llt_num = par("numOfLLTSamples");
+    ict_min = par("minICT");
+    llt_min = par("minLLT");
+    llt.resize(numOfNodes);
+    ictt.resize(numOfNodes);
+    WATCH(ict_counter);
+    WATCH(llt_counter);
+  }
 }
 
 std::unordered_map<unsigned, omnetpp::simtime_t>

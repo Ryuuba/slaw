@@ -42,8 +42,6 @@ OBJS = \
     $O/app/PositionObserver.o \
     $O/app/TripObserver.o \
     $O/contract/ISlawTripManager.o \
-    $O/extra/PauseTimeModel.o \
-    $O/extra/SpeedModel.o \
     $O/latp/LATP.o \
     $O/map/SelfsimilarWaypointMap.o \
     $O/mobility/SlawBonnMotion.o \
@@ -51,8 +49,10 @@ OBJS = \
     $O/pausetime/BParetoPauseTimeModel.o \
     $O/pausetime/ConstantPauseTimeModel.o \
     $O/pausetime/NormalPauseTimeModel.o \
-    $O/pausetime/RheeSpeedModel.o \
     $O/pausetime/UniformPauseTimeModel.o \
+    $O/speed/ConstantSpeedModel.o \
+    $O/speed/NormalSpeedModel.o \
+    $O/speed/RheeSpeedModel.o \
     $O/walkermodel/SlawMatlab.o \
     $O/walkermodel/SlawTransNewt.o
 

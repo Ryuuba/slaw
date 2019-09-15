@@ -18,13 +18,15 @@
 
 #include "../common/SlawDefs.h"
 #include "../map/SelfsimilarWaypointMap.h"
-#include "../extra/SpeedModel.h"
 #include "../contract/IPauseTimeModel.h"
+#include "../contract/ISpeedModel.h"
 #include "../latp/LATP.h"
 
 class ISlawTripManager: public omnetpp::cSimpleModule{
 protected:
-  /** Object computing pause times */
+  /** @brief Access speed model */ 
+  ISpeedModel* speed;
+  /** Object Access pause times */
   IPauseTimeModel* pause_time;
   /** @brief the number of walkers in a simulation */
   unsigned walkerNum;
@@ -41,10 +43,6 @@ protected:
   void loadCKFile(char const*);
   /** @brief Initializes the self-similar waypoint map. */
   virtual void setMap();
-  /** @brief Initializes the pausetime model */
-  //virtual void setPauseTimeModel();
-  /** @brief Initializes the speed model */
-  virtual void setSpeedModel();
   /** @brief Computes a new destination waypoint list according to the values of
    *  the member variable model. This member function is overridden */
   virtual WaypointList computeDestinationList(
@@ -55,8 +53,6 @@ protected:
 public:
   /** @brief Object implementing the waypoint map */
   SelfsimilarWaypointMap* const map = new SelfsimilarWaypointMap;
-  /** @brief Object implementing the speed model */ 
-  SpeedModel* const speedModel = new SpeedModel;
 public:
 /** @brief Default destructor */
 virtual ~ISlawTripManager();
@@ -76,6 +72,7 @@ virtual ~ISlawTripManager();
   /** @brief Returns the name of the individual walker model*/
   const char* getIndividualWalkerModelName() {return walker_model;}
   virtual double getPauseTime () = 0;
+  virtual double getSpeed () = 0;
 };
 
 #endif

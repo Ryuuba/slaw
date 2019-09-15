@@ -13,12 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package slaw.extra;
+package slaw.speed;
 import slaw.contract.ISpeedModel;
 
 simple NormalSpeedModel like ISpeedModel {
     parameters:
         @display("i=block/cogwheel");
-        double mean @unit(mps);
-        double stdDev @unit(mps);
+        double speedA @unit(mps); //mean
+        double speedB @unit(mps); //std dev
 }

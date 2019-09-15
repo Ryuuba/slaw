@@ -22,8 +22,9 @@ class NormalSpeedModel : public ISpeedModel
 protected:
   double mean, std_dev;
 public:
-  virtual void initialize() override;
   virtual double computeSpeed(double par = 0.0) override;
+  virtual void initialize(int stage) override;
+  virtual int numInitStages() const override {return 5;}
 };
 
 #endif /* NORMAL_SPEED_MODEL_H */

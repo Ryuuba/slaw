@@ -58,7 +58,10 @@ public:
   virtual double getPauseTime() override {
     return pause_time->computePauseTime();
   }
+  virtual double getSpeed() override {
+    return speed->computeSpeed();
+  }
 };
 
 
-#endif
+#endif /* SLAW_MATLAB_ */

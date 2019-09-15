@@ -13,12 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package slaw.pausetime;
+package slaw.speed;
 import slaw.contract.ISpeedModel;
 
 simple RheeSpeedModel like ISpeedModel {
     parameters:
         @display("i=block/cogwheel");
-        double mean @unit(mps);
-        double stdDev @unit(mps);
 }

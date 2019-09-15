@@ -14,15 +14,17 @@ PositionObserver::~PositionObserver() {
   getSimulation()->getSystemModule()->unsubscribe(position, this);
 }
 
-void PositionObserver::initialize() {
-  numOfNodes = par("numOfNodes");
-  nodePosition.resize(numOfNodes);
-  radius = par("radius").doubleValue();
-  x_length = par("x_length").doubleValue();
-  y_length = par("y_length").doubleValue();
-  x_num = unsigned( ceil(x_length / radius) );
-  y_num = unsigned( ceil(y_length / radius) );
-  nodeMap.resize(x_num * y_num);
+void PositionObserver::initialize(int stage) {
+  if (stage == 0) {
+    numOfNodes = par("numOfNodes");
+    nodePosition.resize(numOfNodes);
+    radius = par("radius").doubleValue();
+    x_length = par("x_length").doubleValue();
+    y_length = par("y_length").doubleValue();
+    x_num = unsigned( ceil(x_length / radius) );
+    y_num = unsigned( ceil(y_length / radius) );
+    nodeMap.resize(x_num * y_num);
+  }
 }
 
 void PositionObserver::handleMessage(omnetpp::cMessage* msg) {

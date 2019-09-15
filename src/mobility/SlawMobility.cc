@@ -71,7 +71,7 @@ void SlawMobility::setTargetPosition()
     std::cout << "lastPosition.distance\n";
     distance = lastPosition.distance(targetPosition);
     std::cout << "nextChange\n";
-    nextChange = omnetpp::simTime() + distance / slaw->speedModel->computeSpeed();
+    nextChange = omnetpp::simTime() + distance / slaw->getSpeed();
     std::cout << "nextchange: " << nextChange << '\n';
     emitSignals();
   }
