@@ -21,8 +21,8 @@ SlawMobility::SlawMobility() :
 { }
 
 void SlawMobility::initialize(int stage) {
-  if(stage > 2) {
-    LineSegmentsMobilityBase::initialize(stage - 3);
+  if(stage > 1) {
+    LineSegmentsMobilityBase::initialize(stage - 2);
     classifyFlight = par("classifyFlight").boolValue();
   }
   else if (stage == 1) {
