@@ -16,9 +16,9 @@
 #if !defined(SLAW_MATLAB_H)
 #define SLAW_MATLAB_H
 
-#include "../contract/ISlawTripManager.h"
+#include "../contract/IWalkerModel.h"
 
-class SlawMatlab : public ISlawTripManager {
+class SlawMatlab : public IWalkerModel {
 protected:
   /** @brief values determing the fraction of confined areas and the portion of
    *  waypoints that integrates a destination list */

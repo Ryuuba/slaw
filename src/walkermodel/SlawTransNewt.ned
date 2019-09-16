@@ -15,11 +15,11 @@
 
 package slaw.walkermodel;
 
-import slaw.contract.ISlawTripManager;
+import slaw.contract.IWalkerModel;
 import slaw.contract.IPauseTime;
 import slaw.contract.ISpeed;
 
-simple SlawTransNetw like ISlawTripManager {
+simple SlawTransNetw like IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
     string walkerModel = "SlawTransNetw";

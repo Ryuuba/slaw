@@ -5,7 +5,7 @@ import inet.mobility.base.MovingMobilityBase;
 simple SlawMobility extends MovingMobilityBase
 {
     parameters:
-        string slawModuleName = default("slawtripmanager");
+        string walkerModuleName = default("walkermodel");
         bool classifyFlight = default(false);
         @class(SlawMobility);
         @signal[nextWaypoint](type=cObject);

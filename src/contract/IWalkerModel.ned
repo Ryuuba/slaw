@@ -15,7 +15,7 @@
 
 package slaw.contract;
 
-moduleinterface ISlawTripManager {
+moduleinterface IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
     string walkerModel;

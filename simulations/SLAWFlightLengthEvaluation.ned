@@ -16,13 +16,11 @@
 
 package slaw.simulations;
 
-import slaw.contract.ISlawTripManager;
 import slaw.contract.IObserver;
-import slaw.contract.IPauseTimeModel;
-import slaw.contract.ISpeedModel;
 import slaw.mobility.SlawBonnMotion;
 import slaw.walker.Walker;
 import slaw.app.FlightLengthObserver;
+import slaw.tripmanager.TripManager;
 
 
 network SLAWFlightLengthExperiment
@@ -32,17 +30,18 @@ network SLAWFlightLengthExperiment
         int observations;
         string pauseTimeModelType;
         string speedModelType;
-        string slawModelType;
+        string walkerModelType;
         string observerType = "FlightLengthObserver";
         bool classifyFlight;
-        slawtripmanager.numOfWalker = numHosts;
-        slawtripmanager.classifyFlight = classifyFlight;
         observer.classifyFlight = classifyFlight;
+        tripmanager.walkerModelType = walkerModelType;
+        tripmanager.walkermodel.numOfWalker = numHosts;
+        tripmanager.walkermodel.classifyFlight = classifyFlight;
+        tripmanager.pauseTimeModelType = pauseTimeModelType;
+        tripmanager.speedModelType = speedModelType;
         @display("bgb=2000,2000;bgg=2000,10,grey50");
     submodules:
-        pausetimemodule: <pauseTimeModelType> like IPauseTimeModel;
-        speedmodule: <speedModelType> like ISpeedModel;
-        slawtripmanager: <slawModelType> like ISlawTripManager;
+        tripmanager : TripManager;
         observer: <observerType> like IObserver {
             observations = observations;
             @display("p=62.247997,795.16797");

@@ -15,7 +15,7 @@
 #include <omnetpp.h>
 #include <omnetpp/csimplemodule.h>
 
-#include "../contract/ISlawTripManager.h"
+#include "../contract/IWalkerModel.h"
 #include "../signals/WaypointSignal.h"
 #include "LineSegmentsMobilityBase.h"
 
@@ -40,7 +40,7 @@ protected:
   bool nextMoveIsWait, classifyFlight, isNewTrip;
   /** Pointer to the SLAW module, it is used to access the selfsimilar
    *  waypoint map and it computes the next destination using LATP. */
-  ISlawTripManager* slaw;
+  IWalkerModel* slaw;
   /** @brief Vector storing the sets of confined areas. */
   AreaSet C_k;
   /** @brief List storing the set of waypoints integrating a trip. */

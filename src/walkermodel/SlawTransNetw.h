@@ -16,9 +16,9 @@
 #ifndef SLAW_IEEE_ACM_TON_H_
 #define SLAW_IEEE_ACM_TON_H_
 
-#include "../contract/ISlawTripManager.h"
+#include "../contract/IWalkerModel.h"
 
-class SlawTransNetw : public ISlawTripManager {
+class SlawTransNetw : public IWalkerModel {
 protected:
   /** @brief This data structure stores the home waypoint of all walkers */
   std::vector<inet::Coord> homeList;

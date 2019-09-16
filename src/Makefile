@@ -41,7 +41,7 @@ OBJS = \
     $O/app/InterContactTimeObserver.o \
     $O/app/PositionObserver.o \
     $O/app/TripObserver.o \
-    $O/contract/ISlawTripManager.o \
+    $O/contract/IWalkerModel.o \
     $O/latp/LATP.o \
     $O/map/SelfsimilarWaypointMap.o \
     $O/mobility/SlawBonnMotion.o \

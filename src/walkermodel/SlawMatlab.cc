@@ -19,11 +19,11 @@ void SlawMatlab::initialize(int stage) {
   }
   else if (stage == 3) {
     pause_time = (IPauseTimeModel*) this->getSimulation()->
-      getSystemModule()->getSubmodule(par("pauseTimeModule").stringValue());
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("pauseTimeModule").stringValue());
     if (!pause_time->computePauseTime())
       error("Invalid pause-time module");
     speed = (ISpeedModel*) this->getSimulation()->
-      getSystemModule()->getSubmodule(par("speedModule").stringValue());
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
     if (!speed->computeSpeed())
       error("Invalid speed module");
   }

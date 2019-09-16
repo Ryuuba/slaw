@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#if !defined(I_SLAW_TRIP_MANAGER)
-#define I_SLAW_TRIP_MANAGER
+#if !defined(I_WALKER_MODEL)
+#define I_WALKER_MODEL
 
 #include "../common/SlawDefs.h"
 #include "../map/SelfsimilarWaypointMap.h"
@@ -22,7 +22,7 @@
 #include "../contract/ISpeedModel.h"
 #include "../latp/LATP.h"
 
-class ISlawTripManager: public omnetpp::cSimpleModule{
+class IWalkerModel: public omnetpp::cSimpleModule{
 protected:
   /** @brief Access speed model */ 
   ISpeedModel* speed;
@@ -55,7 +55,7 @@ public:
   SelfsimilarWaypointMap* const map = new SelfsimilarWaypointMap;
 public:
 /** @brief Default destructor */
-virtual ~ISlawTripManager();
+virtual ~IWalkerModel();
   /** @brief Sets the set of confined areas C_k, the initial set of unvisited 
    *  waypoints and the initial waypoint from which a walker starts its trip. 
    *  This member function must be overridden */

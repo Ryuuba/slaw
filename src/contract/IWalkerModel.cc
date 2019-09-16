@@ -1,9 +1,9 @@
-#include "ISlawTripManager.h"
+#include "IWalkerModel.h"
 
-Register_Abstract_Class(ISlawTripManager);
+Register_Abstract_Class(IWalkerModel);
 
-ISlawTripManager::~ISlawTripManager() {
-  std::cout << "Slaw Trip Manager\n";
+IWalkerModel::~IWalkerModel() {
+  std::cout << "WalkerModel\n";
   if (map) {
     delete map;
     std::cout << "Destroying map: OK" << '\n';
@@ -11,7 +11,7 @@ ISlawTripManager::~ISlawTripManager() {
   std::cout << "Walker Model  was destroyed" << '\n';
 }
 
-void ISlawTripManager::loadCKFile(char const* name) {
+void IWalkerModel::loadCKFile(char const* name) {
   std::string filename(name);
   std::ifstream ifs(filename.c_str(), std::ifstream::in);
   if (ifs.is_open()) {
@@ -30,7 +30,7 @@ void ISlawTripManager::loadCKFile(char const* name) {
     error("WalkerModel: %s couldn't be opened\n", filename.c_str());
 }
 
-void ISlawTripManager::setMap() {
+void IWalkerModel::setMap() {
   double hurstParameter = par("hurstParameter").doubleValue();
   std::string mapName(par("mapName").stringValue());
   double clusteringRadius = par("clusteringRadius");

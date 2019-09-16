@@ -15,9 +15,9 @@
 
 package slaw.walkermodel;
 
-import slaw.contract.ISlawTripManager;
+import slaw.contract.IWalkerModel;
 
-simple SlawMatlab like ISlawTripManager {
+simple SlawMatlab like IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
     string walkerModel = "SlawMatlab";
