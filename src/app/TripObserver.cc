@@ -58,7 +58,6 @@ void TripObserver::receiveSignal(
   auto position = dynamic_cast<WaypointSignal*>(value);
   if (!position)
     error("Trip observer: error in position");
-  std::cout << position->next_waypoint.x << ' ' << position->next_waypoint.y << '\n';
   emit(next_waypoint_x, position->next_waypoint.x);
   emit(next_waypoint_y, position->next_waypoint.y);
 }
