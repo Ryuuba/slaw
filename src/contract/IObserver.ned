@@ -18,5 +18,5 @@ package slaw.contract;
 moduleinterface IObserver {
     parameters:
         @display("i=block/cogwheel");
-        int sampleSize;
+        int observations;
 }

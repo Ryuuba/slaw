@@ -52,7 +52,7 @@ FlightLengthObserver::~FlightLengthObserver()
 void FlightLengthObserver::initialize(int stage)
 {
   if (stage == 0) {
-    numOfSamples = par("numOfSamples");
+    numOfSamples = par("observations");
     classifyFlight = par("classifyFlight").boolValue();
     std::cout << "Number of samples: " << numOfSamples << '\n';
     WATCH(counter);

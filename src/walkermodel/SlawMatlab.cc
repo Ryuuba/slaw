@@ -3,18 +3,30 @@
 Define_Module(SlawMatlab);
 
 void SlawMatlab::initialize(int stage) {
-  walker_model = par("walkerModel").stringValue();
-  walkerNum = par("numOfWalker");
-  clusterRatio = par("clusterRatio");
-  waypointRatio = par("waypointRatio");
-  planningDegree = par("planningDegree").doubleValue();
-  latp.setLATP(planningDegree, getRNG(0));
-  setMap();
-  std::string filename(par("clusterList").stringValue());
-  if (filename.compare("") != 0)
-    loadCKFile(filename.c_str());
-  else
-    assignConfinedAreas();
+  if (stage == 0 ) {
+    walker_model = par("walkerModel").stringValue();
+    walkerNum = par("numOfWalker");
+    clusterRatio = par("clusterRatio");
+    waypointRatio = par("waypointRatio");
+    planningDegree = par("planningDegree").doubleValue();
+    latp.setLATP(planningDegree, getRNG(0));
+    setMap();
+    std::string filename(par("clusterList").stringValue());
+    if (filename.compare("") != 0)
+      loadCKFile(filename.c_str());
+    else
+      assignConfinedAreas();
+  }
+  else if (stage == 3) {
+    pause_time = (IPauseTimeModel*) this->getSimulation()->
+      getSystemModule()->getSubmodule(par("pauseTimeModule").stringValue());
+    if (!pause_time->computePauseTime())
+      error("Invalid pause-time module");
+    speed = (ISpeedModel*) this->getSimulation()->
+      getSystemModule()->getSubmodule(par("speedModule").stringValue());
+    if (!speed->computeSpeed())
+      error("Invalid speed module");
+  }
 }
 
 void SlawMatlab::setWalkerState(

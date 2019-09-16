@@ -30,8 +30,8 @@ TripObserver::~TripObserver()
 void TripObserver::initialize(int stage)
 {
   if (stage == 0) {
-    sample_size = par("sampleSize");
-    std::cout << "TripObserver: " << sample_size << " trips to be observed\n";
+    sample_size = par("observations");
+    std::cout << "TripObserver: " << sample_size << " destinations to be observed\n";
   }
 }
 

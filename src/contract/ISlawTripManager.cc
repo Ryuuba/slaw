@@ -8,14 +8,6 @@ ISlawTripManager::~ISlawTripManager() {
     delete map;
     std::cout << "Destroying map: OK" << '\n';
   }
-  // if(speedModel) {
-  //   delete speedModel;
-  //   std::cout << "Destroying speed model: OK" << '\n';
-  // }
-  // if(pauseTimeModel) {
-  //   delete pauseTimeModel;
-  //   std::cout << "Destroying pausetime model: OK" << '\n';
-  // }
   std::cout << "Walker Model  was destroyed" << '\n';
 }
 

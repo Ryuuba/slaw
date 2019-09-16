@@ -17,7 +17,7 @@ import slaw.contract.IObserver;
 
 simple TripObserver like IObserver{
     @display("i=block/cogwheel");
-    int sampleSize;
+    int observations;
     @signal[nextWaypointX](type=double);
     @statistic[nextWaypointX](record=vector);
     @signal[nextWaypointY](type=double);

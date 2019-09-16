@@ -17,8 +17,8 @@ package slaw.app;
 simple ConnectivityObserver extends PositionObserver {
     parameters:
         @class(ConnectivityObserver);
-        int numOfICTSamples;   //Intercontact time samples
-        int numOfLLTSamples;    //link lifetime samples
+        int ictObservations;   //Intercontact time samples
+        int lltObservations;    //link lifetime samples
         double minICT @unit(s);
         double minLLT @unit(s);//
         @signal[linkLifetime](type=double);

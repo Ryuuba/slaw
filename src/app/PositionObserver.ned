@@ -17,7 +17,7 @@ import slaw.contract.IObserver;
 
 simple PositionObserver like IObserver {
     @display("i=block/cogwheel");
-    int sampleSize;
+    int observations;
     int numOfNodes;
     double radius @unit(m);
     double x_length @unit(m);
