@@ -18,7 +18,7 @@ simple InterContactTimeObserver extends PositionObserver {
     parameters:
         @class(InterContactTimeObserver);
         double minICT @unit(s);
-        double minLLT @unit(s);//
+        double minLLT @unit(s);
         @signal[linkLifetime](type=double);
         @statistic[linkLifetime](record=stats,vector; unit=s);
         @signal[interContactTime](type=double);
