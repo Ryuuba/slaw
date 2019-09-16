@@ -37,8 +37,8 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
 OBJS = \
-    $O/app/ConnectivityObserver.o \
     $O/app/FlightLengthObserver.o \
+    $O/app/InterContactTimeObserver.o \
     $O/app/PositionObserver.o \
     $O/app/TripObserver.o \
     $O/contract/ISlawTripManager.o \

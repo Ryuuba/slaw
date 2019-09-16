@@ -11,8 +11,7 @@ network SLAWConnectivityExperiment
 {
     parameters:
         int numHosts;
-        int ictObservations;
-        int lltObservations;
+        int observations;
         double width @unit(m); //length of the x-axis
         double height @unit(m); //length of the y-axis
         double coverageRadius @unit(m); //coverage radius
@@ -21,7 +20,7 @@ network SLAWConnectivityExperiment
         string slawModelType;
         string pauseTimeModelType;
         string speedModelType;
-        string observerType = "ConnectivityObserver";
+        string observerType = "InterContactTimeObserver";
         slawtripmanager.numOfWalker = numHosts;
         @display("bgb=2000,2000;bgg=100,2,grey50");
     submodules:
@@ -31,10 +30,9 @@ network SLAWConnectivityExperiment
         }
         observer: <observerType> like IObserver {
             numOfNodes = numHosts;
+            observations = observations;
             x_length = width;
             y_length = height;
-            ictObservations = ictObservations;
-            lltObservations = lltObservations;
             radius = coverageRadius;
             minICT = minInterContactTime;
             minLLT = minLifetime;
