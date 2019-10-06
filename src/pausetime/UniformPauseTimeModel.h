@@ -23,7 +23,7 @@ protected:
   double a, b;
 public:
   virtual void initialize(int stage) override;
-  virtual int numInitStages() const {return 6;}
+  virtual int numInitStages() const {return 5;}
   virtual double computePauseTime() override;
 };
 

@@ -36,7 +36,7 @@ public:
   /** Initializes the attributes of this class */
   virtual void initialize(int stage) override;
   /** @brief Return the number of stages */
-  virtual int numInitStages() const {return 6;}
+  virtual int numInitStages() const {return 5;}
   void handleMessage(omnetpp::cMessage*);
   void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t, double, 
     omnetpp::cObject*);

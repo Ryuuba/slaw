@@ -24,7 +24,7 @@ protected:
 public:
   virtual double computeSpeed(double par = 0.0) override;
   virtual void initialize(int stage) override;
-  virtual int numInitStages() const override {return 6;}
+  virtual int numInitStages() const override {return 5;}
 };
 
 #endif /* CONSTANT_SPEED_MODEL_H */
