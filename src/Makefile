@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for slaw
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -I/home/dr_g/inet4/src/inet/common/geometry/common/ -I/home/dr_g/inet4/src/inet/common/ -I/home/dr_g/inet4/src/ -I/home/dr_g/inet4/src/inet/mobility/base/ -I/home/dr_g/inet4/src/inet/mobility/contract/ -I/home/dr_g/inet4/src/inet/mobility/single/ -L/home/dr_g/inet4/out/gcc-release/src/ -lINET -o slaw
+#  opp_makemake -f --deep -I/home/geo/inet4/src/inet/common/geometry/common/ -I/home/geo/inet4/src/inet/common/ -I/home/geo/inet4/src/ -I/home/geo/inet4/src/inet/mobility/base/ -I/home/geo/inet4/src/inet/mobility/contract/ -I/home/geo/inet4/src/inet/mobility/single/ -L/home/geo/inet4/out/gcc-release/src/ -lINET -o slaw
 #
 
 # Name of target to be created (-o option)
@@ -17,18 +17,18 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I/home/dr_g/inet4/src/inet/common/geometry/common/ \
-    -I/home/dr_g/inet4/src/inet/common/ \
-    -I/home/dr_g/inet4/src/ \
-    -I/home/dr_g/inet4/src/inet/mobility/base/ \
-    -I/home/dr_g/inet4/src/inet/mobility/contract/ \
-    -I/home/dr_g/inet4/src/inet/mobility/single/
+    -I/home/geo/inet4/src/inet/common/geometry/common/ \
+    -I/home/geo/inet4/src/inet/common/ \
+    -I/home/geo/inet4/src/ \
+    -I/home/geo/inet4/src/inet/mobility/base/ \
+    -I/home/geo/inet4/src/inet/mobility/contract/ \
+    -I/home/geo/inet4/src/inet/mobility/single/
 
 # Additional object and library files to link with
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)/home/dr_g/inet4/out/gcc-release/src/  -lINET
+LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/out/gcc-release/src/  -lINET
 
 # Output directory
 PROJECT_OUTPUT_DIR = out
@@ -85,7 +85,7 @@ include $(CONFIGFILE)
 # Simulation kernel and user interface libraries
 OMNETPP_LIBS = $(OPPMAIN_LIB) $(USERIF_LIBS) $(KERNEL_LIBS) $(SYS_LIBS)
 ifneq ($(TOOLCHAIN_NAME),clangc2)
-LIBS += -Wl,-rpath,$(abspath /home/dr_g/inet4/out/gcc-release/src/)
+LIBS += -Wl,-rpath,$(abspath /home/geo/inet4/out/gcc-release/src/)
 endif
 
 COPTS = $(CFLAGS) $(IMPORT_DEFINES)  $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
