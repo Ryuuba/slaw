@@ -21,13 +21,16 @@ network SLAWConnectivityExperiment
         tripmanager.walkerModelType = walkerModelType;
         tripmanager.walkermodel.numOfWalker = numHosts;
         tripmanager.pauseTimeModelType = pauseTimeModelType;
-        tripmanager.speedModelType = speedModelType;        
+        tripmanager.speedModelType = speedModelType;
         string observerType = "InterContactTimeObserver";
         @display("bgb=2000,2000;bgg=100,2,grey50");
     submodules:
-        tripmanager: TripManager;
+        tripmanager: TripManager {
+            @display("p=175,450");
+        }
         walker[numHosts]: Walker {
             mobilityType = "SlawMobility";
+            @display("p=1550,350");
         }
         observer: <observerType> like IObserver {
             numOfNodes = numHosts;
@@ -37,6 +40,6 @@ network SLAWConnectivityExperiment
             radius = coverageRadius;
             minICT = minInterContactTime;
             minLLT = minLifetime;
-            @display("p=480,400");
+            @display("p=175,175");
         }
 }

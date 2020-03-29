@@ -7,8 +7,8 @@
 #include <cmath>
 
 #include <omnetpp.h>
-#include "Coord.h"
-#include "MovingMobilityBase.h"
+#include "inet/common/geometry/common/Coord.h"
+#include "inet/mobility/base/MovingMobilityBase.h"
 #include "../contract/IObserver.h"
 
 class PositionObserver: public IObserver{

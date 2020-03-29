@@ -30,7 +30,7 @@
 #include <vector>
 
 #include <omnetpp.h>
-#include "Coord.h"
+#include "inet/common/geometry/common/Coord.h"
 
 #include "HashCoordinate.h"
 

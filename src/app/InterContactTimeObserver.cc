@@ -56,7 +56,6 @@ void InterContactTimeObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::
   );
   std::unordered_map<unsigned, omnetpp::simtime_t> oldN; //old neighbors
   std::unordered_map<unsigned, omnetpp::simtime_t> newN; //new neighbors
-  static bool print = true;
 
   EV_INFO << "Last neighborhood of node " << nodeId << " : ";
   for (auto& entry : llt[nodeId])

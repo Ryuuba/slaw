@@ -8,7 +8,7 @@ simple SlawMobility extends MovingMobilityBase
         string walkerModuleName = default("walkermodel");
         bool classifyFlight = default(false);
         @class(SlawMobility);
-        @signal[nextWaypoint](type=cObject);
+        @signal[nextWaypoint](type=WaypointSignal?);
         @signal[tripSize](type=long);
         @signal[flight](type=double);
         @signal[intraFlightLength](type=double);

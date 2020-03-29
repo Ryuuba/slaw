@@ -7,7 +7,7 @@
 #include <limits>
 #include <omnetpp.h>
 #include "../contract/IObserver.h"
-#include "Coord.h"
+#include "inet/common/geometry/common/Coord.h"
 #include "../signals/WaypointSignal.h"
 
 class TripObserver: public IObserver

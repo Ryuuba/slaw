@@ -35,7 +35,6 @@ void SlawMatlab::setWalkerState(
   C_k = std::move(CkSet[walkerId]);
   inet::Coord temp(-1.0, -1.0);
   L = computeDestinationList(C_k, temp);
-  unsigned index = intuniform(0, L.size()-1);
   auto initialWaypointIt = L.begin();
   std::advance(initialWaypointIt, ceil(uniform(0,1) * L.size()) - 1);
   initialWaypoint = *initialWaypointIt;
@@ -86,7 +85,6 @@ void SlawMatlab::assignConfinedAreas() {
   const std::vector<unsigned>* weights = map->getAreaWeights();
   for (unsigned i = 0; i < walkerNum; i++) {
     AreaSet C_k;
-    unsigned j = 0; //number of inserted areas
     while (C_k.size() <= portion) {
       index = ceil(uniform(0,1) * weights->size())-1;
       unsigned clusterID((*weights)[index]);

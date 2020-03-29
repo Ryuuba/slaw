@@ -4,7 +4,7 @@
 #include <utility>
 
 #include <omnetpp.h>
-#include <Coord.h>
+#include <inet/common/geometry/common/Coord.h>
 
 namespace std {
    template<>

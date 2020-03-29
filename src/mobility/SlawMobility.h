@@ -17,7 +17,7 @@
 
 #include "../contract/IWalkerModel.h"
 #include "../signals/WaypointSignal.h"
-#include "LineSegmentsMobilityBase.h"
+#include "inet/mobility/base/LineSegmentsMobilityBase.h"
 
 class SlawMobility : public inet::LineSegmentsMobilityBase
 {

@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include <omnetpp.h>
-#include "BonnMotionMobility.h"
+#include "inet/mobility/single/BonnMotionMobility.h"
 #include "../common/HashCoordinate.h"
 
 class SlawBonnMotion : public inet::BonnMotionMobility {

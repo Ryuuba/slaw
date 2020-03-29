@@ -90,7 +90,7 @@ std::cout << "Clustering waypoints, it may take some minutes..."
     confinedArea.push_back(waypointList.front());
     waypointList.pop_front();
     numOfWaypoints++;
-    for (int i = 0; i < confinedArea.size(); i++){
+    for (size_t i = 0; i < confinedArea.size(); i++){
       auto it = waypointList.begin();
       while(it != waypointList.end()) {
         if (confinedArea[i].distance(*it) <= clusteringRadius) {

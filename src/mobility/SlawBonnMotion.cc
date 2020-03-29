@@ -45,7 +45,6 @@ bool SlawBonnMotion::loadMap(const std::string&& filename) {
       waypointFile >> waypoint.x >> waypoint.y;
       waypointMap[waypoint] = true;
     }
-    auto numberOfWaypoints = waypointMap.size();
     waypointFile.close();
     success = true;
   }

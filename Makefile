@@ -1,6 +1,8 @@
 INETDIR = $(HOME)/inet4
 
-BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/inet/common/geometry/common/ -I$(INETDIR)/src/inet/common/ -I$(INETDIR)/src/ -I$(INETDIR)/src/inet/mobility/base/ -I$(INETDIR)/src/inet/mobility/contract/ -I$(INETDIR)/src/inet/mobility/single/ -L$(INETDIR)/out/gcc-release/src/ -lINET -o slaw
+GENERAL_BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/ -L$(INETDIR)/src/ -o SLAW
+
+.PHONY: all clean cleanall makefiles makefiles-dbg makefiles-so makefiles-so-dbg checkmakefiles
 
 all: checkmakefiles
 	cd src && $(MAKE)
@@ -8,13 +10,25 @@ all: checkmakefiles
 clean: checkmakefiles
 	cd src && $(MAKE) clean
 
+clean-dbg: checkmakefiles
+	cd src && $(MAKE) MODE=debug clean
+
 cleanall: checkmakefiles
 	cd src && $(MAKE) MODE=release clean
 	cd src && $(MAKE) MODE=debug clean
 	rm -f src/Makefile
 
 makefiles:
-	cd src && opp_makemake $(BUILD_OPTIONS)
+	cd src && opp_makemake $(GENERAL_BUILD_OPTIONS) -lINET
+
+makefiles-dbg:
+	cd src && opp_makemake $(GENERAL_BUILD_OPTIONS) -lINET_dbg
+
+makefiles-so:
+	cd src && opp_makemake --make-so $(GENERAL_BUILD_OPTIONS) -lINET
+
+makefiles-so-dbg:
+	cd src && opp_makemake --make-so $(GENERAL_BUILD_OPTIONS) -lINET_dbg
 
 checkmakefiles:
 	@if [ ! -f src/Makefile ]; then \

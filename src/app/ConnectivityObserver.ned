@@ -13,29 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef I_OBSERVER_H
-#define I_OBSERVER_H
+package slaw.app;
 
-#include <omnetpp.h>
-
-class IObserver :
-  public omnetpp::cSimpleModule,
-  public omnetpp::cListener
+//
+// TODO auto-generated type
+//
+simple ConnectivityObserver
 {
-protected:
-  /** @brief The number of observations to be gathered to finish simulations */
-  int sample_size;
-  /** @brief The total of observations to be captured */
-  unsigned counter;
-  /** @brief  The name of the observer module */
-  const char* observer_type;
-public:
-  IObserver() 
-    : sample_size(0)
-    , counter(9)
-  { }
-};
-
-Register_Abstract_Class(IObserver);
-
-#endif /* I_OBSERVER_H */
+    @display("i=observer/connectivity_observer");
+}
