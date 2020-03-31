@@ -76,7 +76,7 @@ The OMNeT++ framework provides an interface to communicate simulation modules by
 
 A simulation only includes an instance of the SLAWTripManager regardless the number of mobile hosts in an experiment. The centralization of the data utilized to compute trips is done in order to easily shared several data structures and objects with simulation modules that could required such means.
 
-Figure 3 shows the architecture of an mobile ad-hoc host from the INET framework. Among all elements integrating the ad-hoc host, there is an interface named `IMobility`. In order to perform a SLAW walk, the type of the module implementing IMobility must be `SlawMobility`.
+Figure 3 shows the architecture of an mobile ad-hoc host from the INET framework. Among all elements integrating the ad-hoc host, there is module Mobility implementing an interface named `IMobility`. In order to perform a SLAW walk, the type of the module implementing IMobility must be `SlawMobility`.
 
 ![architecture](images/adhoc_host.png)  
 Figure 3. INET ad-hoc host.
