@@ -30,7 +30,13 @@ module TripManager
         string pauseTimeModelType;
         string speedModelType;
     submodules:
-        pausetimemodule: <pauseTimeModelType> like IPauseTimeModel;
-        speedmodule: <speedModelType> like ISpeedModel;
-        walkermodel: <walkerModelType> like IWalkerModel;
+        pausetimemodule: <pauseTimeModelType> like IPauseTimeModel {
+            @display("p=62,112");
+        }
+        speedmodule: <speedModelType> like ISpeedModel {
+            @display("p=62,38");
+        }
+        walkermodel: <walkerModelType> like IWalkerModel {
+            @display("p=62,190");
+        }
 }
