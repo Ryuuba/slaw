@@ -3,7 +3,7 @@ package slaw.simulations;
 import slaw.tripmanager.TripManager;
 import slaw.contract.IObserver;
 import slaw.walker.Walker;
-import slaw.app.TripObserver;
+import slaw.observer.TripObserver;
 
 network SLAWTripObserver
 {

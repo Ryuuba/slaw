@@ -2,7 +2,7 @@ package slaw.simulations;
 
 import slaw.contract.IObserver;
 import slaw.walker.Walker;
-import slaw.app.ConnectivityObserver;
+import slaw.observer.ConnectivityObserver;
 import slaw.tripmanager.TripManager;
 
 network SLAWConnectivityExperiment
