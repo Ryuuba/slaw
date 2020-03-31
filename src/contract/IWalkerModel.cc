@@ -3,11 +3,6 @@
 Register_Abstract_Class(IWalkerModel);
 
 IWalkerModel::~IWalkerModel() {
-  std::cout << "WalkerModel\n";
-  if (map) {
-    delete map;
-    std::cout << "Destroying map: OK" << '\n';
-  }
   std::cout << "Walker Model  was destroyed" << '\n';
 }
 
@@ -28,13 +23,4 @@ void IWalkerModel::loadCKFile(char const* name) {
   }
   else
     error("WalkerModel: %s couldn't be opened\n", filename.c_str());
-}
-
-void IWalkerModel::setMap() {
-  double hurstParameter = par("hurstParameter").doubleValue();
-  std::string mapName(par("mapName").stringValue());
-  double clusteringRadius = par("clusteringRadius");
-  bool success = map->setMap(mapName, clusteringRadius, hurstParameter);
-  if (!success)
-    error("WalkerModel: %s could not be loaded\n", mapName.c_str());
 }

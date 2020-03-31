@@ -8,5 +8,6 @@ void NormalPauseTimeModel::initialize(int atage) {
 }
 
 double NormalPauseTimeModel::computePauseTime() {
+  Enter_Method_Silent();
   return truncnormal(mean, std_dev);
 }

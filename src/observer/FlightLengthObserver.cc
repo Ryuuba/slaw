@@ -69,10 +69,10 @@ void FlightLengthObserver::receiveSignal(
   omnetpp::cComponent* src, omnetpp::simsignal_t id, double flightLength, 
   omnetpp::cObject* details
 ) {
-  auto nodeId = dynamic_cast<omnetpp::cModule*>(src)->getParentModule()->getIndex();
+  auto node_id = dynamic_cast<omnetpp::cModule*>(src)->getParentModule()->getIndex();
   if (omnetpp::simTime() >= getSimulation()->getWarmupPeriod()) {
     counter++;
-    processSignal(nodeId, id, flightLength);
+    processSignal(node_id, id, flightLength);
     if (counter%10000 == 0)
       std::cout << "FlightLengthObserver: " << counter 
         << " samples have been produced\n";
@@ -85,7 +85,7 @@ void FlightLengthObserver::receiveSignal(
 }
 
 void FlightLengthObserver::processSignal(
-  int nodeId, omnetpp::simsignal_t id, double flightLength
+  int node_id, omnetpp::simsignal_t id, double flightLength
 ) {
   if (classifyFlight) {
     if (id == intraFlightLength) 
@@ -95,7 +95,7 @@ void FlightLengthObserver::processSignal(
   }
   else {
     EV_INFO << "New flight is received " << flightLength 
-      << " from " << nodeId << '\n';
+      << " from " << node_id << '\n';
     emit(flight_stat, flightLength);
   }
 }

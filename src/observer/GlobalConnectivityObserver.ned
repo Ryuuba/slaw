@@ -14,15 +14,10 @@
 
 package slaw.observer;
 
-simple ConnectivityObserver extends PositionObserver {
+simple GlobalConnectivityObserver extends PositionObserver {
     parameters:
-        @class(ConnectivityObserver);
-        int minLLT @unit(s);
+        @class(GlobalConnectivityObserver);
         string filename;
-        @signal[membership](type=unsigned long);
-        @statistic[membership](record=histogram,vector);
-        @signal[arrival](type=unsigned long);
-        @statistic[arrival](record=histogram,vector);
-        @signal[departure](type=unsigned long);
-        @statistic[departure](record=histogram,vector);
+        @signal[degree](type=long);
+        @statistic[degree](record=histogram,vector);
 }

@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for $(LIB_PREFIX)SLAW
 #
 # This file was generated with the command:
-#  opp_makemake --make-so -f --deep -I/home/geo/inet4/src/ -L/home/geo/inet4/src/ -o SLAW -lINET_dbg
+#  opp_makemake --make-so -f --deep -I/home/geo/inet4/src/ -L/home/geo/inet4/src/ -lCGAL -lgmp -o SLAW -lINET_dbg
 #
 
 # Name of target to be created (-o option)
@@ -16,7 +16,7 @@ INCLUDE_PATH = -I/home/geo/inet4/src/
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lINET_dbg
+LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lCGAL -lgmp -lINET_dbg
 
 # Output directory
 PROJECT_OUTPUT_DIR = ../out
@@ -25,16 +25,16 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
 OBJS = \
-    $O/app/ConnectivityObserver.o \
-    $O/app/FlightLengthObserver.o \
-    $O/app/InterContactTimeObserver.o \
-    $O/app/PositionObserver.o \
-    $O/app/TripObserver.o \
     $O/contract/IWalkerModel.o \
     $O/latp/LATP.o \
-    $O/map/SelfsimilarWaypointMap.o \
-    $O/mobility/SlawBonnMotion.o \
+    $O/map/SelfSimilarWaypointMap.o \
     $O/mobility/SlawMobility.o \
+    $O/observer/ConnectivityObserver.o \
+    $O/observer/FlightLengthObserver.o \
+    $O/observer/GlobalConnectivityObserver.o \
+    $O/observer/InterContactTimeObserver.o \
+    $O/observer/PositionObserver.o \
+    $O/observer/TripObserver.o \
     $O/pausetime/BParetoPauseTimeModel.o \
     $O/pausetime/ConstantPauseTimeModel.o \
     $O/pausetime/NormalPauseTimeModel.o \

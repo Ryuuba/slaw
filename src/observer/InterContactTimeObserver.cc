@@ -17,32 +17,32 @@ void InterContactTimeObserver::initialize(int stage) {
     ict_num = par("observations");
     ict_min = par("minICT");
     llt_min = par("minLLT");
-    llt.resize(numOfNodes);
-    ictt.resize(numOfNodes);
+    llt.resize(node_number);
+    ictt.resize(node_number);
     WATCH(ict_counter);
     WATCH(llt_counter);
   }
 }
 
 std::unordered_map<unsigned, omnetpp::simtime_t>
-InterContactTimeObserver::computeOneHopNeighborhood(unsigned nodeId) {
+InterContactTimeObserver::computeOneHopNeighborhood(unsigned node_id) {
   std::unordered_map <unsigned, omnetpp::simtime_t> neighborhood;
-  unsigned square = computeSquare(nodePosition[nodeId]);
+  unsigned square = computeSquare(node_position[node_id]);
   std::list<unsigned> squareList(std::move(computeNeighboringSquares(square)));
   for (auto& square : squareList) {
-    for (auto& neighborId: nodeMap[square]) {
-      if (neighborId != nodeId) {
+    for (auto& neighborId: node_map[square]) {
+      if (neighborId != node_id) {
         double distance = sqrt (
-          pow(nodePosition[nodeId].x - nodePosition[neighborId].x, 2) + 
-          pow(nodePosition[nodeId].y - nodePosition[neighborId].y, 2)
+          pow(node_position[node_id].x - node_position[neighborId].x, 2) + 
+          pow(node_position[node_id].y - node_position[neighborId].y, 2)
         );
-        EV_INFO << "Distance between " << nodeId << " and " << neighborId << " is " << distance << '\n';
+        EV_INFO << "Distance between " << node_id << " and " << neighborId << " is " << distance << '\n';
         if (distance < radius) //Nodes are neighbors
           neighborhood[neighborId] = omnetpp::simTime();
       }
     }
   }
-  EV_INFO << "Current neighborhood of node: " << nodeId << " : ";
+  EV_INFO << "Current neighborhood of node: " << node_id << " : ";
   for (auto& entry : neighborhood)
     EV_INFO << entry.first << ' ';
   EV_INFO << '\n';
@@ -52,69 +52,69 @@ InterContactTimeObserver::computeOneHopNeighborhood(unsigned nodeId) {
 void InterContactTimeObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::simsignal_t id, omnetpp::cObject* value, omnetpp::cObject* details) {
   PositionObserver::receiveSignal(src, id, value, details);
   std::unordered_map<unsigned, omnetpp::simtime_t> n( //current neighborhood
-    computeOneHopNeighborhood(nodeId)
+    computeOneHopNeighborhood(node_id)
   );
   std::unordered_map<unsigned, omnetpp::simtime_t> oldN; //old neighbors
   std::unordered_map<unsigned, omnetpp::simtime_t> newN; //new neighbors
 
-  EV_INFO << "Last neighborhood of node " << nodeId << " : ";
-  for (auto& entry : llt[nodeId])
+  EV_INFO << "Last neighborhood of node " << node_id << " : ";
+  for (auto& entry : llt[node_id])
     EV_INFO << entry.first << ' ';
   EV_INFO << '\n';
 
 
   //Computes old neighbors
-  for (auto& entry : llt[nodeId])
+  for (auto& entry : llt[node_id])
     if (n.find(entry.first) == n.end())
       oldN[entry.first] = entry.second;
   //Computes new neighbors
   for (auto& entry : n)
-    if (llt[nodeId].find(entry.first) == n.end())
+    if (llt[node_id].find(entry.first) == n.end())
       newN[entry.first] = entry.second;
 
-  EV_INFO << "Old neighbors of node " << nodeId << " : ";
+  EV_INFO << "Old neighbors of node " << node_id << " : ";
   for (auto& neighbor : oldN) 
     EV_INFO << neighbor.first << ' ';
   EV_INFO << '\n';
 
-  EV_INFO << "New neighbors of node " << nodeId << " : ";
+  EV_INFO << "New neighbors of node " << node_id << " : ";
   for (auto& neighbor : newN) 
     EV_INFO << neighbor.first << ' ';
   EV_INFO << '\n';
   
   for (auto& entry: oldN) {
-    omnetpp::simtime_t lifetime = omnetpp::simTime() - llt[nodeId][entry.first];
+    omnetpp::simtime_t lifetime = omnetpp::simTime() - llt[node_id][entry.first];
     if (lifetime > llt_min) {
-      ictt[nodeId][entry.first] = omnetpp::simTime();
-      ictt[entry.first][nodeId] = omnetpp::simTime();
+      ictt[node_id][entry.first] = omnetpp::simTime();
+      ictt[entry.first][node_id] = omnetpp::simTime();
       if (omnetpp::simTime() >= getSimulation()->getWarmupPeriod()) {
         emit(linkLifetime, lifetime);
         llt_counter++;
       }
     }
-    llt[nodeId].erase(entry.first);
-    llt[entry.first].erase(nodeId);
-    EV_INFO << "Link between node " << nodeId << " and node " << entry.first 
+    llt[node_id].erase(entry.first);
+    llt[entry.first].erase(node_id);
+    EV_INFO << "Link between node " << node_id << " and node " << entry.first 
       << " is broken at " << omnetpp::simTime() << ", it lasts for: " << lifetime << '\n';
   }
   for (auto& entry: newN) {
-    EV_INFO << "A link between node " << nodeId << " and " << entry.first << " has been established at time "<< omnetpp::simTime() << '\n';
-    if (ictt[nodeId].find(entry.first) != ictt[nodeId].end()) {
-      omnetpp::simtime_t ict = omnetpp::simTime() - ictt[nodeId][entry.first];
+    EV_INFO << "A link between node " << node_id << " and " << entry.first << " has been established at time "<< omnetpp::simTime() << '\n';
+    if (ictt[node_id].find(entry.first) != ictt[node_id].end()) {
+      omnetpp::simtime_t ict = omnetpp::simTime() - ictt[node_id][entry.first];
       if (ict > ict_min) {
         if (omnetpp::simTime() >= getSimulation()->getWarmupPeriod()) {
           emit(interContactTime, ict);
           ict_counter++;
         }
       }
-      ictt[nodeId].erase(entry.first);
-      ictt[entry.first].erase(nodeId);
-      EV_INFO << "Node " << nodeId << " and node " << entry.first 
+      ictt[node_id].erase(entry.first);
+      ictt[entry.first].erase(node_id);
+      EV_INFO << "Node " << node_id << " and node " << entry.first 
         << " are neighbors again after: " << ict << '\n';
     }
     //Insertion is a symmetric operation
-    llt[nodeId][entry.first] = omnetpp::simTime();
-    llt[entry.first][nodeId] = omnetpp::simTime();
+    llt[node_id][entry.first] = omnetpp::simTime();
+    llt[entry.first][node_id] = omnetpp::simTime();
   }
   if (ict_counter > ict_num) {
     std::cout << ict_counter << ' ' << ict_num <<'\n';

@@ -11,6 +11,7 @@ void BParetoPauseTimeModel::initialize(int stage) {
 }
 
 double BParetoPauseTimeModel::computePauseTime() {
+  Enter_Method_Silent();
   double u = uniform(0, 1);
   double op1 = pow(x_max, alpha);
   double op2 = pow(x_min, alpha);

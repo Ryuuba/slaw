@@ -7,5 +7,6 @@ void ConstantPauseTimeModel::initialize(int stage) {
 }
 
 double ConstantPauseTimeModel::computePauseTime() {
+  Enter_Method_Silent();
   return pause_time;
 }

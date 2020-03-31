@@ -13,14 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef I_OBSERVER_H
+#if !defined(I_OBSERVER_H)
 #define I_OBSERVER_H
 
 #include <omnetpp.h>
 
-class IObserver :
-  public omnetpp::cSimpleModule,
-  public omnetpp::cListener
+class IObserver
+  : public omnetpp::cSimpleModule
+  , public omnetpp::cListener
 {
 protected:
   /** @brief The number of observations to be gathered to finish simulations */

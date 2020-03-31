@@ -16,14 +16,14 @@ PositionObserver::~PositionObserver() {
 
 void PositionObserver::initialize(int stage) {
   if (stage == 0) {
-    numOfNodes = par("numOfNodes");
-    nodePosition.resize(numOfNodes);
+    node_number = par("numOfNodes");
+    node_position.resize(node_number);
     radius = par("radius").doubleValue();
-    x_length = par("x_length").doubleValue();
-    y_length = par("y_length").doubleValue();
+    x_length = par("xLength").doubleValue();
+    y_length = par("yLength").doubleValue();
     x_num = unsigned( ceil(x_length / radius) );
     y_num = unsigned( ceil(y_length / radius) );
-    nodeMap.resize(x_num * y_num);
+    node_map.resize(x_num * y_num);
   }
 }
 
@@ -32,22 +32,22 @@ void PositionObserver::handleMessage(omnetpp::cMessage* msg) {
 }
 
 void PositionObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::simsignal_t id, omnetpp::cObject* value, omnetpp::cObject* details) {
-  nodeId = dynamic_cast<omnetpp::cModule*>(src)->getParentModule()->getIndex();
+  node_id = dynamic_cast<omnetpp::cModule*>(src)->getParentModule()->getIndex();
   auto state = dynamic_cast<inet::MovingMobilityBase*>(value);
   inet::Coord currentPosition(state->getCurrentPosition());
   unsigned currentSquare = computeSquare(currentPosition);
-  unsigned lastSquare = computeSquare(nodePosition[nodeId]);
-  nodePosition[nodeId] = currentPosition;
+  unsigned lastSquare = computeSquare(node_position[node_id]);
+  node_position[node_id] = currentPosition;
   if (currentSquare != lastSquare)
   {
-    auto it = std::find(nodeMap[lastSquare].begin(), nodeMap[lastSquare].end(), nodeId);   
-    if (it != nodeMap[lastSquare].end())
-      nodeMap[lastSquare].erase(it);
-    nodeMap[currentSquare].push_back(nodeId);
+    auto it = std::find(node_map[lastSquare].begin(), node_map[lastSquare].end(), node_id);   
+    if (it != node_map[lastSquare].end())
+      node_map[lastSquare].erase(it);
+    node_map[currentSquare].push_back(node_id);
   }
-  EV_INFO << "Node " << nodeId << " changes its position to square "
-          << currentSquare << " in coordinate <" << nodePosition[nodeId].x 
-          << ", " << nodePosition[nodeId].y<< ">\n";
+  EV_INFO << "Node " << node_id << " changes its position to square "
+          << currentSquare << " in coordinate <" << node_position[node_id].x 
+          << ", " << node_position[node_id].y<< ">\n";
 }
 
 std::list<unsigned> PositionObserver::computeNeighboringSquares(unsigned s)

@@ -20,6 +20,6 @@ simple PositionObserver like IObserver {
     int observations;
     int numOfNodes;
     double radius @unit(m);
-    double x_length @unit(m);
-    double y_length @unit(m);
+    double xLength @unit(m);
+    double yLength @unit(m);
 }

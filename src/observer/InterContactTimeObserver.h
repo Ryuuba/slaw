@@ -28,7 +28,7 @@ protected:
   omnetpp::simtime_t ict_min, llt_min;
 protected:
   /** @brief Computes the one hop neighborhood of a node whose ID is passed as
-   * an argument. Neighborhoods are computed using the nodeMap. This function
+   * an argument. Neighborhoods are computed using the node_map. This function
    * member also updates the lt and the ictt */
   virtual std::unordered_map<unsigned, omnetpp::simtime_t>
   computeOneHopNeighborhood(unsigned);

@@ -8,22 +8,25 @@ void SlawTransNetw::initialize(int stage) {
     walkerNum = par("numOfWalker");
     planningDegree = par("planningDegree").doubleValue();
     latp.setLATP(planningDegree, getRNG(0));
-    setMap();
+  }
+  else if (stage == 1) {
+    map = (SelfSimilarWaypointMap*) this->getSimulation()->
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("mapModule").stringValue());
+    if (!map)
+      error("Invalid self-similar waypoint map module");
     std::string filename(par("clusterList").stringValue());
     if (filename.compare("") != 0)
       loadCKFile(filename.c_str());
     else
       assignConfinedAreas();
     computeHome();
-  }
-  else if (stage == 3) {
     pause_time = (IPauseTimeModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("pauseTimeModule").stringValue());
-    if (!pause_time->computePauseTime())
+    if (!pause_time)
       error("Invalid pause-time module");
     speed = (ISpeedModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
-    if (!speed->computeSpeed())
+    if (!speed)
       error("Invalid speed module");
   }
 }
@@ -31,6 +34,7 @@ void SlawTransNetw::initialize(int stage) {
 void SlawTransNetw::setWalkerState(
   unsigned walkerId, AreaSet& C_k, WaypointList& L, inet::Coord& initialWaypoint
 ) {
+  Enter_Method_Silent();
   C_k = std::move(CkSet[walkerId]);
   initialWaypoint = homeList[walkerId];
   L = computeDestinationList(C_k, initialWaypoint);
@@ -118,6 +122,7 @@ inet::Coord SlawTransNetw::getNextDestination(
     WaypointList& uwl, const AreaSet& C_k, inet::Coord& lastWaypoint, 
     unsigned walkerID
 ) {
+  Enter_Method_Silent();
   inet::Coord nextWaypoint;
   if (uwl.empty()) {
     nextWaypoint = homeList[walkerID];

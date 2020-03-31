@@ -10,21 +10,24 @@ void SlawMatlab::initialize(int stage) {
     waypointRatio = par("waypointRatio");
     planningDegree = par("planningDegree").doubleValue();
     latp.setLATP(planningDegree, getRNG(0));
-    setMap();
+  }
+  else if (stage == 1) {
+    map = (SelfSimilarWaypointMap*) this->getSimulation()->
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("mapModule").stringValue());
+    if (!map)
+      error("Invalid self-similar waypoint map module");
     std::string filename(par("clusterList").stringValue());
     if (filename.compare("") != 0)
       loadCKFile(filename.c_str());
     else
       assignConfinedAreas();
-  }
-  else if (stage == 3) {
     pause_time = (IPauseTimeModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("pauseTimeModule").stringValue());
-    if (!pause_time->computePauseTime())
+    if (!pause_time)
       error("Invalid pause-time module");
     speed = (ISpeedModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
-    if (!speed->computeSpeed())
+    if (!speed)
       error("Invalid speed module");
   }
 }
@@ -32,6 +35,7 @@ void SlawMatlab::initialize(int stage) {
 void SlawMatlab::setWalkerState(
   unsigned walkerId, AreaSet& C_k, WaypointList& L, inet::Coord& initialWaypoint
 ) {
+  Enter_Method_Silent();
   C_k = std::move(CkSet[walkerId]);
   inet::Coord temp(-1.0, -1.0);
   L = computeDestinationList(C_k, temp);
@@ -100,6 +104,7 @@ inet::Coord SlawMatlab::getNextDestination(
     WaypointList& uwl, const AreaSet& C_k, inet::Coord& lastWaypoint,
     unsigned id //This argument is not utilized in this member function
 ) {
+  Enter_Method_Silent();
   inet::Coord nextWaypoint;
   if (uwl.empty())
     uwl = std::move(computeDestinationList(C_k, lastWaypoint));

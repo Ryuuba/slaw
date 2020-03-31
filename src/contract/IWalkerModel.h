@@ -17,7 +17,7 @@
 #define I_WALKER_MODEL
 
 #include "../common/SlawDefs.h"
-#include "../map/SelfsimilarWaypointMap.h"
+#include "../map/SelfSimilarWaypointMap.h"
 #include "../contract/IPauseTimeModel.h"
 #include "../contract/ISpeedModel.h"
 #include "../latp/LATP.h"
@@ -41,8 +41,6 @@ protected:
 protected:
   /** @brief Loads a file containing the C_k set of each walker */
   void loadCKFile(char const*);
-  /** @brief Initializes the self-similar waypoint map. */
-  virtual void setMap();
   /** @brief Computes a new destination waypoint list according to the values of
    *  the member variable model. This member function is overridden */
   virtual WaypointList computeDestinationList(
@@ -52,8 +50,14 @@ protected:
   virtual void assignConfinedAreas() = 0;
 public:
   /** @brief Object implementing the waypoint map */
-  SelfsimilarWaypointMap* const map = new SelfsimilarWaypointMap;
+  SelfSimilarWaypointMap* map;
 public:
+/** @brief Default constructor*/
+IWalkerModel() 
+  : speed(nullptr)
+  , pause_time(nullptr)
+  , map(nullptr)
+  { }
 /** @brief Default destructor */
 virtual ~IWalkerModel();
   /** @brief Sets the set of confined areas C_k, the initial set of unvisited 

@@ -17,7 +17,6 @@
 package slaw.simulations;
 
 import slaw.contract.IObserver;
-import slaw.mobility.SlawBonnMotion;
 import slaw.walker.Walker;
 import slaw.observer.FlightLengthObserver;
 import slaw.tripmanager.TripManager;

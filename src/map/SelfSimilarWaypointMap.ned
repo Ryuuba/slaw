@@ -11,18 +11,16 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
+// 
 
-package slaw.observer;
+package slaw.map;
 
-simple ConnectivityObserver extends PositionObserver {
-    parameters:
-        @class(ConnectivityObserver);
-        int minLLT @unit(s);
-        string filename;
-        @signal[membership](type=unsigned long);
-        @statistic[membership](record=histogram,vector);
-        @signal[arrival](type=unsigned long);
-        @statistic[arrival](record=histogram,vector);
-        @signal[departure](type=unsigned long);
-        @statistic[departure](record=histogram,vector);
+simple SelfSimilarWaypointMap {
+  parameters:
+    @display("i=misc/globe");
+    string mapName;
+    double clusteringRadius @unit(m);
+    double hurstParameter;
+    int observationArea = default(-1);
+    bool showObservationArea = default(false);
 }
