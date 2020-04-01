@@ -32,7 +32,7 @@ public:
   /** @brief Reads from the configuration file the name of the output file */
   virtual void initialize(int stage) override;
   /** @brief Return the number of stages */
-  virtual int numInitStages() const {return 5;}
+  virtual int numInitStages() const { return 6; }
   /** @brief This module does not receive messages */
   virtual void handleMessage(omnetpp::cMessage*);
   /** @brief Receives the number of trips a walker has completed */

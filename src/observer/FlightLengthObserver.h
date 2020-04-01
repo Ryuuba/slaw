@@ -11,10 +11,10 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
-#ifndef FLIGHT_LENGTH_OBSERVER_H
-#define FLIGHT_LENGTH_OBSERVER_H
+#if !defined(FLIGHT_LENGHT_OBSERVER_H)
+#define FLIGHT_LENGHT_OBSERVER_H
 
 #include <omnetpp.h>
 #include <iostream>
@@ -36,7 +36,7 @@ public:
   /** Initializes the attributes of this class */
   virtual void initialize(int stage) override;
   /** @brief Return the number of stages */
-  virtual int numInitStages() const {return 5;}
+  virtual int numInitStages() const { return 6; }
   void handleMessage(omnetpp::cMessage*);
   void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t, double, 
     omnetpp::cObject*);

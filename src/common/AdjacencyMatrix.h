@@ -1,4 +1,4 @@
-#ifndef ADJACENCY_MATRIX_H
+#if !defined(ADJACENCY_MATRIX_H)
 #define ADJACENCY_MATRIX_H
 
 #include <vector>
