@@ -52,7 +52,7 @@ The following command lauch the QT environment so that you can select some of th
 ## Architecture
 The Slaw++ simulator is based on the following architecture. A general explanation about all classes making up this simulator is provided as follows. The diagram shown in Figure 1 is used to support the explation.
 
-![architecture](images/modules.svg)  
+![architecture](images/docs/modules.svg)  
 Figure 1. Slaw++ architecture.
 
 In an OMNeT++ simulation, all classes describing simple modules (C++ objects executing some functionality of the simulation) must extent the `cSimpleModule` class. The inherited member functions from `cSimpleModule` let the objects (modules) initializes their state, handle messages from others and react to timer events.
@@ -69,7 +69,9 @@ The `SelfSimilarWaypointMap`, the `LATPAlgorithm`, the *ISpeedModel*, and the *P
 
 Both the `SlawMatlab` and `SlawTransNetw` classes extend and implement the *IWalkerModel* class. These classes describe individual walker models, that is, the m-wm and the t-wm, respectively.
 
-[//]: # (Illustrate Figure 2)
+![Components of the SLAW Trip Manager](images/docs/slawtm.png)  
+Figure 2. Components of the SLAW Trip Manager.
+
 The instances of the above-mentioned classes are simple modules making up the SLAW Trip Manager compound module, as Figure 2 shows. Communications among these simple modules are done by method invocation.
 
 The OMNeT++ framework provides an interface to communicate simulation modules by passing messages. This communicaction paradigm is not necessary to compute SLAW walks. Thus, SLAWTripManager goes without it.
@@ -78,7 +80,7 @@ A simulation only includes an instance of the SLAWTripManager regardless the num
 
 Figure 3 shows the architecture of an mobile ad-hoc host from the INET framework. Among all elements integrating the ad-hoc host, there is module Mobility implementing an interface named `IMobility`. In order to perform a SLAW walk, the type of the module implementing IMobility must be `SlawMobility`.
 
-![architecture](images/adhoc_host.png)  
+![INET ad-hoc host](images/docs/adhoc_host.png)  
 Figure 3. INET ad-hoc host.
 
 The `SlawMobility` class inherits the functionality of the `LineSegmentsMobility` class from the INET framework. This relation is established since SLAW is a mobility model based on line segments and pause times, as the well-known random waypoint (RWP) model.
@@ -93,7 +95,7 @@ Observers gather data to produce statistics. There are four observers available:
 
 Figure 4 shows a simulation where all instances of Slaw++ are ready to compute SLAW walks
 
-![architecture](images/slaw_simulation.png)  
+![architecture](images/docs/slaw_simulation.png)  
 Figure 4. Slaw++ simulation.
 
 ## Initialization process
