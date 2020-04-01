@@ -1,5 +1,5 @@
-#if !defined(CONNECTIVITY_OBSERVER)
-#define CONNECTIVITY_OBSERVER
+#if !defined(CHURN_OBSERVER_H)
+#define CHURN_OBSERVER_H
 
 #include <algorithm>
 #include <vector>
@@ -17,7 +17,7 @@
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 point_2;
 
-class ConnectivityObserver : public PositionObserver {
+class ChurnObserver : public PositionObserver {
 protected:
   /** @brief Timer to compute the adjacency matrix*/
   omnetpp::cMessage* msg;
@@ -55,9 +55,9 @@ protected:
   void computeOldNeighbors(unsigned id, std::list<unsigned>&);
 public:
   /** @brief default constructor */
-  ConnectivityObserver();
+  ChurnObserver();
   /** @brief default destructor  */
-  ~ConnectivityObserver();
+  ~ChurnObserver();
   /** @brief Receives the quadrant of a module and updates its one-hop 
    * neighborhood */
   virtual void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t,  

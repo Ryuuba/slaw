@@ -14,9 +14,9 @@
 
 package slaw.observer;
 
-simple ConnectivityObserver extends PositionObserver {
+simple ChurnObserver extends PositionObserver {
     parameters:
-        @class(ConnectivityObserver);
+        @class(ChurnObserver);
         int minLLT @unit(s);
         string filename;
         @signal[membership](type=unsigned long);

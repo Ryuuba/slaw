@@ -1,11 +1,11 @@
-#include "ConnectivityObserver.h"
-Define_Module(ConnectivityObserver);
+#include "ChurnObserver.h"
+Define_Module(ChurnObserver);
 
-omnetpp::simsignal_t ConnectivityObserver::membership_stat = registerSignal("membership");
-omnetpp::simsignal_t ConnectivityObserver::arrival_stat = registerSignal("arrival");
-omnetpp::simsignal_t ConnectivityObserver::departure_stat = registerSignal("departure");
+omnetpp::simsignal_t ChurnObserver::membership_stat = registerSignal("membership");
+omnetpp::simsignal_t ChurnObserver::arrival_stat = registerSignal("arrival");
+omnetpp::simsignal_t ChurnObserver::departure_stat = registerSignal("departure");
 
-ConnectivityObserver::ConnectivityObserver()
+ChurnObserver::ChurnObserver()
   : msg(nullptr)
   , filename(nullptr)
   , llt_min(0.0)
@@ -16,14 +16,14 @@ ConnectivityObserver::ConnectivityObserver()
   , departure_num(0)
   { }
 
-ConnectivityObserver::~ConnectivityObserver() {
+ChurnObserver::~ChurnObserver() {
   if (neighborhood_list) {
     delete(neighborhood_list);
     EV_INFO << "ConnectivityObserver: Delete neighborhood list\n";
   }
 }
 
-void ConnectivityObserver::initialize(int stage) {
+void ChurnObserver::initialize(int stage) {
   if (stage == 0) {
     PositionObserver::initialize(stage);
     llt_min = par("minLLT");
@@ -47,7 +47,7 @@ void ConnectivityObserver::initialize(int stage) {
 }
 
 std::list<unsigned> 
-ConnectivityObserver::computeOneHopNeighborhood(unsigned id) {
+ChurnObserver::computeOneHopNeighborhood(unsigned id) {
   std::list<unsigned> neighborhood;
   unsigned square = computeSquare(node_position[id]);
   std::list<unsigned> squareList(std::move(computeNeighboringSquares(square)));
@@ -70,7 +70,7 @@ ConnectivityObserver::computeOneHopNeighborhood(unsigned id) {
   return neighborhood;
 }
 
-void ConnectivityObserver::receiveSignal(
+void ChurnObserver::receiveSignal(
   omnetpp::cComponent* src, 
   omnetpp::simsignal_t id, 
   omnetpp::cObject* value, 
@@ -94,7 +94,7 @@ void ConnectivityObserver::receiveSignal(
   } 
 }
 
-void ConnectivityObserver::finish() {
+void ChurnObserver::finish() {
   std::ofstream ofs(filename);
   if (ofs.is_open()) {
     for (auto& row : *(adjacency_matrix.get())) {
@@ -112,14 +112,14 @@ void ConnectivityObserver::finish() {
     error("ConnectivityObserver: %s file couldn't be opened\n", filename);
 }
 
-bool ConnectivityObserver::isInObservationArea(inet::Coord& position) {
+bool ChurnObserver::isInObservationArea(inet::Coord& position) {
   auto predicate = CGAL::bounded_side_2(
     polygon->begin(), polygon->end(), point_2(position.x, position.y), K()
   );
   return predicate != CGAL::ON_UNBOUNDED_SIDE;
 }
 
-void ConnectivityObserver::computeNewNeighbors(
+void ChurnObserver::computeNewNeighbors(
   unsigned id,
   std::list<unsigned>& current_neighborhood
 ) {
@@ -140,7 +140,7 @@ void ConnectivityObserver::computeNewNeighbors(
   }
 }
 
-void ConnectivityObserver::computeOldNeighbors(
+void ChurnObserver::computeOldNeighbors(
   unsigned id,
   std::list<unsigned>& current_neighborhood
 ) {
@@ -160,7 +160,7 @@ void ConnectivityObserver::computeOldNeighbors(
   }
 }
 
-void ConnectivityObserver::handleMessage(omnetpp::cMessage* msg) {
+void ChurnObserver::handleMessage(omnetpp::cMessage* msg) {
   if (msg->isSelfMessage()) {
     EV_INFO << "Simulation time: " << omnetpp::simTime() <<'\n';
     EV_INFO << "Number of arrivals: " << arrival_num << '\n';
