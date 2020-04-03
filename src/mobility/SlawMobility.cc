@@ -23,9 +23,8 @@ SlawMobility::SlawMobility()
 { }
 
 void SlawMobility::initialize(int stage) {
-  if(stage > 2)
-    LineSegmentsMobilityBase::initialize(stage - 3);
-  else if (stage == 2) {
+  LineSegmentsMobilityBase::initialize(stage - 1);//FIX this WTF?
+  if (stage == 2) {
     classifyFlight = par("classifyFlight").boolValue();
     auto walker_model = par("walkerModuleName").stringValue();
     slaw = (IWalkerModel*) this->getSimulation()->

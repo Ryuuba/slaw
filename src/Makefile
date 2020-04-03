@@ -29,7 +29,7 @@ OBJS = \
     $O/latp/LATP.o \
     $O/map/SelfSimilarWaypointMap.o \
     $O/mobility/SlawMobility.o \
-    $O/observer/ConnectivityObserver.o \
+    $O/observer/ChurnObserver.o \
     $O/observer/FlightLengthObserver.o \
     $O/observer/GlobalConnectivityObserver.o \
     $O/observer/InterContactTimeObserver.o \
