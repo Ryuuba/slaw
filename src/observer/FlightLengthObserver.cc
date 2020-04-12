@@ -54,7 +54,7 @@ void FlightLengthObserver::initialize(int stage)
   if (stage == 0) {
     numOfSamples = par("observations");
     classifyFlight = par("classifyFlight").boolValue();
-    std::cout << "Number of samples: " << numOfSamples << '\n';
+    EV_INFO << "Number of samples: " << numOfSamples << '\n';
     WATCH(counter);
   }
 }
@@ -74,11 +74,11 @@ void FlightLengthObserver::receiveSignal(
     counter++;
     processSignal(node_id, id, flightLength);
     if (counter%10000 == 0)
-      std::cout << "FlightLengthObserver: " << counter 
+      EV_INFO << "FlightLengthObserver: " << counter 
         << " samples have been produced\n";
   }
   if (counter == numOfSamples) {
-    std::cout << "FlightLengthObserver: " << counter 
+    EV_INFO << "FlightLengthObserver: " << counter 
       << " samples have been gathered\n";
     endSimulation();
   }

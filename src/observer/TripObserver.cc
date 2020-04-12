@@ -31,7 +31,7 @@ void TripObserver::initialize(int stage)
 {
   if (stage == 0) {
     sample_size = par("observations");
-    std::cout << "TripObserver: " << sample_size << " destinations to be observed\n";
+    EV_INFO << "TripObserver: " << sample_size << " destinations to be observed\n";
   }
 }
 
@@ -48,7 +48,7 @@ void TripObserver::receiveSignal(
   if (counter >  sample_size)
     endSimulation();
   emit(trip_size_stat, size);
-  std::cout << "TripObserver: " << counter << " samples have been gathered\n";
+  EV_INFO << "TripObserver: " << counter << " samples have been gathered\n";
 }
 
 void TripObserver::receiveSignal(
