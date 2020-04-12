@@ -117,7 +117,7 @@ void InterContactTimeObserver::receiveSignal(omnetpp::cComponent* src, omnetpp::
     llt[entry.first][node_id] = omnetpp::simTime();
   }
   if (ict_counter > ict_num) {
-    std::cout << ict_counter << ' ' << ict_num <<'\n';
+    EV_INFO << ict_counter << ' ' << ict_num <<'\n';
     endSimulation();
   }
 }
