@@ -23,6 +23,8 @@ void SelfSimilarWaypointMap::initialize(int stage) {
     simulation_canvas = getSystemModule()->getCanvas();
     hurst_parameter = par("hurstParameter").doubleValue();
     clustering_radius = par("clusteringRadius");
+    std::cout << "Clustering raduis: " << clustering_radius << '\n';
+    map_path = par("mapPath").stringValue();
     map_name = par("mapName").stringValue();
     observation_area = par("observationArea");
     bool success = true;
@@ -66,7 +68,10 @@ SelfSimilarWaypointMap::~SelfSimilarWaypointMap() {
 }
 
 bool SelfSimilarWaypointMap::loadMap(WaypointList& waypointList) {
-  std::ifstream waypointFile(map_name, std::ifstream::in);
+  std::string filename {map_path};
+  filename += map_name;
+  std::cout << "map filename: " << filename << '\n';
+  std::ifstream waypointFile(filename, std::ifstream::in);
   bool success = false;
   if (waypointFile.is_open()) {
     inet::Coord waypoint;
@@ -75,10 +80,10 @@ bool SelfSimilarWaypointMap::loadMap(WaypointList& waypointList) {
     success = testWaypointList(waypointList);
     waypointFile.close();
     if (!success)
-      error("SelfSimilarWaypointMap: %s has repeated coordinates\n", map_name);
+      error("SelfSimilarWaypointMap: %s has repeated coordinates\n", filename);
   }
   else 
-    error("SelfSimilarWaypointMap: %s file is not found\n", map_name);
+    error("SelfSimilarWaypointMap: %s file is not found\n", filename);
   return success;
 }
 
@@ -129,7 +134,8 @@ EV_INFO << "Clustering waypoints, it may take some time..."
 
 bool SelfSimilarWaypointMap::saveAreaVector() {
   bool result = false;
-  std::string filename = map_name;
+  std::string filename {map_path};
+  filename += map_name;
   filename += "_" + std::to_string(int(clustering_radius)) + ".clf";
   std::ofstream ofs(filename.c_str(), std::ofstream::out);
   if(ofs.is_open()) {
@@ -146,9 +152,10 @@ bool SelfSimilarWaypointMap::saveAreaVector() {
 
 bool SelfSimilarWaypointMap::loadAreaVector() {
   bool result = false;
-  std::string filename;
-  filename = map_name;
+  std::string filename {map_path};
+  filename += map_name;
   filename += "_" + std::to_string(int(clustering_radius)) + ".clf";
+  std::cout << "clustered map filename: " << filename << '\n';
   std::ifstream ifs(filename.c_str(), std::ifstream::in);
   unsigned areaID = 0;
   if(ifs.is_open()) {

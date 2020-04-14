@@ -28,6 +28,9 @@ typedef K::Point_2 point_2;
 //TODO: Create self-similar waypoint maps
 class SelfSimilarWaypointMap : public omnetpp::cSimpleModule {
 protected:
+  /** @brief The default location of the directory containing self-similar 
+   *  waypoints maps */
+  const char* map_path;
   /** @brief Parameter determining the selfsimilarity degree of a waypoint
    * map, where 0.5 < hurstParameter < 1.0 */
   double hurst_parameter;
