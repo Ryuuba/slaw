@@ -23,7 +23,6 @@ void SelfSimilarWaypointMap::initialize(int stage) {
     simulation_canvas = getSystemModule()->getCanvas();
     hurst_parameter = par("hurstParameter").doubleValue();
     clustering_radius = par("clusteringRadius");
-    std::cout << "Clustering raduis: " << clustering_radius << '\n';
     map_path = par("mapPath").stringValue();
     map_name = par("mapName").stringValue();
     observation_area = par("observationArea");
@@ -56,21 +55,15 @@ void SelfSimilarWaypointMap::initialize(int stage) {
 }
 
 SelfSimilarWaypointMap::~SelfSimilarWaypointMap() {
-  std::cout << "Selfsimilar waypoint map\n";
-  if(area_vector) {
+  if(area_vector) 
     delete area_vector;
-    std::cout << "SelfSimilarWaypointMap: Delete area vector\n";
-  }
-  if(weight_vector){
+  if(weight_vector)
     delete weight_vector;
-    std::cout << "SelfSimilarWaypointMap: Delete weight vector\n";
-  }
 }
 
 bool SelfSimilarWaypointMap::loadMap(WaypointList& waypointList) {
   std::string filename {map_path};
   filename += map_name;
-  std::cout << "map filename: " << filename << '\n';
   std::ifstream waypointFile(filename, std::ifstream::in);
   bool success = false;
   if (waypointFile.is_open()) {
@@ -155,7 +148,6 @@ bool SelfSimilarWaypointMap::loadAreaVector() {
   std::string filename {map_path};
   filename += map_name;
   filename += "_" + std::to_string(int(clustering_radius)) + ".clf";
-  std::cout << "clustered map filename: " << filename << '\n';
   std::ifstream ifs(filename.c_str(), std::ifstream::in);
   unsigned areaID = 0;
   if(ifs.is_open()) {
