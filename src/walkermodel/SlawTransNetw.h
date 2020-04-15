@@ -11,9 +11,9 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
-#ifndef SLAW_IEEE_ACM_TON_H_
+#if !defined(SLAW_IEEE_ACM_TON_H_)
 #define SLAW_IEEE_ACM_TON_H_
 
 #include "../contract/IWalkerModel.h"
@@ -46,7 +46,7 @@ public:
   /** @brief Initializes the parameters of this module from the omnetpp.ini 
    *  configuration file*/
   virtual void initialize(int stage) override;
-  virtual int numInitStages() const override {return 5;}
+  virtual int numInitStages() const override {return 6;}
   /** @brief Sets the set of confined areas C_k and the initial waypoint 
    *  from wich the walker starts its trip. */
   virtual void setWalkerState(

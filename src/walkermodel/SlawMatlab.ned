@@ -23,12 +23,10 @@ simple SlawMatlab like IWalkerModel {
     string walkerModel = "SlawMatlab";
     string pauseTimeModule = "pausetimemodule";
     string speedModule = "speedmodule";
-    int numOfWalker;
-    string mapName;
+    string mapModule = "mapmodule";
     string clusterList;
-    double clusteringRadius @unit(m);
+    int numOfWalker;
     double planningDegree;
-    double hurstParameter;
     double clusterRatio;
-    double waypointRatio;    
+    double waypointRatio;
 }

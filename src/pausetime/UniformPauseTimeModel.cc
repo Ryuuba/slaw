@@ -8,5 +8,6 @@ void UniformPauseTimeModel::initialize(int stage) {
 }
 
 double UniformPauseTimeModel::computePauseTime() {
+  Enter_Method_Silent();
   return uniform(a, b);
 }

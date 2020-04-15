@@ -9,15 +9,17 @@
  * @author Andras Varga (generalized, ported to LineSegmentsMobilityBase)
  */
 
-#ifndef SLAW_MOBILITY_H
+#if !defined(SLAW_MOBILITY_H)
 #define SLAW_MOBILITY_H
+
+
 #include <cstdint>
 #include <omnetpp.h>
 #include <omnetpp/csimplemodule.h>
 
 #include "../contract/IWalkerModel.h"
 #include "../signals/WaypointSignal.h"
-#include "LineSegmentsMobilityBase.h"
+#include "inet/mobility/base/LineSegmentsMobilityBase.h"
 
 class SlawMobility : public inet::LineSegmentsMobilityBase
 {
@@ -52,7 +54,7 @@ protected:
    *  MobilityBase. This module is initialized in the state 0. It is very
    *  important place it below the slaw model in he ned file in order
    *  to avoid the error 139: segmentation fault. */
-  virtual int numInitStages() const { return 5; }
+  virtual int numInitStages() const { return 6; }
   /** @brief Initializes mobility model parameters.*/
   virtual void initialize(int stage);
   /** @brief Overridden from LineSegmentsMobilityBase.*/

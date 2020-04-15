@@ -1,10 +1,10 @@
-#ifndef HASHMODULE_H_
-#define HASHMODULE_H_
+#if !defined(HASH_MODULE_H)
+#define HASH_MODULE_H
 
 #include <utility>
 
 #include <omnetpp.h>
-#include <Coord.h>
+#include <inet/common/geometry/common/Coord.h>
 
 namespace std {
    template<>

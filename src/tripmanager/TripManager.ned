@@ -20,6 +20,7 @@ package slaw.tripmanager;
 import slaw.contract.IPauseTimeModel;
 import slaw.contract.ISpeedModel;
 import slaw.contract.IWalkerModel;
+import slaw.map.SelfSimilarWaypointMap;
 
 module TripManager
 {
@@ -30,7 +31,16 @@ module TripManager
         string pauseTimeModelType;
         string speedModelType;
     submodules:
-        pausetimemodule: <pauseTimeModelType> like IPauseTimeModel;
-        speedmodule: <speedModelType> like ISpeedModel;
-        walkermodel: <walkerModelType> like IWalkerModel;
+        pausetimemodule: <pauseTimeModelType> like IPauseTimeModel {
+            @display("p=82,155;i=block/pause");
+        }
+        speedmodule: <speedModelType> like ISpeedModel {
+            @display("p=208,155;i=block/speedometer");
+        }
+        walkermodel: <walkerModelType> like IWalkerModel {
+            @display("p=82,43;i=block/user");
+        }
+        mapmodule: SelfSimilarWaypointMap {
+            @display("p=208,43");
+        }
 }

@@ -16,32 +16,32 @@ omnetpp::simsignal_t
 omnetpp::simsignal_t
   SlawMobility::next_waypoint = registerSignal("nextWaypoint");
 
-SlawMobility::SlawMobility() : 
-  walkerID(0), nextMoveIsWait(false), slaw(nullptr) 
+SlawMobility::SlawMobility()
+  : walkerID(0)
+  , nextMoveIsWait(false)
+  , slaw(nullptr) 
 { }
 
 void SlawMobility::initialize(int stage) {
-  if(stage > 1) {
-    LineSegmentsMobilityBase::initialize(stage - 2);
+  LineSegmentsMobilityBase::initialize(stage - 1);//FIX this WTF?
+  if (stage == 2) {
     classifyFlight = par("classifyFlight").boolValue();
-  }
-  else if (stage == 1) {
     auto walker_model = par("walkerModuleName").stringValue();
     slaw = (IWalkerModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(walker_model);
     if(!slaw)
       error("Slaw Mobility: No destination generator found, add module Slaw to the network");
     walkerID = getContainingNode(this)->getIndex();
-    std::cout << "Mobility state of walker " << walkerID << "\n";
-    std::cout << "stage: " << stage << '\n';
+    EV_INFO << "Mobility state of walker " << walkerID << "\n";
+    EV_INFO << "stage: " << stage << '\n';
     slaw->setWalkerState(walkerID, C_k, unvisitedWaypointList, lastPosition);
-    std::cout << "number of confined areas: " << C_k.size() << "\n\t"
+    EV_INFO << "number of confined areas: " << C_k.size() << "\n\t"
       << "Start: " << lastPosition << "\n\t"
       << "trip size: " << unvisitedWaypointList.size() << '\n'
       << "areas: ";
     for (auto& areaNumber: C_k)
-        std::cout << areaNumber << ' ';
-    std::cout << "\n";
+        EV_INFO << areaNumber << ' ';
+    EV_INFO << "\n";
     int tripSize = unvisitedWaypointList.size();
     emit(trip_size, tripSize);
     WATCH(nextChange);

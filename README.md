@@ -2,53 +2,101 @@
 A SLAW mobility simulator based on the OMNeT++ and INET frameworks
 
 ## Description
-Slaw++ is a simulator that implements the _Self-similar Least-Action Walk_ model (SLAW). SLAW is a realistic human mobility model that was designed by Lee, Hong, Kim, Rhee, and Chong (2012). According to their authors, SLAW represents five features of human motion:
+Slaw++ is a simulator that implements the *Self-similar Least-Action Walk* model (SLAW). SLAW is a realistic human mobility model that was designed by Lee, *et al.* (2012). According to their authors, SLAW represents five features of human motion:
   1. Heavy-tail flights and pause-times
   2. Heterogeneously bounded mobility areas
   3. Truncated power-law intercontact times (ICTs)
   4. Self-similar waypoints
   5. Least-action trip planning
 
-Different from other trace-based approaches, Slaw++ is designed keeping in mind performance since it computes next destinations _on-demand_. This means you do not need a large amount of memory to store the data from mobility trace files. This is due to the fact that Slaw++ computes next waypoints when it is need it, i.e., when initializing the simulation, as well as when a walker reaches a waypoint. Besides, lists of unvisited waypoints are computed when walkers finish their trips. Therefore, you save several clock cycles since accessing main memory to read the next destination of a walker is avoided. In addition, this approach is especially useful when you need to run long lasting experiments, a large number of them, or dense scenarios with a large number of nodes. By extension, this implies you do not have to worry about running out of samples before the experiments are finished.
+Different from other trace-based simulation approaches, Slaw++ is designed keeping in mind performance since it computes next destinations *on-demand*. This means you do not need a large amount of memory to store the data from mobility trace files. 
 
-Another important features of Slaw++ is that it implements the two available _Individual Walker Models_ (IWMs) of SLAW: the one used in the original trace generator implemented in Matlab and the one presented by Lee et al. (2012). We denote these models as m-wm and t-wm, respectively. The m-wm is validated by means of a two-sample K-S test so that the flights it produces are statistically equivalent to the flights produced by the original SLAW trace generator. The t-wm is not implemented in other simulation tools, so Slaw++ is possibly the first simulator implementing such walker model. Due to the fact that IWMs are mainly based on intuition, the architecture of the Slaw++ simulator is designed to implement other IWMs when future analysis on individual walker models are available.
+Slaw++ achieves performance since it computes next waypoints when it is need it, i.e., when initializing the simulation, as well as when a walker reaches a waypoint. Therefore, you save several clock cycles since accessing main memory to read the next destination of a walker is avoided.
+
+This approach is especially useful when you need to run long lasting experiments, a large number of them, or dense scenarios with a large number of nodes. By extension, this implies you do not have to worry about running out of samples before the end of an experiment is reached.
+
+Another important feature of Slaw++ is that it implements the two available *Individual Walker Models* (IWMs) of SLAW: the one used in the original trace generator implemented in Matlab and the one presented by Lee et al. (2012). We denote these models as m-wm and t-wm, respectively.
+
+The m-wm is validated by means of a two-sample K-S test so that the flights it produces are statistically equivalent to the flights produced by the original SLAW trace generator.
+
+The t-wm is not implemented in other simulation tools, so Slaw++ is possibly the first simulator implementing such walker model.
+
+Due to the fact that IWMs are mainly based on intuition, the architecture of the Slaw++ simulator is designed to easily implement other IWMs when future analysis on individual walker models are available.
 
 ## Installation
 In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html).
 
-Once you have installed the above mentioned frameworks, follow these steps:
+Once you have correctly installed the above mentioned frameworks, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
-  2. Modify the INETDIR variable in the Makefile so that the value of INETDIR matches with the directory where you compiled the INET framework
-  3. Execute the make makefiles command
+  2. Modify the INETDIR variable in the Makefile of the project so that the value of the variable matches with the path where you compiled the INET framework
+  3. Execute the make makefiles-so command to generate a shared library in release mode
   ```bash
-  $ make makefiles
+  $ make makefiles-so
   ```
-  4. Execute the make command
+  4. Execute the make command.
   ```bash
   $ make
   ```
   5. Done!
 
+## Run an example
+
+The `opp_run` command provided with the OMNeT++ framework loads all configuration files, NED files and libraries needed to run a simulation.
+
+The following command lauch the QT environment so that you can select some of the experiments preloaded in by Slaw++. Note that the command is executed on the simulations directory.
+
+```bash
+~/slaw/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/inet/INET -f omnetpp.ini -u Qtenv
+```
+
 ## Architecture
-The Slaw++ simulator is based on the following architecture. A general explanation about all classes is provided as follows.![architecture](modules_alternative.svg "Slaw++ architecture"). 
+The Slaw++ simulator is based on the following architecture. A general explanation about all classes making up this simulator is provided as follows. The diagram shown in Figure 1 is used to support the explation.
 
-In an OMNeT++ simulation, all classes describing simple modules (C++ objects executing some functionality of the simulation) must extent the `cSimpleModule` class. The inherited member functions from `cSimpleModule` let the objects (modules) interact with other modules in a simulation. This interaction could be performed by method invocation or by message passing. In addition, the `cSimpleModule` class gives means to initialize the simulation objects.
+![architecture](images/docs/modules.svg)  
+Figure 1. Slaw++ architecture.
 
-The _IWalkerModel_ class extends the `cSimpleModule` class since it defines all functionalities related to the SLAW model that are required by walkers. A walker is the name we give to instances from the `SlawMobility` class. By means of the methods of the _IWalkerModel_ class, walkers get all values and data structures needed to perform a trip from objects implementing the _IWalkerModel_ class. 
+In an OMNeT++ simulation, all classes describing simple modules (C++ objects executing some functionality of the simulation) must extent the `cSimpleModule` class. The inherited member functions from `cSimpleModule` let the objects (modules) initializes their state, handle messages from others and react to timer events.
 
-The SlawMatlab and SlawTransNetw classes extend and implement the _IWalkerModel_ class. This means these classes describe individual walker models, that is, the m-wm and the t-wm, respectively. In addition, simple modules implementing the IWalkerModel_ class have access to:
+The *IWalkerModel* abstact class extends the `cSimpleModule` class. The *IWalkerModel* class defines all functionalities related to the SLAW model, along with the objects and data structures needed to perform a SLAW walk. All green boxes in Figure 1 corresponds to the classes needed to perform a SLAW walk. 
+
+Simple modules implementing the *IWalkerModel* class have access to:
   - a `SelfSimilarMap` object,
   - an object implementing the `LATPAlgorithm` (least-action trip planning algorithm),
-  - a simple module implementing the _ISpeedModel_ class that computes speed samples,
-  - a simple module implementing the _IPauseTimeModel_ class that computes pause time samples
+  - a simple module implementing the *ISpeedModel* class that computes speed samples,
+  - a simple module implementing the *IPauseTimeModel* class that computes pause time samples.
 
-The `SelfSimilarWaypointMap`, the `LATPAlgorithm`, the _ISpeedModel_, and the _PauseTimeModel_, are classes whose instances (objects or simple modules as appropriate), help the simple module implementing the _IWalkerModel_ abstract class to compute self-similar least-action walks. The modules extending the _IWalkerModel_ class communicate to instances of the aforementioned instances by method invocation. This decision is taken in order to efficiently get computations from those auxiliar instances.
+The `SelfSimilarWaypointMap`, the `LATPAlgorithm`, the *ISpeedModel*, and the *PauseTimeModel* are classes whose instances (objects or simple modules as appropriate), complements the funcionality of the classes implementing the *IWalkerModel* abstract class.
 
-The SlawMobility class inherits the functionality of the LineSegmentsMobility class from the INET framework. These relation is established since SLAW is a mobility model based on line segments and pause times, as the random waypoint (RWP) model.
+Both the `SlawMatlab` and `SlawTransNetw` classes extend and implement the *IWalkerModel* class. These classes describe individual walker models, that is, the m-wm and the t-wm, respectively.
 
-As the arrow connecting the _IWalkerModel_ class with the `SlawMobility` class shows, a simulation only includes one simple module implementing the _IWalkerModel_ abstract class regardless the number of walkers in a experiment. The centralization of the data utilized to compute trips is done in order to easily shared several data structures and objects with simulation modules that could required such means.
+![Components of the SLAW Trip Manager](images/docs/slawtm.png)  
+Figure 2. Components of the SLAW Trip Manager.
 
-In Slaw++, an observer is an implementation of the abstract class _IObserver_. This class defines the methods that observers must extend and implement in order to receive information about a phenomenon to be analyzed, e.g., the flight length distribution, or the inter-contact time distribution, or a trip traveled by a given walker. Observers are in charge of gathering data to produce statistics. There are four observers available: the flight length observer, the trip observer, the position observer, and the connectivity observer.
+The instances of the above-mentioned classes are simple modules making up the SLAW Trip Manager compound module, as Figure 2 shows. Communications among these simple modules are done by method invocation.
+
+The OMNeT++ framework provides an interface to communicate simulation modules by passing messages. This communicaction paradigm is not necessary to compute SLAW walks. Thus, SLAWTripManager goes without it.
+
+A simulation only includes an instance of the SLAWTripManager regardless the number of mobile hosts in an experiment. The centralization of the data utilized to compute trips is done in order to easily shared several data structures and objects with simulation modules that could required such means.
+
+Figure 3 shows the architecture of an mobile ad-hoc host from the INET framework. Among all elements integrating the ad-hoc host, there is module Mobility implementing an interface named `IMobility`. In order to perform a SLAW walk, the type of the module implementing IMobility must be `SlawMobility`.
+
+![INET ad-hoc host](images/docs/adhoc_host.png)  
+Figure 3. INET ad-hoc host.
+
+The `SlawMobility` class inherits the functionality of the `LineSegmentsMobility` class from the INET framework. This relation is established since SLAW is a mobility model based on line segments and pause times, as the well-known random waypoint (RWP) model.
+
+Communications between the instance of the `SlawMobility` class and the SLAWTripManager also are done by method invocation.
+
+In a simulation, computations concerning the position of mobile hosts are needed in order to obtain statistics from flights and inter-contact times, etc. Implementations of the *IObserver* abstract class perform this taks.
+
+The *IObserver* class defines the methods that observers must extend and implement in order to receive information about a phenomenon to be analyzed, e.g., the flight length distribution, or the inter-contact time distribution, or a trip traveled by a given walker.
+
+Observers gather data to produce statistics. There are four observers available: the flight length observer, the trip observer, the position observer, and the connectivity observer. They receive data from mobile host through the signal mechanism that OMNeT++ provides.
+
+Figure 4 shows a simulation where all instances of Slaw++ are ready to compute SLAW walks
+
+![architecture](images/docs/slaw_simulation.png)  
+Figure 4. Slaw++ simulation.
 
 ## Initialization process
 In an OMNeT++ simulation, simple modules perform initialization tasks by calling the _initialize()_ member function, which is inherited from the `cSimpleModule` class. This member function is used to set simulation parameters of objects that are not available when the constructor runs. The method _initialize()_ runs just before the simulation starts executing. Besides, the initialization process could be done in stages. This means it is possible to determine the order in which module parameters are set.

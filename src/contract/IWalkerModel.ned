@@ -19,9 +19,6 @@ moduleinterface IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
     string walkerModel;
-    string mapName;
     string clusterList;
-    double clusteringRadius @unit(m);
     double planningDegree;
-    double hurstParameter;
 }

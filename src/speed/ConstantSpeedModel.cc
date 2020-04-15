@@ -8,5 +8,6 @@ void ConstantSpeedModel::initialize(int stage) {
 }
 
 double ConstantSpeedModel::computeSpeed(double par) {
+  Enter_Method_Silent();
   return speed;
 }  

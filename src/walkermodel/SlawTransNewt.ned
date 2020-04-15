@@ -16,19 +16,15 @@
 package slaw.walkermodel;
 
 import slaw.contract.IWalkerModel;
-import slaw.contract.IPauseTime;
-import slaw.contract.ISpeed;
 
 simple SlawTransNetw like IWalkerModel {
   parameters:
     @display("i=block/cogwheel");
     string walkerModel = "SlawTransNetw";
     int numOfWalker;
-    string mapName;
-    string clusterList;
-    double clusteringRadius @unit(m);
     string pauseTimeModule = "pausetimemodule";
     string speedModule = "speedmodule";
+    string mapModule = "mapmodule";
+    string clusterList;
     double planningDegree;
-    double hurstParameter;  
 }

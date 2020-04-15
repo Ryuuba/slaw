@@ -13,6 +13,7 @@ void RheeSpeedModel::rheeModel(double flightLength) {
 }
 
 double RheeSpeedModel::computeSpeed(double par) {
+  Enter_Method_Silent();
   rheeModel(par);
   return speed;
 }

@@ -3,6 +3,7 @@ Makefile
 .vscode/
 src/slaw
 .qtenvrc
+*.so
 *.vec
 *.vci
 *.dat

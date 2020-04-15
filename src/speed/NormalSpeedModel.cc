@@ -10,5 +10,6 @@ void NormalSpeedModel::initialize(int stage) {
 }
 
 double NormalSpeedModel::computeSpeed(double par) {
+  Enter_Method_Silent();
   return truncnormal(mean, std_dev);
 }
