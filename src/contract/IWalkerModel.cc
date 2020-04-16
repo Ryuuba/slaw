@@ -2,9 +2,7 @@
 
 Register_Abstract_Class(IWalkerModel);
 
-IWalkerModel::~IWalkerModel() {
-  std::cout << "Walker Model  was destroyed" << '\n';
-}
+IWalkerModel::~IWalkerModel() { }
 
 void IWalkerModel::loadCKFile(char const* name) {
   std::string filename(name);

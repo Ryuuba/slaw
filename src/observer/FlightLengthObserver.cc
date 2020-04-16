@@ -30,23 +30,14 @@ FlightLengthObserver::FlightLengthObserver():
 
 FlightLengthObserver::~FlightLengthObserver()
 {
-  std::cout << "Simulation Flight Observer\n";
-  if (isSubscribed(flight, this)) {
+  if (isSubscribed(flight, this))
     unsubscribe(flight, this);
-    std::cout << "flight: unsubscribe done\n";
-  }
-  if (isSubscribed(intraFlightLength, this)) {
+  if (isSubscribed(intraFlightLength, this))
     unsubscribe(intraFlightLength, this);
-    std::cout << "intraflight: unsubscribe done\n";
-  }
-  if (isSubscribed(interFlightLength, this)) {
+  if (isSubscribed(interFlightLength, this))
     unsubscribe(interFlightLength, this);
-    std::cout << "interflight: unsubscribe done\n";
-  }
-  if (isSubscribed(remote_random_area, this)) {
+  if (isSubscribed(remote_random_area, this))
     unsubscribe(remote_random_area, this);
-    std::cout << "remote random area: unsubscribe done\n";
-  }
 }
 
 void FlightLengthObserver::initialize(int stage)
