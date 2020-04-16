@@ -46,7 +46,7 @@ public:
   /** @brief Initializes the parameters of this module from the omnetpp.ini 
    *  configuration file*/
   virtual void initialize(int stage) override;
-  virtual int numInitStages() const override {return 6;}
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
   /** @brief Sets the set of confined areas C_k and the initial waypoint 
    *  from wich the walker starts its trip. */
   virtual void setWalkerState(

@@ -12,7 +12,7 @@ InterContactTimeObserver::InterContactTimeObserver() :
 { }
 
 void InterContactTimeObserver::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     PositionObserver::initialize(stage);
     ict_num = par("observations");
     ict_min = par("minICT");

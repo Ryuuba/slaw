@@ -15,7 +15,7 @@ PositionObserver::~PositionObserver() {
 }
 
 void PositionObserver::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     node_number = par("numOfNodes");
     node_position.resize(node_number);
     radius = par("radius").doubleValue();

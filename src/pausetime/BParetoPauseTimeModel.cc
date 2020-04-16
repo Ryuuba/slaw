@@ -3,7 +3,7 @@
 Define_Module(BParetoPauseTimeModel);
 
 void BParetoPauseTimeModel::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     alpha = par("par1").doubleValue();
     x_min = par("par2").doubleValue();
     x_max = par("par3").doubleValue();

@@ -19,7 +19,7 @@ Define_Module(SelfSimilarWaypointMap);
 
 //The input is the map name and the clustering radius
 void SelfSimilarWaypointMap::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     simulation_canvas = getSystemModule()->getCanvas();
     hurst_parameter = par("hurstParameter").doubleValue();
     clustering_radius = par("clusteringRadius");
@@ -51,6 +51,7 @@ void SelfSimilarWaypointMap::initialize(int stage) {
       if (par("showObservationArea").boolValue())
         drawConvexHull();
     }
+    std::cout << "MAP: stage " << stage << " OK\n";
   }
 }
 

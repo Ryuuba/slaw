@@ -23,7 +23,7 @@ protected:
   double pause_time;
 public:
   virtual void initialize(int stage) override;
-  virtual int numInitStages() const { return 6; }
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; } 
   virtual double computePauseTime() override;
 };
 

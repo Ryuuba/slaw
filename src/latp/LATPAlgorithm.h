@@ -26,7 +26,7 @@ public:
   { }
   virtual ~LATPAlgorithm() { }
   virtual inet::Coord operator()(inet::Coord&, WaypointList&);
-  virtual int numInitStages() const override {return 6;}
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; } 
   virtual void initialize(int) override;
   virtual void handleMessage(omnetpp::cMessage*) {
     error("LATPAlgorithm: This module does not receive any message\n");

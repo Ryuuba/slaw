@@ -3,31 +3,34 @@
 Define_Module(SlawTransNetw);
 
 void SlawTransNetw::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     walker_model = par("walkerModel").stringValue();
     walkerNum = par("numOfWalker");
-  }
-  else if (stage == 1) {
     map = (SelfSimilarWaypointMap*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("mapModule").stringValue());
-    if (!map)
-      error("Invalid self-similar waypoint map module");
-    std::string filename(par("clusterList").stringValue());
-    if (filename.compare("") != 0)
-      loadCKFile(filename.c_str());
-    else
-      assignConfinedAreas();
-    computeHome();
     pause_time = (IPauseTimeModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("pauseTimeModule").stringValue());
-    if (!pause_time)
-      error("Invalid pause-time module");
     speed = (ISpeedModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
-    if (!speed)
-      error("Invalid speed module");
     latp_algorithm = (LATPAlgorithm*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("latpModule").stringValue());
+    std::cout << "SlawMobility: stage " << stage << " OK\n";
+  }
+  else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
+    if (!map)
+      error("Invalid self-similar waypoint map module");
+    else {
+      std::string filename(par("clusterList").stringValue());
+      if (filename.compare("") != 0)
+        loadCKFile(filename.c_str());
+      else
+        assignConfinedAreas();
+      computeHome();
+    }
+    if (!pause_time)
+      error("Invalid pause-time module");
+    if (!speed)
+      error("Invalid speed module");
     if (!latp_algorithm)
       error("Invalid LATPAlgorithm module");
   }

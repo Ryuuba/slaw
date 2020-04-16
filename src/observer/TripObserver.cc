@@ -29,7 +29,7 @@ TripObserver::~TripObserver()
 
 void TripObserver::initialize(int stage)
 {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     sample_size = par("observations");
     EV_INFO << "TripObserver: " << sample_size << " destinations to be observed\n";
   }

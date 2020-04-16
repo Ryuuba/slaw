@@ -70,7 +70,7 @@ virtual ~IWalkerModel();
   ) = 0;
   /** @brief Initializes the Trip Manager module. It must be overridden*/
   virtual void initialize(int stage) = 0;
-  virtual int numInitStages() const = 0;
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
   /** @brief Returns the name of the individual walker model*/
   const char* getIndividualWalkerModelName() {return walker_model;}
   virtual double getPauseTime () = 0;

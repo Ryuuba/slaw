@@ -31,6 +31,7 @@
 
 #include <omnetpp.h>
 #include "inet/common/geometry/common/Coord.h"
+#include "inet/common/INETDefs.h"
 
 #include "HashCoordinate.h"
 
