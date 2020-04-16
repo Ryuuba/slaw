@@ -20,7 +20,6 @@ Define_Module(LATPAlgorithm);
 void LATPAlgorithm::initialize(int stage) {
   if (stage == inet::INITSTAGE_LOCAL) {
     a = par("planningDegree").doubleValue();
-    std::cout << "LATP: stage " << stage << " OK\n";
   }
 }
 
