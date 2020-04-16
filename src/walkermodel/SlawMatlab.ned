@@ -18,15 +18,15 @@ package slaw.walkermodel;
 import slaw.contract.IWalkerModel;
 
 simple SlawMatlab like IWalkerModel {
-  parameters:
-    @display("i=block/cogwheel");
-    string walkerModel = "SlawMatlab";
-    string pauseTimeModule = "pausetimemodule";
-    string speedModule = "speedmodule";
-    string mapModule = "mapmodule";
-    string clusterList;
-    int numOfWalker;
-    double planningDegree;
-    double clusterRatio;
-    double waypointRatio;
+    parameters:
+        @display("i=block/cogwheel");
+        string walkerModel = "SlawMatlab";
+        string pauseTimeModule = default("pausetimemodule");
+        string speedModule = default("speedmodule");
+        string mapModule = default("mapmodule");
+        string latpModule = default("latpmodule");
+        string clusterList;
+        int numOfWalker;
+        double clusterRatio;
+        double waypointRatio;
 }

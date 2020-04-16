@@ -6,8 +6,6 @@ void SlawTransNetw::initialize(int stage) {
   if (stage == 0) {
     walker_model = par("walkerModel").stringValue();
     walkerNum = par("numOfWalker");
-    planningDegree = par("planningDegree").doubleValue();
-    latp.setLATP(planningDegree, getRNG(0));
   }
   else if (stage == 1) {
     map = (SelfSimilarWaypointMap*) this->getSimulation()->
@@ -28,6 +26,10 @@ void SlawTransNetw::initialize(int stage) {
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
     if (!speed)
       error("Invalid speed module");
+    latp_algorithm = (LATPAlgorithm*) this->getSimulation()->
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("latpModule").stringValue());
+    if (!latp_algorithm)
+      error("Invalid LATPAlgorithm module");
   }
 }
 
@@ -129,6 +131,6 @@ inet::Coord SlawTransNetw::getNextDestination(
     uwl = std::move(computeDestinationList(C_k, homeList[walkerID]));
   }
   else
-    nextWaypoint = latp(lastWaypoint, uwl);
+    nextWaypoint = (*latp_algorithm)(lastWaypoint, uwl);
   return nextWaypoint; 
 }

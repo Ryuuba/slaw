@@ -8,8 +8,6 @@ void SlawMatlab::initialize(int stage) {
     walkerNum = par("numOfWalker");
     clusterRatio = par("clusterRatio");
     waypointRatio = par("waypointRatio");
-    planningDegree = par("planningDegree").doubleValue();
-    latp.setLATP(planningDegree, getRNG(0));
   }
   else if (stage == 1) {
     map = (SelfSimilarWaypointMap*) this->getSimulation()->
@@ -29,6 +27,10 @@ void SlawMatlab::initialize(int stage) {
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
     if (!speed)
       error("Invalid speed module");
+    latp_algorithm = (LATPAlgorithm*) this->getSimulation()->
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("latpModule").stringValue());
+    if (!latp_algorithm)
+      error("Invalid LATPAlgorithm module");
   }
 }
 
@@ -108,7 +110,7 @@ inet::Coord SlawMatlab::getNextDestination(
   inet::Coord nextWaypoint;
   if (uwl.empty())
     uwl = std::move(computeDestinationList(C_k, lastWaypoint));
-  nextWaypoint = latp(lastWaypoint, uwl);
+  nextWaypoint = (*latp_algorithm)(lastWaypoint, uwl);
   return nextWaypoint; 
 }
 

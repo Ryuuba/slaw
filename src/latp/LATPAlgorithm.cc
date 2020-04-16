@@ -13,11 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "LATP.h"
+#include "LATPAlgorithm.h"
+
+Define_Module(LATPAlgorithm);
+
+void LATPAlgorithm::initialize(int stage) {
+  if (stage == inet::INITSTAGE_LOCAL) {
+    a = par("planningDegree").doubleValue();
+  }
+}
 
 inet::Coord LATPAlgorithm::operator() (
   inet::Coord& currentPosition, WaypointList& unvisitedWaypointList
 ) {
+  Enter_Method_Silent();
   std::vector<double> numerator_vec, cdf;
   double sum(0.0), cumulativeProbability(0.0);
   //Compute distance to each one of all unvisited waypoints, which are stored
@@ -34,7 +43,7 @@ inet::Coord LATPAlgorithm::operator() (
     cdf.push_back(cumulativeProbability);
   }
   //Choose the next waypoint according to the probability vector
-  double rnd = omnetpp::uniform(rng, 0, 1);
+  double rnd = uniform(0, 1);
   auto it = std::upper_bound(cdf.begin(), cdf.end(), rnd);
   auto index = std::distance(cdf.begin(), it);
   auto nextWaypointIt = unvisitedWaypointList.begin();
@@ -42,9 +51,4 @@ inet::Coord LATPAlgorithm::operator() (
   inet::Coord nextWaypoint = *nextWaypointIt;
   unvisitedWaypointList.erase(nextWaypointIt);
   return nextWaypoint;
-}
-
-void LATPAlgorithm::setLATP(double planningDegree, omnetpp::cRNG* sim_rng) {
-  a = planningDegree;
-  rng = sim_rng;
 }

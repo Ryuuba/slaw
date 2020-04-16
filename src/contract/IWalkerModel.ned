@@ -20,5 +20,4 @@ moduleinterface IWalkerModel {
     @display("i=block/cogwheel");
     string walkerModel;
     string clusterList;
-    double planningDegree;
 }

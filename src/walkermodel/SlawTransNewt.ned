@@ -22,9 +22,9 @@ simple SlawTransNetw like IWalkerModel {
     @display("i=block/cogwheel");
     string walkerModel = "SlawTransNetw";
     int numOfWalker;
-    string pauseTimeModule = "pausetimemodule";
-    string speedModule = "speedmodule";
-    string mapModule = "mapmodule";
+    string pauseTimeModule = default("pausetimemodule");
+    string speedModule = default("speedmodule");
+    string mapModule = default("mapmodule");
+    string latpModule = default("latpmodule");
     string clusterList;
-    double planningDegree;
 }

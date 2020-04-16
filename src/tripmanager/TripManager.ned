@@ -21,6 +21,7 @@ import slaw.contract.IPauseTimeModel;
 import slaw.contract.ISpeedModel;
 import slaw.contract.IWalkerModel;
 import slaw.map.SelfSimilarWaypointMap;
+import slaw.latp.LATPAlgorithm;
 
 module TripManager
 {
@@ -32,15 +33,18 @@ module TripManager
         string speedModelType;
     submodules:
         pausetimemodule: <pauseTimeModelType> like IPauseTimeModel {
-            @display("p=82,155;i=block/pause");
+            @display("p=70,50");
         }
         speedmodule: <speedModelType> like ISpeedModel {
-            @display("p=208,155;i=block/speedometer");
+            @display("p=70,125");
         }
         walkermodel: <walkerModelType> like IWalkerModel {
-            @display("p=82,43;i=block/user");
+            @display("p=70,200;i=block/user");
         }
         mapmodule: SelfSimilarWaypointMap {
-            @display("p=208,43");
+            @display("p=200,50");
+        }
+        latpmodule: LATPAlgorithm {
+            @display("p=200,125");
         }
 }
