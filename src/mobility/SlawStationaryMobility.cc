@@ -26,7 +26,6 @@ void SlawStationaryMobility::set_position(const char* model) {
     error("SlawStationaryMobility: unknown model %s\n", model);
   std::vector<unsigned> C_k(confined_areas);
   const std::vector<unsigned>* weight_vector = map->getAreaWeights();
-  std::cout << "vector weight size is " << weight_vector->size() << '\n';
   while (index < confined_areas) 
   {
     area_index = ceil(uniform(0,1) * weight_vector->size())-1;
@@ -35,18 +34,11 @@ void SlawStationaryMobility::set_position(const char* model) {
     if (it == C_k.end())
       C_k[index++] = cluster_id;
   }
-  std::cout << "C_k: ";
-  for (auto&& id : C_k)
-    std::cout << id << ' ';
-  std::cout << '\n';
   auto random_area_index = intuniform(0, C_k.size()-1);
-  std::cout << "Random area index: " << random_area_index << '\n';
   auto random_waypoint_index = intuniform(
     0, map->getAreaSize(C_k[random_area_index]-1)
   );
-  std::cout << "random waypoint index is  " << random_waypoint_index << "\n";
   lastPosition = map->getWaypoint(
     C_k[random_area_index], random_waypoint_index
   );
-  std::cout << "last position: " << lastPosition << '\n';
 }
