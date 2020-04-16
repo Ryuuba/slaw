@@ -17,6 +17,7 @@
 #define I_OBSERVER_H
 
 #include <omnetpp.h>
+#include "inet/common/INETDefs.h"
 
 class IObserver
   : public omnetpp::cSimpleModule

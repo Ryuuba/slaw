@@ -20,7 +20,7 @@
 #include "../map/SelfSimilarWaypointMap.h"
 #include "../contract/IPauseTimeModel.h"
 #include "../contract/ISpeedModel.h"
-#include "../latp/LATP.h"
+#include "../latp/LATPAlgorithm.h"
 
 class IWalkerModel: public omnetpp::cSimpleModule{
 protected:
@@ -32,10 +32,8 @@ protected:
   unsigned walkerNum;
   /** @brief Temporal data structure to store the C_k set of each walker */
   std::vector<AreaSet> CkSet;
-  /** @brief Planning degree */
-  double planningDegree;
   /** @brief The least-action trip-planning algorithm */
-  LATPAlgorithm latp;
+  LATPAlgorithm* latp_algorithm;
   /** @brief The name of the individual walker model */
   const char* walker_model;
 protected:
@@ -72,7 +70,7 @@ virtual ~IWalkerModel();
   ) = 0;
   /** @brief Initializes the Trip Manager module. It must be overridden*/
   virtual void initialize(int stage) = 0;
-  virtual int numInitStages() const = 0;
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
   /** @brief Returns the name of the individual walker model*/
   const char* getIndividualWalkerModelName() {return walker_model;}
   virtual double getPauseTime () = 0;

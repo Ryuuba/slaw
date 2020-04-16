@@ -23,7 +23,7 @@ protected:
   double mean, std_dev;
 public:
   virtual void initialize(int stage) override;
-  virtual int numInitStages() const override {return 6;}
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; } 
   virtual double computePauseTime() override;
 };
 

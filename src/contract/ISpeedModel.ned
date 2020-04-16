@@ -17,5 +17,5 @@ package slaw.contract;
 
 moduleinterface ISpeedModel {
     parameters:
-      @display("i=block/cogwheel");
+        @display("i=block/speedometer");
 }

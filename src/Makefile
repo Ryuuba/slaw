@@ -26,7 +26,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cc, .msg and .sm files
 OBJS = \
     $O/contract/IWalkerModel.o \
-    $O/latp/LATP.o \
+    $O/latp/LATPAlgorithm.o \
     $O/map/SelfSimilarWaypointMap.o \
     $O/mobility/SlawMobility.o \
     $O/mobility/SlawStationaryMobility.o \

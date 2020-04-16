@@ -23,18 +23,24 @@ SlawMobility::SlawMobility()
 { }
 
 void SlawMobility::initialize(int stage) {
-  LineSegmentsMobilityBase::initialize(stage - 1);//FIX this WTF?
-  if (stage == 2) {
-    classifyFlight = par("classifyFlight").boolValue();
+  
+  if (stage == inet::INITSTAGE_LOCAL) {
     auto walker_model = par("walkerModuleName").stringValue();
     slaw = (IWalkerModel*) this->getSimulation()->
-      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(walker_model);
+      getSystemModule()->getSubmodule("tripmanager")->
+      getSubmodule(walker_model);
+    classifyFlight = par("classifyFlight").boolValue();
+    std::cout << "SlawMobility: stage " << stage << " OK\n";
+  }
+  else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
     if(!slaw)
       error("Slaw Mobility: No destination generator found, add module Slaw to the network");
     walkerID = getContainingNode(this)->getIndex();
     EV_INFO << "Mobility state of walker " << walkerID << "\n";
     EV_INFO << "stage: " << stage << '\n';
+    std::cout << "Este es el paso de la muerte\n";
     slaw->setWalkerState(walkerID, C_k, unvisitedWaypointList, lastPosition);
+    std::cout << "Pasamos el paso de la muerte\n";
     EV_INFO << "number of confined areas: " << C_k.size() << "\n\t"
       << "Start: " << lastPosition << "\n\t"
       << "trip size: " << unvisitedWaypointList.size() << '\n'
@@ -45,7 +51,8 @@ void SlawMobility::initialize(int stage) {
     int tripSize = unvisitedWaypointList.size();
     emit(trip_size, tripSize);
     WATCH(nextChange);
-  }  
+  }
+  LineSegmentsMobilityBase::initialize(stage);//FIX this WTF?
 }
 
 

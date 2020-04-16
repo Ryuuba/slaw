@@ -3,7 +3,7 @@
 Define_Module(ConstantSpeedModel);
 
 void ConstantSpeedModel::initialize(int stage) {
-  if (stage == 0)
+  if (stage == inet::INITSTAGE_LOCAL)
     speed = par("speed").doubleValue();
 }
 

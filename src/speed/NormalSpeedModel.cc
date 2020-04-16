@@ -3,7 +3,7 @@
 Define_Module(NormalSpeedModel);
 
 void NormalSpeedModel::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     mean = par("speedA").doubleValue();
     std_dev = par("speedB").doubleValue();
   }

@@ -24,7 +24,7 @@ ChurnObserver::~ChurnObserver() {
 }
 
 void ChurnObserver::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     PositionObserver::initialize(stage);
     llt_min = par("minLLT");
     filename = par("filename").stringValue();
@@ -32,7 +32,7 @@ void ChurnObserver::initialize(int stage) {
     neighborhood_list = new std::vector< std::list<unsigned> >(node_number);
     adjacency_matrix.initialize(node_number);
   }
-  if (stage == 2) {
+  if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
     msg = new omnetpp::cMessage();
     msg->setSchedulingPriority(255); //the lowest priority
     scheduleAt(omnetpp::simTime(), msg);

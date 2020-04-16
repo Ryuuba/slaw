@@ -16,12 +16,12 @@
 package slaw.map;
 
 simple SelfSimilarWaypointMap {
-  parameters:
-    @display("i=misc/globe");
-    string mapPath = default("/home/geo/slaw/simulations/maps/");
-    string mapName;
-    double clusteringRadius @unit(m);
-    double hurstParameter;
-    int observationArea = default(-1);
-    bool showObservationArea = default(false);
+    parameters:
+        @display("i=misc/globe");
+        string mapPath = default("/home/geo/slaw/simulations/maps/");
+        string mapName;
+        double clusteringRadius @unit(m);
+        double hurstParameter;
+        int observationArea = default(-1);
+        bool showObservationArea = default(false);
 }

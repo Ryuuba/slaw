@@ -11,20 +11,12 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
-#if !defined(NORMAL_SPEED_MODEL_H)
-#define NORMAL_SPEED_MODEL_H
+//
 
-#include "../contract/ISpeedModel.h"
+package slaw.latp;
 
-class NormalSpeedModel : public ISpeedModel
-{
-protected:
-  double mean, std_dev;
-public:
-  virtual double computeSpeed(double par = 0.0) override;
-  virtual void initialize(int stage) override;
-  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; } 
-};
-
-#endif /* NORMAL_SPEED_MODEL_H */
+simple LATPAlgorithm {
+    parameters:
+        @display("i=block/algorithm");
+        double planningDegree;
+}

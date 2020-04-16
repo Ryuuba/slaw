@@ -45,9 +45,9 @@ public:
   /** @brief Initializes the attributes of this class */
   virtual void initialize(int stage) override;
   /** @brief Return the number of stages */
-  virtual int numInitStages() const { return 6; }
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; } 
   /** This module does not receive messages */
-  virtual void handleMessage(omnetpp::cMessage*);
+  virtual void handleMessage(omnetpp::cMessage*) override;
   /** Receives the quadrant of a module and updates its one-hop neighborhod*/
   virtual void receiveSignal(omnetpp::cComponent*, omnetpp::simsignal_t,  
     omnetpp::cObject*, omnetpp::cObject*);

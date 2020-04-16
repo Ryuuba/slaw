@@ -17,14 +17,14 @@ GlobalConnectivityObserver::~GlobalConnectivityObserver() {
 }
 
 void GlobalConnectivityObserver::initialize(int stage) {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     PositionObserver::initialize(stage);
     filename = par("filename").stringValue();
     sample_size = par("observations");
     neighborhood_list = new std::vector< std::list<unsigned> >(node_number);
     adjacency_matrix.initialize(node_number);
   }
-  else if (stage == 2) {
+  else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
     msg = new omnetpp::cMessage();
     msg->setSchedulingPriority(255); //the lowest priority
     scheduleAt(omnetpp::simTime(), msg);

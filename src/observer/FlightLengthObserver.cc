@@ -42,7 +42,7 @@ FlightLengthObserver::~FlightLengthObserver()
 
 void FlightLengthObserver::initialize(int stage)
 {
-  if (stage == 0) {
+  if (stage == inet::INITSTAGE_LOCAL) {
     numOfSamples = par("observations");
     classifyFlight = par("classifyFlight").boolValue();
     EV_INFO << "Number of samples: " << numOfSamples << '\n';

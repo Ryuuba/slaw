@@ -12,19 +12,27 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
-#if !defined(LATP_H)
-#define LATP_H
+#if !defined(LATP_ALGORITHM_H)
+#define LATP_ALGORITHM_H
 
 #include "../common/SlawDefs.h"
 
-class LATPAlgorithm {
+class LATPAlgorithm : public omnetpp::cSimpleModule {
 private:
   double a;           //planning degree
-  omnetpp::cRNG* rng; //random number generator
 public:
-  void setLATP(double, omnetpp::cRNG*);
-  inet::Coord operator()(inet::Coord&, WaypointList&);
+  LATPAlgorithm()
+  : a {0.0}
+  { }
+  virtual ~LATPAlgorithm() { }
+  virtual inet::Coord operator()(inet::Coord&, WaypointList&);
+  virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; } 
+  virtual void initialize(int) override;
+  virtual void handleMessage(omnetpp::cMessage*) {
+    error("LATPAlgorithm: This module does not receive any message\n");
+  }
+
 };
 
 
-#endif /* LATP_H */
+#endif /* LATP_ALGORITHM_H */

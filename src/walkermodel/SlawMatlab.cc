@@ -3,32 +3,37 @@
 Define_Module(SlawMatlab);
 
 void SlawMatlab::initialize(int stage) {
-  if (stage == 0 ) {
+  if (stage == inet::INITSTAGE_LOCAL ) {
     walker_model = par("walkerModel").stringValue();
     walkerNum = par("numOfWalker");
     clusterRatio = par("clusterRatio");
     waypointRatio = par("waypointRatio");
-    planningDegree = par("planningDegree").doubleValue();
-    latp.setLATP(planningDegree, getRNG(0));
-  }
-  else if (stage == 1) {
     map = (SelfSimilarWaypointMap*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("mapModule").stringValue());
-    if (!map)
-      error("Invalid self-similar waypoint map module");
-    std::string filename(par("clusterList").stringValue());
-    if (filename.compare("") != 0)
-      loadCKFile(filename.c_str());
-    else
-      assignConfinedAreas();
     pause_time = (IPauseTimeModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("pauseTimeModule").stringValue());
-    if (!pause_time)
-      error("Invalid pause-time module");
     speed = (ISpeedModel*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
+    latp_algorithm = (LATPAlgorithm*) this->getSimulation()->
+      getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("latpModule").stringValue());
+    std::cout << "SlawMatlab: stage " << stage << " OK\n";
+  }
+  else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
+    if (!map)
+      error("Invalid self-similar waypoint map module");
+    else {
+      std::string filename(par("clusterList").stringValue());
+      if (filename.compare("") != 0)
+        loadCKFile(filename.c_str());
+      else
+        assignConfinedAreas();
+    }
+    if (!pause_time)
+      error("Invalid pause-time module");
     if (!speed)
       error("Invalid speed module");
+    if (!latp_algorithm)
+      error("Invalid LATPAlgorithm module");
   }
 }
 
@@ -108,7 +113,7 @@ inet::Coord SlawMatlab::getNextDestination(
   inet::Coord nextWaypoint;
   if (uwl.empty())
     uwl = std::move(computeDestinationList(C_k, lastWaypoint));
-  nextWaypoint = latp(lastWaypoint, uwl);
+  nextWaypoint = (*latp_algorithm)(lastWaypoint, uwl);
   return nextWaypoint; 
 }
 
