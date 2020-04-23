@@ -19,8 +19,8 @@ EXTRA_OBJS =
 LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lCGAL -lgmp -lINET_dbg
 
 # Output directory
-PROJECT_OUTPUT_DIR = ../out
-PROJECTRELATIVE_PATH = src
+PROJECT_OUTPUT_DIR = out
+PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
