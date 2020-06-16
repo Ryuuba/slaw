@@ -3,6 +3,7 @@ src/Makefile
 .vscode/
 src/slaw
 .qtenvrc
+*.backup
 *.so
 *.vec
 *.vci
