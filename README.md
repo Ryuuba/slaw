@@ -28,15 +28,19 @@ In order to install Slaw++, you must have a functional installation of both fram
 
 Once you have correctly installed the above mentioned library and frameworks and, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
-  2. Execute the make makefiles-so command to generate a shared library in release mode
+  2. Add the directory of slaw's images to your OMNETPP_IMAGE_PATH in .bashrc or the corresponding configuration file, e.g.:
+  ```bash
+  export OMNETPP_IMAGE_PATH="$HOME/slaw/images;$HOME/inet4/images"
+  ```
+  3. Execute the make makefiles-so command to generate a shared library in release mode.
   ```bash
   $ make makefiles-so
   ```
-  3. Execute the make command.
+  4. Execute the make command.
   ```bash
   $ make
   ```
-  4. Done!
+  5. Done!
 
 ## Run an example
 
