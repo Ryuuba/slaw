@@ -24,29 +24,28 @@ The t-wm is not implemented in other simulation tools, so Slaw++ is possibly the
 Due to the fact that IWMs are mainly based on intuition, the architecture of the Slaw++ simulator is designed to easily implement other IWMs when future analysis on individual walker models are available.
 
 ## Installation
-In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html).
+In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html). Also, you have to install de [CGAL library](https://www.cgal.org/).
 
-Once you have correctly installed the above mentioned frameworks, follow these steps:
+Once you have correctly installed the above mentioned library and frameworks and, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
-  2. Modify the INETDIR variable in the Makefile of the project so that the value of the variable matches with the path where you compiled the INET framework
-  3. Execute the make makefiles-so command to generate a shared library in release mode
+  2. Execute the make makefiles-so command to generate a shared library in release mode
   ```bash
   $ make makefiles-so
   ```
-  4. Execute the make command.
+  3. Execute the make command.
   ```bash
   $ make
   ```
-  5. Done!
+  4. Done!
 
 ## Run an example
 
 The `opp_run` command provided with the OMNeT++ framework loads all configuration files, NED files and libraries needed to run a simulation.
 
-The following command lauch the QT environment so that you can select some of the experiments preloaded in by Slaw++. Note that the command is executed on the simulations directory.
+The following command launch the QT environment so that you can select some of the experiments preloaded in by Slaw++. Note that the command is executed on the simulations directory.
 
 ```bash
-~/slaw/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/inet/INET -f omnetpp.ini -u Qtenv
+~/slaw/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/INET -l CGAL -f omnetpp.ini -u Qtenv
 ```
 
 ## Architecture
