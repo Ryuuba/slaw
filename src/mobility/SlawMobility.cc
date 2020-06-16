@@ -38,9 +38,7 @@ void SlawMobility::initialize(int stage) {
     walkerID = getContainingNode(this)->getIndex();
     EV_INFO << "Mobility state of walker " << walkerID << "\n";
     EV_INFO << "stage: " << stage << '\n';
-    std::cout << "Este es el paso de la muerte\n";
     slaw->setWalkerState(walkerID, C_k, unvisitedWaypointList, lastPosition);
-    std::cout << "Pasamos el paso de la muerte\n";
     EV_INFO << "number of confined areas: " << C_k.size() << "\n\t"
       << "Start: " << lastPosition << "\n\t"
       << "trip size: " << unvisitedWaypointList.size() << '\n'
