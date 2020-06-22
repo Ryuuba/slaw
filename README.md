@@ -49,7 +49,7 @@ The `opp_run` command provided with the OMNeT++ framework loads all configuratio
 The following command launch the QT environment so that you can select some of the experiments preloaded in by Slaw++. Note that the command is executed on the simulations directory.
 
 ```bash
-~/slaw/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/INET -l CGAL -f omnetpp.ini -u Qtenv
+~/slaw/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/INET -l CGAL -f omnetpp.ini -n .:../src:../../inet4/src/inet -u Qtenv
 ```
 
 ## Architecture
