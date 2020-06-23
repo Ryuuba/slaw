@@ -30,7 +30,6 @@ void SlawMobility::initialize(int stage) {
       getSystemModule()->getSubmodule("tripmanager")->
       getSubmodule(walker_model);
     classifyFlight = par("classifyFlight").boolValue();
-    std::cout << "SlawMobility: stage " << stage << " OK\n";
   }
   else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
     if(!slaw)

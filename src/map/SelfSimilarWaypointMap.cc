@@ -51,7 +51,6 @@ void SelfSimilarWaypointMap::initialize(int stage) {
       if (par("showObservationArea").boolValue())
         drawConvexHull();
     }
-    std::cout << "MAP: stage " << stage << " OK\n";
   }
 }
 

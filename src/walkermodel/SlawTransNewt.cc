@@ -14,7 +14,6 @@ void SlawTransNetw::initialize(int stage) {
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("speedModule").stringValue());
     latp_algorithm = (LATPAlgorithm*) this->getSimulation()->
       getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("latpModule").stringValue());
-    std::cout << "SlawMobility: stage " << stage << " OK\n";
   }
   else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
     if (!map)
