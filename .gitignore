@@ -28,3 +28,4 @@ simulations/matlab_trace/
 simulations/results
 simulations/slaw_traces
 out/
+src/Makefile

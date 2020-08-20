@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for $(LIB_PREFIX)SLAW
 #
 # This file was generated with the command:
-#  opp_makemake --make-so -f --deep -I/home/geo/inet4/src/ -L/home/geo/inet4/src/ -lCGAL -lgmp -o SLAW -lINET
+#  opp_makemake --make-so -f --deep -I/home/geo/inet4/src/ -L/home/geo/inet4/src/ -lCGAL -lgmp -o SLAW -lINET_dbg
 #
 
 # Name of target to be created (-o option)
@@ -16,11 +16,11 @@ INCLUDE_PATH = -I/home/geo/inet4/src/
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lCGAL -lgmp -lINET
+LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lCGAL -lgmp -lINET_dbg
 
 # Output directory
-PROJECT_OUTPUT_DIR = ../out
-PROJECTRELATIVE_PATH = src
+PROJECT_OUTPUT_DIR = out
+PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
