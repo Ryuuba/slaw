@@ -24,7 +24,7 @@ The t-wm is not implemented in other simulation tools, so Slaw++ is possibly the
 Due to the fact that IWMs are mainly based on intuition, the architecture of the Slaw++ simulator is designed to easily implement other IWMs when future analysis on individual walker models are available.
 
 ## Installation
-In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html). The INET framework must be compiled as a shared object. Also, you have to install de [CGAL library](https://www.cgal.org/).
+In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html). The INET framework must be compiled as a static library. Also, you have to install de [CGAL library](https://www.cgal.org/).
 
 Once you have correctly installed the above mentioned library and frameworks and, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
@@ -32,7 +32,7 @@ Once you have correctly installed the above mentioned library and frameworks and
   ```bash
   export OMNETPP_IMAGE_PATH="$HOME/omnetpp5/images;$HOME/slaw/images;$HOME/inet4/images"
   ```
-  3. Execute the make makefiles-so command to generate a shared library in release mode.
+  3. Execute the make makefiles-so command to generate a static library in release mode.
   ```bash
   $ make makefiles-so
   ```
