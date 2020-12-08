@@ -22,12 +22,16 @@ The m-wm is validated using a two-sample K-S test so that the flights it produce
 Due to the fact that IWMs are mainly based on intuition, the architecture of the Slaw++ simulator is designed to easily implement other IWMs when future analysis on individual walker models are available.
 
 ## Installation
+<<<<<<< HEAD
 In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html). The INET framework must be compiled as a shared object, i.e., with the option
  ```bash
 make makefiles-so
 ```
 
 Also, you have to install de [CGAL library](https://www.cgal.org/).
+=======
+In order to install Slaw++, you must have a functional installation of both frameworks: [OMNeT++ 5 or greater](https://omnetpp.org/download/) and [INET 4 or greater](https://inet.omnetpp.org/Download.html). The INET framework must be compiled as a static library. Also, you have to install de [CGAL library](https://www.cgal.org/).
+>>>>>>> e8d4bd29c88fd1344578cc02b5a6c076261993e2
 
 Once you have correctly installed the above mentioned library and frameworks, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
@@ -36,7 +40,7 @@ Once you have correctly installed the above mentioned library and frameworks, fo
   ```bash
   export OMNETPP_IMAGE_PATH="$HOME/omnetpp5/images;$HOME/slaw/images;$HOME/inet4/images"
   ```
-  3. Execute the make makefiles-so command to generate a shared library in release mode.
+  3. Execute the make makefiles-so command to generate a static library in release mode.
   ```bash
   $ make makefiles-so
   ```
