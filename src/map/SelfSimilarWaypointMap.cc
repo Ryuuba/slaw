@@ -268,7 +268,7 @@ void SelfSimilarWaypointMap::drawMap() {
 
 void SelfSimilarWaypointMap::drawConvexHull() {
   std::vector<point_2> observered_area;
-  omnetpp::cPolygonFigure *cv = new omnetpp::cPolygonFigure("convexhull");
+  omnetpp::cPolygonFigure* cv = new omnetpp::cPolygonFigure("convexhull");
   std::vector<omnetpp::cFigure::Point> cv_point;
   if (observation_area == -1) {
     size_t size_max = 0;
