@@ -37,6 +37,13 @@ network SLAWConnectivityEvaluation
         tripmanager.walkermodel.numOfWalker = numHosts;
         tripmanager.pauseTimeModelType = pauseTimeModelType;
         tripmanager.speedModelType = speedModelType;
+        observer.filename = filename;
+        observer.numOfNodes = numHosts;
+        observer.observations = observations;
+        observer.xLength = width;
+        observer.yLength = height;
+        observer.radius = coverageRadius;
+        observer.minLLT = minLifetime;
         @display("bgb=1000,1000;bgg=100,2,grey50");
     submodules:
         tripmanager: TripManager {
@@ -47,13 +54,6 @@ network SLAWConnectivityEvaluation
             @display("p=883.51996,887.53595");
         }
         observer: <"ConnectivityObserver"> like IObserver {
-            filename = filename;
-            numOfNodes = numHosts;
-            observations = observations;
-            xLength = width;
-            yLength = height;
-            radius = coverageRadius;
-            minLLT = minLifetime;
             @display("p=48.191998,100.399994");
         }
 }
