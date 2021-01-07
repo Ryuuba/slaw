@@ -18,7 +18,7 @@ package slaw.map;
 simple SelfSimilarWaypointMap {
     parameters:
         @display("i=misc/globe");
-        string mapPath = default("/home/geo/slaw/simulations/maps/");
+        string mapPath = default("./maps/");
         string mapName;
         double clusteringRadius @unit(m);
         double hurstParameter;

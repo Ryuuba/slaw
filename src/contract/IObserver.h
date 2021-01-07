@@ -33,7 +33,7 @@ protected:
 public:
   IObserver() 
     : sample_size(0)
-    , counter(9)
+    , counter(0)
   { }
 };
 

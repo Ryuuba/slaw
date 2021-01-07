@@ -1,0 +1,3 @@
+#!/bin/sh
+cd `dirname $0`
+opp_run -f omnetpp.ini -n .:../src:../../inet4/src -l ../../inet4/src/INET -l ../src/SLAW $*

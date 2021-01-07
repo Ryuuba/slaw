@@ -4,70 +4,39 @@ Define_Module(ChurnObserver);
 omnetpp::simsignal_t ChurnObserver::membership_stat = registerSignal("membership");
 omnetpp::simsignal_t ChurnObserver::arrival_stat = registerSignal("arrival");
 omnetpp::simsignal_t ChurnObserver::departure_stat = registerSignal("departure");
+omnetpp::simsignal_t 
+  ChurnObserver::position = registerSignal("mobilityStateChanged");
 
 ChurnObserver::ChurnObserver()
-  : msg(nullptr)
-  , filename(nullptr)
-  , llt_min(0.0)
-  , sample_size(0)
+  : timer(nullptr)
   , membership_size(0)
-  , observation_counter(0)
   , arrival_num(0)
-  , departure_num(0)
-  { }
+  , departure_num(0) 
+{ 
+  getSimulation()->getSystemModule()->subscribe(position, this);
+}
 
 ChurnObserver::~ChurnObserver() {
-  if (neighborhood_list) {
-    delete(neighborhood_list);
-    EV_INFO << "ConnectivityObserver: Delete neighborhood list\n";
-  }
+  cancelAndDelete(timer);
+  getSimulation()->getSystemModule()->unsubscribe(position, this);
 }
 
 void ChurnObserver::initialize(int stage) {
+  SelfSimilarWaypointMap* map_ptr;
   if (stage == inet::INITSTAGE_LOCAL) {
-    PositionObserver::initialize(stage);
-    llt_min = par("minLLT");
-    filename = par("filename").stringValue();
     sample_size = par("observations");
-    neighborhood_list = new std::vector< std::list<unsigned> >(node_number);
-    adjacency_matrix.initialize(node_number);
+    map_ptr = (SelfSimilarWaypointMap*) this->getSimulation()->getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("mapModule").stringValue());
+    polygon = map_ptr->getConvexHull();
   }
-  if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
-    msg = new omnetpp::cMessage();
-    msg->setSchedulingPriority(255); //the lowest priority
-    scheduleAt(omnetpp::simTime(), msg);
-    auto map_ptr = this->getSimulation()->getSystemModule()->
-                    getSubmodule("tripmanager")->getSubmodule("mapmodule");
-    polygon = reinterpret_cast<SelfSimilarWaypointMap*>(map_ptr)->getConvexHull();
+  else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
+    timer = new omnetpp::cMessage();
+    timer->setSchedulingPriority(255); //the lowest priority
+    scheduleAt(omnetpp::simTime(), timer);
     WATCH(membership_size);
-    WATCH(observation_counter);
+    WATCH(counter);
     WATCH(arrival_num);
     WATCH(departure_num);
   }
-}
-
-std::list<unsigned> 
-ChurnObserver::computeOneHopNeighborhood(unsigned id) {
-  std::list<unsigned> neighborhood;
-  unsigned square = computeSquare(node_position[id]);
-  std::list<unsigned> squareList(std::move(computeNeighboringSquares(square)));
-  for (auto& square : squareList) {
-    for (auto& neighborId: node_map[square]) {
-      if (neighborId != id) {
-        double distance = sqrt (
-          pow(node_position[id].x - node_position[neighborId].x, 2) + 
-          pow(node_position[id].y - node_position[neighborId].y, 2)
-        );
-        EV_INFO << "Distance between " << id << " and " << neighborId << " is " << distance << '\n';
-        //Nodes are neighbors being at the observation area
-        EV_INFO << "Node position: " << node_position[id] << " at time: " << omnetpp::simTime() << '\n';
-        EV_INFO << "Neighbor position: " << node_position[neighborId] << " at time: " << omnetpp::simTime() << '\n';
-        if ((distance < radius) && isInObservationArea(node_position[neighborId])) 
-          neighborhood.push_back(neighborId);
-      }
-    }
-  }
-  return neighborhood;
 }
 
 void ChurnObserver::receiveSignal(
@@ -76,11 +45,12 @@ void ChurnObserver::receiveSignal(
   omnetpp::cObject* value, 
   omnetpp::cObject* details
 ) {
-  PositionObserver::receiveSignal(src, id, value, details);
+  auto node_id = dynamic_cast<omnetpp::cModule*>(src)->getParentModule()->getIndex();
   auto state = dynamic_cast<inet::MovingMobilityBase*>(value);
   inet::Coord current_position(state->getCurrentPosition());
   auto it = membership.find(node_id);
-  if (isInObservationArea(current_position)) {
+  auto temp = isInObservationArea(current_position);
+  if (temp) {
     if (it == membership.end()) {
       arrival_num++;
       membership.insert(node_id);
@@ -92,24 +62,7 @@ void ChurnObserver::receiveSignal(
       departure_num++;
     }
   } 
-}
 
-void ChurnObserver::finish() {
-  std::ofstream ofs(filename);
-  if (ofs.is_open()) {
-    for (auto& row : *(adjacency_matrix.get())) {
-      for (auto& time : row) {
-        if (time > llt_min)
-          ofs << time << ' ';
-        else
-          ofs << 0 << ' ';
-      }
-      ofs << std::endl;
-    }
-    ofs.close();
-  }
-  else 
-    error("ConnectivityObserver: %s file couldn't be opened\n", filename);
 }
 
 bool ChurnObserver::isInObservationArea(inet::Coord& position) {
@@ -119,49 +72,9 @@ bool ChurnObserver::isInObservationArea(inet::Coord& position) {
   return predicate != CGAL::ON_UNBOUNDED_SIDE;
 }
 
-void ChurnObserver::computeNewNeighbors(
-  unsigned id,
-  std::list<unsigned>& current_neighborhood
-) {
-  for (auto& cn : current_neighborhood) {
-    if (
-      std::find_if (
-        neighborhood_list->at(id).begin(),
-        neighborhood_list->at(id).end(),
-        [cn] (unsigned x) { return cn == x; }
-      ) == neighborhood_list->at(id).end()
-    ) {
-      neighborhood_list->at(id).push_back(cn);
-      EV_INFO<< "\tnode: " << cn << " is new neighbor of node " << id << " at " << omnetpp::simTime() << "\n";
-    }
-    else 
-      //This increment only works if nodes emit a signal each second
-      adjacency_matrix.get(id, cn)++;
-  }
-}
 
-void ChurnObserver::computeOldNeighbors(
-  unsigned id,
-  std::list<unsigned>& current_neighborhood
-) {
-  auto n_it =  neighborhood_list->at(id).begin();
-  while (n_it != neighborhood_list->at(id).end()) {
-    auto n_jt = std::find_if(
-                current_neighborhood.begin(),
-                current_neighborhood.end(),
-                [n_it] (unsigned x) { return x == *n_it; }
-              );
-    if (n_jt == current_neighborhood.end()) {
-      EV_INFO << "Erase node: " << *n_it << '\n';
-      neighborhood_list->at(node_id).erase(n_it++);
-    }
-    else 
-      ++n_it;
-  }
-}
-
-void ChurnObserver::handleMessage(omnetpp::cMessage* msg) {
-  if (msg->isSelfMessage()) {
+void ChurnObserver::handleMessage(omnetpp::cMessage* timer) {
+  if (timer->isSelfMessage()) {
     EV_INFO << "Simulation time: " << omnetpp::simTime() <<'\n';
     EV_INFO << "Number of arrivals: " << arrival_num << '\n';
     EV_INFO << "Number of departures: " << departure_num << '\n';
@@ -169,32 +82,17 @@ void ChurnObserver::handleMessage(omnetpp::cMessage* msg) {
     for (auto& member : membership)
       EV_INFO << member << ' ';
     EV_INFO << '\n';
-    for (auto& member : membership) {
-      std::list<unsigned> current_neighborhood = 
-        computeOneHopNeighborhood(member);
-      std::list<unsigned> new_neighbor;
-
-      EV_INFO << "Current neighborhood of node " 
-                << member << "\n";
-      for (auto& nid : current_neighborhood)
-        EV_INFO << "\tid: " << nid << "\n";
-
-      computeNewNeighbors(member, current_neighborhood);
-
-      EV_INFO << "neighbor list of node: " << member << '\n';
-      for (auto& nid : neighborhood_list->at(member))
-        EV_INFO << "neighbor: " << nid << '\n';
-
-      computeOldNeighbors(member, current_neighborhood);
-    }
-    scheduleAt(omnetpp::simTime()+1.0, msg);
+    scheduleAt(omnetpp::simTime() + 1.0, timer);
     membership_size = membership.size();
     emit(membership_stat, membership.size());
     emit(departure_stat, departure_num);
     emit(arrival_stat, arrival_num);
     departure_num = 0;
     arrival_num = 0;
+    counter++;
+    if (counter == sample_size)
+      endSimulation();
   }
   else
-    error("Connectivity Observer: This module does not receive messages\n");
+    error("ChurnObserver: This module does not receive messages\n");
 }

@@ -31,8 +31,8 @@ void SelfSimilarWaypointMap::initialize(int stage) {
     weight_vector = new std::vector<unsigned>;
     bool clfExists = loadAreaVector(); //clf means cluster list file
     if (!clfExists) {
-      EV_INFO << "Self-similar map: Load selfsimilar waypoint map from " 
-        << map_name << std::endl;
+      std::cout << "Self-similar map: Load selfsimilar waypoint map from " 
+                << map_path << map_name << std::endl;
       std::list<inet::Coord> waypointList;
       success = loadMap(waypointList);
       if (success) {
@@ -40,8 +40,9 @@ void SelfSimilarWaypointMap::initialize(int stage) {
         computeAreaWeights();
         saveAreaVector();
         drawMap();
-        if (par("showObservationArea").boolValue())
+        if (par("showObservationArea").boolValue()) {
           drawConvexHull();
+        }
       }
       else
         error("SelfSimilarWaypointMap: load map fails\n");
@@ -93,8 +94,7 @@ bool SelfSimilarWaypointMap::testWaypointList(WaypointList wpl) {
 }
 
 void SelfSimilarWaypointMap::computeConfinedAreas(WaypointList& waypointList) {
-EV_INFO << "Clustering waypoints, it may take some time..." 
-          << std::endl;
+  std::cout << "Clustering waypoints, it may take some time...\n";
   unsigned numOfWaypoints = 0, areaID = 0;
   Area confinedArea; //confined area
   while(!waypointList.empty()) {
@@ -115,14 +115,14 @@ EV_INFO << "Clustering waypoints, it may take some time..."
           it++;
       }
     }
-    EV_INFO << confinedArea.size() << " waypoints have been clustered\n";
+    std::cout << confinedArea.size() << " waypoints have been clustered\n";
     area_vector->push_back(confinedArea);
     confinedArea.clear();
     areaID++;
   }
-  EV_INFO << area_id_map.size() << "waypoints match an areaID\n";
-  EV_INFO << numOfWaypoints << " waypoints have been clustered in "
-    << area_vector->size() << " confined areas" << std::endl;
+  std::cout << area_id_map.size() << "waypoints match an areaID\n";
+  std::cout << numOfWaypoints << " waypoints have been clustered in "
+            << area_vector->size() << " confined \n";
 }
 
 bool SelfSimilarWaypointMap::saveAreaVector() {
@@ -172,7 +172,7 @@ bool SelfSimilarWaypointMap::loadAreaVector() {
     waypoint_number = waypoint_counter;
     computeAreaWeights();
     result = true;
-    EV_INFO<< area_vector->size()
+    std::cout << area_vector->size()
       << " confined areas have been read from " << filename << std::endl;
   }
   return result;
@@ -256,7 +256,7 @@ void SelfSimilarWaypointMap::drawMap() {
   for (auto& area : *area_vector) {
     for (auto& coordinate : area) {
       omnetpp::cRectangleFigure* point = new omnetpp::cRectangleFigure;
-      point->setBounds(omnetpp::cFigure::Rectangle(5, 5, 5, 5));
+      point->setBounds(omnetpp::cFigure::Rectangle(1, 1, 1, 1));
       point->setFilled(true);
       point->setFillColor(omnetpp::cFigure::GREY);
       point->setPosition(omnetpp::cFigure::Point(coordinate.x, coordinate.y), omnetpp::cFigure::ANCHOR_CENTER);

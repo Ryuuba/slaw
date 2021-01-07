@@ -19,6 +19,8 @@ public class SelfSimilarMap {
         int noOfWaypoints = Integer.parseInt(args[3]);
         // seed
         int seed = Integer.parseInt(args[4]);
+        // filename
+        String filename = args[5];
         // Random object
         Random rand = new Random(seed);
         // Number of levels as mentioned in original paper "SLAW: A Mobility Model for Human Walks" 
@@ -115,6 +117,8 @@ public class SelfSimilarMap {
             }// for squares
         }// for level
 
+        System.out.println("Control point passed\n");
+
         // create waypoints
         Xwind = x / Math.sqrt(Math.pow(4, levels));
         Ywind = y / Math.sqrt(Math.pow(4, levels));
@@ -139,7 +143,7 @@ public class SelfSimilarMap {
             }
         }
         try {
-            print_file(args[5], waypointx, waypointy);
+            print_file(filename, waypointx, waypointy);
         } catch (Exception e) {
             //TODO: handle exception
             System.out.println(e.toString());

@@ -13,12 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 
 package slaw.observer;
+import slaw.contract.IObserver;
 
-simple ChurnObserver extends PositionObserver {
+simple ChurnObserver like IObserver{
     parameters:
+        int observations;
+        string mapModule = default("mapmodule");
         @class(ChurnObserver);
-        int minLLT @unit(s);
-        string filename;
         @signal[membership](type=unsigned long);
         @statistic[membership](record=histogram,vector);
         @signal[arrival](type=unsigned long);
