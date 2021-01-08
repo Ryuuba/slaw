@@ -20,7 +20,8 @@ import slaw.contract.IObserver;
 import slaw.walker.Walker;
 import slaw.tripmanager.TripManager;
 
-network SLAWChurnObserver {
+network SLAWChurnObserver
+{
     parameters:
         int numHosts;
         double width @unit(m); //length of the x-axis
@@ -31,7 +32,11 @@ network SLAWChurnObserver {
         observer.numOfNodes = numHosts;
         @display("bgb=200,200;bgg=100,2,grey20");
     submodules:
-        tripmanager: TripManager;
+        tripmanager: TripManager {
+            @display("p=175,115");
+        }
         walker[numHosts]: Walker;
-        observer: <"ChurnObserver"> like IObserver;
+        observer: <"ChurnObserver"> like IObserver {
+            @display("p=175,160");
+        }
 }

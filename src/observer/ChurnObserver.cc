@@ -27,8 +27,6 @@ void ChurnObserver::initialize(int stage) {
     sample_size = par("observations");
     map_ptr = (SelfSimilarWaypointMap*) this->getSimulation()->getSystemModule()->getSubmodule("tripmanager")->getSubmodule(par("mapModule").stringValue());
     polygon = map_ptr->getConvexHull();
-  }
-  else if (stage == inet::INITSTAGE_SINGLE_MOBILITY) {
     timer = new omnetpp::cMessage();
     timer->setSchedulingPriority(255); //the lowest priority
     scheduleAt(omnetpp::simTime(), timer);
@@ -87,11 +85,11 @@ void ChurnObserver::handleMessage(omnetpp::cMessage* timer) {
     emit(membership_stat, membership.size());
     emit(departure_stat, departure_num);
     emit(arrival_stat, arrival_num);
+    if (arrival_num > sample_size)
+      endSimulation();
     departure_num = 0;
     arrival_num = 0;
-    counter++;
-    if (counter == sample_size)
-      endSimulation();
+    
   }
   else
     error("ChurnObserver: This module does not receive messages\n");

@@ -20,10 +20,10 @@ simple ChurnObserver like IObserver{
         int observations;
         string mapModule = default("mapmodule");
         @class(ChurnObserver);
-        @signal[membership](type=unsigned long);
+        @signal[membership](type=int);
         @statistic[membership](record=histogram,vector);
-        @signal[arrival](type=unsigned long);
+        @signal[arrival](type=int);
         @statistic[arrival](record=histogram,vector);
-        @signal[departure](type=unsigned long);
+        @signal[departure](type=int);
         @statistic[departure](record=histogram,vector);
 }
