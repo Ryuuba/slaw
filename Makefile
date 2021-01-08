@@ -1,6 +1,6 @@
 INETDIR = $(HOME)/inet4
 
-GENERAL_BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/ -L$(INETDIR)/src/ -lCGAL -lgmp -o SLAW
+GENERAL_BUILD_OPTIONS = -f --deep -I$(INETDIR)/src/ -L$(INETDIR)/src/ -o SLAW
 
 .PHONY: all clean cleanall makefiles makefiles-dbg makefiles-so makefiles-so-dbg checkmakefiles
 

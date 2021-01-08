@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for $(LIB_PREFIX)SLAW
 #
 # This file was generated with the command:
-#  opp_makemake --make-so -f --deep -I/home/geo/inet4/src/ -L/home/geo/inet4/src/ -lCGAL -lgmp -o SLAW -lINET
+#  opp_makemake --make-so -f --deep -I/home/geo/inet4/src/ -L/home/geo/inet4/src/ -o SLAW -lINET
 #
 
 # Name of target to be created (-o option)
@@ -16,11 +16,11 @@ INCLUDE_PATH = -I/home/geo/inet4/src/
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lCGAL -lgmp -lINET
+LIBS = $(LDFLAG_LIBPATH)/home/geo/inet4/src/  -lINET
 
 # Output directory
-PROJECT_OUTPUT_DIR = out
-PROJECTRELATIVE_PATH =
+PROJECT_OUTPUT_DIR = ../out
+PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
@@ -30,7 +30,6 @@ OBJS = \
     $O/map/SelfSimilarWaypointMap.o \
     $O/mobility/SlawMobility.o \
     $O/mobility/SlawStationaryMobility.o \
-    $O/observer/ChurnObserver.o \
     $O/observer/FlightLengthObserver.o \
     $O/observer/GlobalConnectivityObserver.o \
     $O/observer/InterContactTimeObserver.o \

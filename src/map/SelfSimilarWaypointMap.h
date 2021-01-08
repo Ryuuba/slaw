@@ -17,11 +17,6 @@
 #define SELF_SIMILAR_WAYPOINT_MAP_H
 
 #include <omnetpp.h>
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/ch_eddy.h>
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef K::Point_2 point_2;
-
 #include "../common/SlawDefs.h"
 
 //TODO: Make this class a simple module showing waypoints and clusters
@@ -41,8 +36,6 @@ protected:
   double clustering_radius;
   /** @brief Name of the containing the set of waypoints */
   const char* map_name;
-  /** @brief The ID of the area to be observed */
-  int observation_area;
   /** @brief A pointer to the canvas of the network */
   omnetpp::cCanvas* simulation_canvas;
 protected:
@@ -52,9 +45,7 @@ protected:
   /** @brief Vector storing the weights of each confined area.*/
   std::vector<unsigned>* weight_vector;
   /** @brief Unordered map holding pairs <coord, areaID> */
-  std::unordered_map<inet::Coord, unsigned> area_id_map;
-  /** @brief Vector storing the convex hull of the observed area */
-  std::vector<point_2> convexhull;
+  std::unordered_map<inet::Coord, unsigned> area_id_map;;
 protected:
   /** @brief Loads a file containing waypoints distributed in a
    * self-similar manner and save the contain in a list*/
@@ -77,8 +68,6 @@ protected:
   virtual bool testWaypointList(WaypointList);
   /** @brief Draws the self-similar waypoint map in the simulation canvas */
   virtual void drawMap();
-  /** @brief Draws the convex hull of an observation area*/
-  virtual void drawConvexHull();
 public:
   SelfSimilarWaypointMap() { }
   virtual ~SelfSimilarWaypointMap();
@@ -124,12 +113,6 @@ public:
   virtual bool isSameArea(inet::Coord&, inet::Coord&);
   /** @brief Returns the map name **/
   virtual const char* getMapName() { return map_name; }
-  /** @brief Returns the convex hull of the observation area */
-  virtual const std::vector<point_2>* getConvexHull() {
-    Enter_Method_Silent();
-    const std::vector<point_2>* ch = &convexhull;
-    return ch;
-  }
 };
 
 #endif /* SelfSimilarWaypointMap_H_ */

@@ -25,7 +25,6 @@ void SelfSimilarWaypointMap::initialize(int stage) {
     clustering_radius = par("clusteringRadius");
     map_path = par("mapPath").stringValue();
     map_name = par("mapName").stringValue();
-    observation_area = par("observationArea");
     bool success = true;
     area_vector = new std::vector<Area>;
     weight_vector = new std::vector<unsigned>;
@@ -40,18 +39,12 @@ void SelfSimilarWaypointMap::initialize(int stage) {
         computeAreaWeights();
         saveAreaVector();
         drawMap();
-        if (par("showObservationArea").boolValue()) {
-          drawConvexHull();
-        }
       }
       else
         error("SelfSimilarWaypointMap: load map fails\n");
     }
-    else{
+    else
       drawMap();
-      if (par("showObservationArea").boolValue())
-        drawConvexHull();
-    }
   }
 }
 
@@ -264,30 +257,4 @@ void SelfSimilarWaypointMap::drawMap() {
       simulation_canvas->addFigure(point);
     }
   }
-}
-
-void SelfSimilarWaypointMap::drawConvexHull() {
-  std::vector<point_2> observered_area;
-  omnetpp::cPolygonFigure* cv = new omnetpp::cPolygonFigure("convexhull");
-  std::vector<omnetpp::cFigure::Point> cv_point;
-  if (observation_area == -1) {
-    size_t size_max = 0;
-    for (size_t i = 0; i < area_vector->size(); i++)
-      if (area_vector->at(i).size() > size_max) {
-        observation_area = i;
-        size_max = area_vector->at(i).size();
-      }
-  }
-  for (auto& point : area_vector->at(observation_area)) 
-    observered_area.push_back(point_2(point.x, point.y));
-  CGAL::ch_eddy(observered_area.begin(), observered_area.end(), std::back_inserter(convexhull));
-  EV_INFO << "Convex hull:" << '\n';
-  for (auto& point : convexhull) {
-    cv_point.push_back(omnetpp::cFigure::Point(point.x(), point.y()));
-    EV_INFO << point.x() << ' ' << point.y() << '\n';
-  }
-  cv->setPoints(cv_point);
-  cv->setLineColor(omnetpp::cFigure::BLUE);
-  cv->setLineWidth(1);
-  simulation_canvas->addFigure(cv);
 }

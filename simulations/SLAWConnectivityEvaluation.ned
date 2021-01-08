@@ -53,7 +53,7 @@ network SLAWConnectivityEvaluation
             mobilityType = "SlawMobility";
             @display("p=883.51996,887.53595");
         }
-        observer: <"ConnectivityObserver"> like IObserver {
+        observer: <"GlobalConnectivityObserver"> like IObserver {
             @display("p=48.191998,100.399994");
         }
 }
