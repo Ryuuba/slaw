@@ -108,7 +108,10 @@ void SelfSimilarWaypointMap::computeConfinedAreas(WaypointList& waypointList) {
           it++;
       }
     }
-    std::cout << confinedArea.size() << " waypoints have been clustered\n";
+    if (confinedArea.size() <= 10)
+      std::cout << "SelfSimilarWaypointMap: Warning: " << confinedArea.size() << " could be too few to assign confined areas according to the individual walker model\n";
+    else 
+      std::cout << confinedArea.size() << " waypoints have been clustered\n";
     area_vector->push_back(confinedArea);
     confinedArea.clear();
     areaID++;
