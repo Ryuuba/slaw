@@ -29,9 +29,6 @@ In order to install Slaw++, you must have a functional installation of both fram
 make makefiles-so
 ```
 
-Also, you have to install de [CGAL library](https://www.cgal.org/).
-
-
 Once you have correctly installed the above mentioned library and frameworks, follow these steps:
   1. Clone [Slaw++](https://github.com/Ryuuba/slaw)
   2. Add the directory of SLAW's images to your OMNETPP_IMAGE_PATH in .bashrc or the corresponding configuration file. Take care you correctly set the path of the OMNeT++ and INET framework, as well as the path of Slaw++, e.g.:
@@ -56,7 +53,12 @@ The `opp_run` command provided with the OMNeT++ framework loads all configuratio
 The following command launches the QT environment so that you can select some of the experiments preloaded in by Slaw++. Note that the command is executed on the simulations directory. Besides, we assume you install both the INET and OMNeT++ framework on your home directory.
 
 ```bash
-~/slaw/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/INET -l CGAL -f omnetpp.ini -n .:../src:../../inet4/src/inet -u Qtenv
+~/slaw++/simulations$ opp_run -l ../src/SLAW -l ../../inet4/src/INET -f omnetpp.ini -n .:../src:../../inet4/src/inet -u Qtenv
+```
+Besides, you can run the following bash script:
+
+```bash
+~/slaw++/simulations$ ./run
 ```
 
 ## Architecture
